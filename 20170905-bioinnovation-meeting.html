@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>Certain methods for FDR control in sparse regression and sparse CCA</title>
+    <title>Bioinnovation Meeting - 2017/09/05 - Alexej Gossmann</title>
 
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/league.css" id="league">
@@ -49,8 +49,7 @@
 
         <section data-markdown>
           <script type="text/template">
-### Title
-#### Subtitle
+### Bioinnovation Program Meeting
 ### Alexej Gossmann
 #### 2017/05/09
           </script>
@@ -65,19 +64,20 @@
         </section>
 
         <section>
-          <section>
+          <section data-transition="slide-in fade-out">
             <img data-src="./img/20170905-bioinnovation-meeting/test_data_reuse_1.png">
           </section>
 
-          <section>
+          <section data-transition="fade-in fade-out">
             <img data-src="./img/20170905-bioinnovation-meeting/test_data_reuse_2.png">
           </section>
 
-          <section>
+          <section data-transition="fade-in slide-out">
             <img data-src="./img/20170905-bioinnovation-meeting/test_data_reuse_3.png">
           </section>
 
-          <section data-background="./img/20170905-bioinnovation-meeting/Flowchart.png">
+          <section>
+            <img data-src="./img/20170905-bioinnovation-meeting/Flowchart.png">
           </section>
 
           <section data-markdown>
@@ -86,8 +86,8 @@
 
 Repeated usage of the same test data inadvertently leads to:
 
-* __Overly optimistic performance assessments__ (sometimes substantially so).
-* __Loss of generalization:__ A machine learning system that performs much better on the available test cases than on the general population; i.e., overfitting to the test dataset.
+* __Overly optimistic performance assessments <i class="em em-cold_sweat"></i>__ (sometimes substantially so).
+* __Loss of generalization <i class="em em-scream"></i>:__ A machine learning system that performs much better on the available test cases than on the general population; i.e., overfitting to the test dataset.
             </script>
           </section>
         </section>
@@ -99,9 +99,9 @@ Repeated usage of the same test data inadvertently leads to:
 ## Possible solution: Differentially private access to test data
 
 * Differential privacy is a mathematically rigorous definition of data privacy (see work of Cynthia Dwork and her collaborators).
-* __Intuition:__ If the test dataset can be accessed only via a differentially private mechanism, then the machine learning algorithm will have no way to extract information about individual dataset records, but will only learn characteristics of the population as a whole.
-* Under certain theoretical conditions this works even if the test dataset is reused thousands of times (Dwork et. al., Science, 2015).
-* In practice the reported performance metrics are much more accurate even when the theoretical conditions are not met (our work).
+* __Intuition:__ If the test dataset can be accessed only via a differentially private mechanism, then the machine learning algorithm will have *no way to extract information about individual dataset records, but will only learn characteristics of the population as a whole*. <i class="em em-point_right"></i> Algo will adapt to the underlying distribution rather than to records in the specific dataset. <i class="em em-smiley"></i>
+* Under certain theoretical conditions this works even if the test dataset is reused thousands of times (Dwork et. al., Science, 2015). <i class="em em-thumbsup"></i>
+* In practice the reported performance metrics are much more accurate even when the theoretical conditions are not met (our work). <i class="em em-smiley_cat"></i>
 
 </small>
             </script>
@@ -167,7 +167,7 @@ Given a function $\phi$ that assigns a score between $0$ and $1$ to each observa
 
 ## ..why we care
 
-<i class="em em-point_right"></i> <i class="em em-microscope"></i> + <i class="em em-moneybag"></i>
+<i class="em em-microscope"></i> + <i class="em em-moneybag"></i>
 
 * Prediction of a disease phenotype based on a handful of features is needed for inexpensive diagnosis.
 * Elimination of noisy or redundant features leads to more accurate prediction.
@@ -236,14 +236,11 @@ E.g. Benjamini-Hochberg:
             <script type="text/template">
 ## The model selection problem
 
-![Tibshirani, 1996, citation count](images/20170905-bioinnovation-meeting/Tibshirani1996.png?raw=true)
-![Benjamini & Hochberg, 1995, citation count](images/20170905-bioinnovation-meeting/Benjamini1995.png?raw=true)
+![Tibshirani, 1996, citation count](./img/20170905-bioinnovation-meeting/Tibshirani1996.png?raw=true)
+![Benjamini & Hochberg, 1995, citation count](./img/20170905-bioinnovation-meeting/Benjamini1995.png?raw=true)
             </script>
           </section>
-        </section>
 
-        <!-- Group SLOPE -->
-        <section>
           <section data-markdown>
             <script type="text/template">
 #### Sorted L-One Penalized Estimation (SLOPE, Bogdan et. al., Annals Appl Stat, 2015)
@@ -256,6 +253,10 @@ where $\lambda\subscript{1} \geq \lambda\subscript{2} \geq \ldots \geq \lambda\s
 <i class="em em-weary"></i> *if the explanatory variables have very small pair-wise correlations*.
             </script>
           </section>
+        </section>
+
+        <!-- Group SLOPE -->
+        <section>
 
           <section data-markdown>
             <script type="text/template">
@@ -372,16 +373,17 @@ $$
 
           <section data-markdown>
             <script type="text/template">
-### Canonical correlation analysis
+### Classical canonical correlation analysis
 
-* [Hotelling, 1936]
 $$
-\begin{eqnarray}
-\mathrm{maximize}\subscript{u\in\mathbb{R}^p, v\in\mathbb{R}^q} \widehat{\mathrm{Cov}}(Xu, Yv) &=& \frac{1}{n} u^T X^T Y v,\\\\
-\mathrm{subject\,to} \quad \widehat{\mathrm{Var}}(Xu) &=& \frac{1}{n-1} u^T X^T X u =  1,\\\\
-\widehat{\mathrm{Var}}(Yv) &=& 1.
-\end{eqnarray}
+\mathrm{maximize}\subscript{u\in\mathbb{R}^p, v\in\mathbb{R}^q} \widehat{\mathrm{Cov}}(Xu, Yv) = \frac{1}{n} u^T X^T Y v,
 $$
+
+$$
+\mathrm{subject\,to} \quad \widehat{\mathrm{Var}}(Xu) = 1, \widehat{\mathrm{Var}}(Yv) = 1.
+$$
+
+* Due to Hotelling, 1936.
 * The solution is called first pair of canonical vectors.
 * Subsequent pairs of canonical vectors are restricted to be uncorrelated with the previous ones.
 * The problem is degenerate if $n \leq \mathrm{max}\left( p, q \right)$.
@@ -392,22 +394,24 @@ $$
             <script type="text/template">
 ### Sparse CCA
 
-* Sparsity in the CCA solution can be achieved by utilizing penalty terms such as the $\ell_1$-norm. → Unique solution even when $p_X, p_Y \gg n$.
+<small>
+
+* Sparsity in the CCA solution can be achieved by utilizing penalty terms such as the $\ell_1$-norm. Unique solution even when $p_X, p_Y \gg n$.
 * Witten et. al. (2009):
 $$
 \begin{eqnarray}
-&\mathrm{maximize}\subscript{u\in\mathbb{R}^p, v\in\mathbb{R}^q} \frac{1}{n} u^T X^T Y v,\\\\
-&\mathrm{subject\,to} \quad \lVert u \rVert_2^2 \leq 1, \lVert v \rVert_2^2 \leq 1,\\\\
-&\mathrm{and} \quad \lVert u \rVert_1 \leq c_1, \lVert v \rVert_1 \leq c_2.
+&\mathrm{maximize}\subscript{u\in\mathbb{R}^p, v\in\mathbb{R}^q} \frac{1}{n} u^T X^T Y v, \nonumber \\\\
+&\mathrm{subject\,to} \quad \lVert u \rVert_2^2 \leq 1, \lVert v \rVert_2^2 \leq 1, \nonumber \\\\
+&\mathrm{and} \quad \lVert u \rVert_1 \leq c_1, \lVert v \rVert_1 \leq c_2. \nonumber
 \end{eqnarray}
 $$
 * Selection of $c_1$ and $c_2$ remains a challenging problem.
 * Higher-order pairs of canonical vectors can be found by applying sparse CCA to a residual matrix, obtained from $X^T Y$ and the previously found canonical variates.
+
+</small>
             </script>
           </section>
-        </section>
 
-        <section>
           <section data-markdown>
             <script type="text/template">
 #### Defining false discovery rate (FDR) for sparse CCA
@@ -419,26 +423,6 @@ $$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} 
 * Let $R\subscript{\hat{u}}$ be the number of the rejected $H_i$, and $V\subscript{\hat{u}}$ the number of false rejections (i.e., when $\hat{u}_i \neq 0$ but $\rho^{XY}\subscript{i, j} = 0$ for all $j$).
 * Define the false discovery rate in $u$ as
 $$\mathrm{FDR}(\hat{u}) := \mathbb{E}\left( \frac{V\subscript{\hat{u}}}{\max\left\\{ R\subscript{\hat{u}}, 1 \right\\}} \right).$$
-* Analogously define $\mathrm{FDR}(\hat{v})$.
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-#### FDR-corrected sparse CCA
-
-* In the classical CCA problem $u \propto X^T Y v$ (b/c SVD), and $v \propto Y^T X u$.
-* Thus, the above tests are equivalent to
-$$H_i : \left(X^TYv\right)_i = 0, \quad i\in\left\\{ 1, 2, \dots, p_X \right\\}.$$
-* This motivates an FDR-correcting approach:
-  1. Obtain initial estimates $\hat{u}^{(0)}$ and $\hat{v}^{(0)}$
-  2. Then in order to determine which entries of $u$ and $v$ are truly non-zero, test null hypotheses of the form
-  $$
-  \begin{eqnarray}
-  &\mathrm{H}^{(u)}_i : \left(X^T Y \hat{v}^{(0)}\right)_i = 0, \quad i = 1, 2, \ldots, p_X,\\\\
-  &\mathrm{H}^{(v)}_j : \left(Y^T X \hat{u}^{(0)}\right)_j = 0 \quad j = 1, 2, \ldots, p_Y.
-  \end{eqnarray}
-  $$
             </script>
           </section>
 
@@ -454,8 +438,8 @@ X = \begin{bmatrix} X^{(0)} \\\\ X^{(1)} \end{bmatrix}
 Y = \begin{bmatrix} Y^{(0)} \\\\ Y^{(1)} \end{bmatrix}.
 $$
 2. Obtain preliminary sparse CCA estimates $\hat{u}^{(0)}$ and $\hat{v}^{(0)}$ on $X^{(0)}$ and $Y^{(0)}$. Additionally, use $X^{(0)}$ and $Y^{(0)}$ to obtain $\widehat{\Sigma}^{(0)}$, the ML estimate of $\mathrm{Cov}\left(\begin{bmatrix} X & Y \end{bmatrix}\right)$.
-3. Obtain p-values using the asymptotic approximation
-$$\left(\frac{1}{\sqrt{n}} \left( X^{(1)} \right)^T Y^{(1)} \hat{v}^{(0)} \middle| \Sigma = \widehat{\Sigma}^{(0)} \right) \sim \mathcal{N}\left( \sqrt{n} \hat{\mu}^{(0)}, \widehat{\Omega}^{(0)} \right),$$
+3. Obtain p-values using the asymptotic approximation (under the null)
+$$\left(\frac{1}{\sqrt{n}} \left( X^{(1)} \right)^T Y^{(1)} \hat{v}^{(0)} \middle| \Sigma = \widehat{\Sigma}^{(0)} \right) \sim \mathcal{N}\left( 0, \widehat{\Omega}^{(0)} \right),$$
 where $\hat{\mu}^{(0)}$ and $\widehat{\Omega}^{(0)}$ are available in explicit form ($\hat{\mu}^{(0)} = 0$ under the null hypothesis).
 4. Apply an FDR correcting procedure (such as BHq), and obtain the FDR-corrected estimates:
 $$
@@ -478,93 +462,27 @@ $$
           <section>
             <h3>Preprint</h3>
 <ul>
-  <li>Gossmann, A., Zille, P., Calhoun, V., &amp; Wang, Y.-P. (2017). FDR-Corrected Sparse Canonical Correlation Analysis with Applications to Imaging Genomics. <a href="http://arxiv.org/abs/1705.04312">arXiv:1705.04312</a> [<a href="http://arxiv.org/pdf/1705.04312">pdf</a>] <i>(under review)</i>
+  <li>Gossmann, A., Zille, P., Calhoun, V., &amp; Wang, Y.-P. (2017). FDR-Corrected Sparse Canonical Correlation Analysis with Applications to Imaging Genomics. <a href="http://arxiv.org/abs/1705.04312">arXiv:1705.04312</a> [<a href="http://arxiv.org/pdf/1705.04312">pdf</a>] <i>(under review in IEEE/TMI)</i>
   </li>
 
   <li>Associated code: <a href="https://github.com/agisga/FDRcorrectedSCCA">https://github.com/agisga/FDRcorrectedSCCA</a> </li>
 </ul>
           </section>
-        </section>
 
-        <section>
-          <section data-markdown>
-            <script type="text/template">
-## Simulation results
+          <section style="line-height:16px">
+            <h4>Application to imaging genomics</h4>
 
-1. We show simulation results under **Gaussian scenarios**, in order to verify that the proposed procedure indeed controls the FDR under the assumptions that its derivation relies on.
-2. We show simulation studies evaluating the performance on **non-Gaussian data**, which are generated based on real single-nucleotide polymorphism (SNP) data.
-            </script>
+<img data-src="./img/20170905-bioinnovation-meeting/voxels_vs_genes.png?raw=true">
+
+<br>
+<font size = "3"> <i>Data:</i> The Philadelphia Neurodevelopmental Cohort (PNC) is a large-scale collaborative study between the Brain Behaviour Laboratory at the University of Pennsylvania and the Children's Hospital of Philadelphia. It contains, among other modalities, a fractal $n$-back fMRI task, and SNP arrays for over 900 adolescents. </font>
           </section>
 
           <section data-markdown>
             <script type="text/template">
-#### Simulation study with Gaussian data
+### Imaging genomics results
 
-The data $\begin{bmatrix} X & Y \end{bmatrix}$ are generated from $\mathcal{N}(0, \Sigma)$, where $\Sigma$ is blockwise constant.
-
-![Covariance matrix](images/Sigma_constant.png?raw=true)
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-#### Simulation study with Gaussian data
-
-![Estimated FDR(v) on Gaussian data](images/constant_combined.png?raw=true)
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-#### Simulation study with Gaussian data
-
-![Estimated TP(v) on Gaussian data](images/constant_TP_combined.png?raw=true)
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-#### Simulation study with non-Gaussian data (investigating robustness to distributional assumptions)
-
-![Estimated FDR on Non-Gaussian data](images/FDR_combined.png?raw=true)
-            </script>
-          </section>
-        </section>
-
-        <section>
-          <section data-markdown>
-            <script type="text/template">
-### Application to imaging genomics
-
-#### Data
-
-The Philadelphia Neurodevelopmental Cohort (PNC) is a large-scale collaborative study between the Brain Behaviour Laboratory at the University of Pennsylvania and the Children's Hospital of Philadelphia. It contains, among other modalities, a fractal $n$-back fMRI task, and SNP arrays for over 900 adolescents.
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-#### Data
-
-* The fractal $n$-back fMRI data were pre-processed using SPM12. Stimulus-on versus stimulus-off contrast maps were extracted for analysis. After discarding voxels with more than 1% missing data, the dataset consists of $85,796$ voxels.
-* The SNP dataset contains $98,804$ SNPs (after pre-processing). PCA was performed within each gene to reduce dimensionality, resulting in $60,372$ genomic features.
-* Our goal is to identify the essential regions of cross-correlation between the brain voxels and the genomic features.
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-### Results
-
-![PNC analysis results](images/voxels_vs_genes.png?raw=true)
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-### Results
-
-* We group the selected voxels using the region of interest (ROI) definitions of the AAL parcellation. The most significant findings correspond to the *middle occipital gyri* (13 selected voxels). Additional selected voxels lie in the *left and right calcarine sulcus* (158 voxels), *left cuneus* (3 voxels), and *left lingual gyrus* (1 voxel). Similar brain regions have been found in other fMRI studies of working memory.
+* We group the selected voxels using the region of interest (ROI) definitions of the AAL parcellation. The findings correspond to the *middle occipital gyri*, *left and right calcarine sulcus*, and *left cuneus* (3 voxels). Similar brain regions have been found in other fMRI studies of working memory.
 * A literature search confirmed that a majority of the identified genes (at least 34 out of the 65) have been previously associated with various aspects of human cognitive function.
             </script>
           </section>
@@ -573,6 +491,8 @@ The Philadelphia Neurodevelopmental Cohort (PNC) is a large-scale collaborative 
 
         <section data-markdown>
           <script type="text/template">
+# The End
+
 # Thank you
           </script>
         </section>
@@ -607,6 +527,8 @@ The Philadelphia Neurodevelopmental Cohort (PNC) is a large-scale collaborative 
           { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
         ]
       });
+
+      Reveal.configure({ pdfMaxPagesPerSlide: 1 });
     </script>
   </body>
 </html>

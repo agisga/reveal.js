@@ -1,0 +1,427 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>FDR-corrected SCCA - 2017/09/21 - Alexej Gossmann</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/league.css" id="league">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Emoji -->
+    <!-- See: https://afeld.github.io/emoji-css/ -->
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- MathJax macros (inline math delimiters, new commands, etc.), more configuration under Reveal.initialize below -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ["$","$"] ],
+          displayMath: [ ["$$","$$"] ],
+          processEscapes: true
+        },
+        TeX: {
+          equationNumbers: { autoNumber: "AMS" },
+          Macros: {
+            subscript: ['_{#1}', 1],
+            superscript: ['^{#1}', 1]
+          }
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <section data-markdown>
+          <script type="text/template">
+### FDR-Corrected Sparse Canonical Correlation Analysis with Applications to Imaging Genomics
+### Alexej Gossmann
+### Tulane University
+#### 2017/09/27
+          </script>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+## Background
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+### Sparse canonical correlation analysis
+![Sparse CCA illustration](./img/20170921-tri-state/SCCA.png)
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+### Canonical correlation analysis
+
+Let $x_1, \dots, x_n \in \mathbb{R}^p$ be independent $\mathcal{N}(0, \Sigma_X)$, $y_1, \dots, y_n \in \mathbb{R}^q$ be independent $\mathcal{N}(0, \Sigma_Y)$, $\mathrm{Cov}(x_k, y_k) = \Sigma\subscript{XY} \in \mathbb{R}^{p\times q}$ for all $k\in\left\\{ 1,\dots,n \right\\}$, and that $\mathrm{Cov}(x_k, y_j) = 0$ whenever $k \neq j$.
+
+$$
+X :=
+\begin{bmatrix}
+  x_1^T \\\\
+  x_2^T \\\\
+  \vdots \\\\
+  x_n^T
+\end{bmatrix} \in \mathbb{R}^{n\times p},
+\quad
+Y :=
+\begin{bmatrix}
+  y_1^T \\\\
+  y_2^T \\\\
+  \vdots \\\\
+  y_n^T
+\end{bmatrix} \in \mathbb{R}^{n\times q}.
+$$
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+### Classical canonical correlation analysis
+
+$$
+\mathrm{maximize}\subscript{u\in\mathbb{R}^p, v\in\mathbb{R}^q} \widehat{\mathrm{Cov}}(Xu, Yv) = \frac{1}{n} u^T X^T Y v,
+$$
+
+$$
+\mathrm{subject\,to} \quad \widehat{\mathrm{Var}}(Xu) = 1, \widehat{\mathrm{Var}}(Yv) = 1.
+$$
+
+* Due to Hotelling, 1936.
+* The solution is called first pair of canonical vectors.
+* Subsequent pairs of canonical vectors are restricted to be uncorrelated with the previous ones.
+* The problem is degenerate if $n \leq \mathrm{max}\left( p, q \right)$.
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+### Sparse CCA (SCCA)
+
+* Regularization to achive sparsity (e.g., $\ell_1$-norm).
+* Unique solution even when $p_X, p_Y \gg n$.
+* Witten et. al. (2009):
+$$
+\begin{eqnarray}
+&\mathrm{maximize}\subscript{u\in\mathbb{R}^p, v\in\mathbb{R}^q} \frac{1}{n} u^T X^T Y v, \nonumber \\\\
+&\mathrm{subject\,to} \quad \lVert u \rVert_2^2 \leq 1, \lVert v \rVert_2^2 \leq 1, \lVert u \rVert_1 \leq c_1, \lVert v \rVert_1 \leq c_2. \nonumber
+\end{eqnarray}
+$$
+* _Selection of the sparsity parameters remains a challenging problem_ (cross-validation, AIC, permutation-based).
+* Higher-order pairs of canonical vectors can be found by applying SCCA to a residual matrix ($X^T Y - d u v^T$).
+            </script>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+## FDR-correction for sparse CCA
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+#### Multiple hypotheses correction
+
+<font size="5">
+
+<ul>
+
+<li> Denote $R := $ number of rejected hypotheses, and $V := $ number of false rejections (i.e., Type I errors). </li>
+<li> *Family-wise error rate*:
+$$\mathrm{FWER} = \mathbb{P}\left(\mathrm{At\,least\,one\,false\,rejection}\right) = \mathbb{P}(V \geq 1).$$
+E.g. Bonferroni correction (60ies?):
+$$\mathbb{P}(V \geq 1) \leq \mathbb{P}\left( \bigcup\subscript{i = 1}^{n} \\{ H\subscript{i} \,\mathrm{falsely\,rejected} \\} \right) \leq \sum\subscript{i = 1}^{n} \underbrace{\mathbb{P}\left( \\{ H\subscript{i} \,\mathrm{falsely\,rejected} \\} \right)}\subscript{\leq \alpha / n} \leq \alpha.$$
+</li>
+<li> *False discovery rate* ('95):
+$$\mathrm{FDR} = \mathbb{E}\left(\frac{\mathrm{\\#False\,rejections}}{\mathrm{\\#Rejections}}\right) = \mathbb{E}\left( \frac{V}{\min\\{R, 1\\}} \right).$$
+E.g. Benjamini-Hochberg:
+    <ol>
+    <li> Sort the p-values $p\subscript{(1)} \leq p\subscript{(2)} \leq \ldots \leq p\subscript{(n)}$. </li>
+    <li> Find the largest $k$ such that $p\subscript{(k)} \leq \frac{k}{n} \alpha$. </li>
+    <li> Reject the null hypothesis for all $H\subscript{(i)}$ for $i = 1, \ldots, k$. </li>
+    </ol>
+</li>
+
+</font>
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+#### Defining false discovery rate (FDR) for sparse CCA
+
+* Consider the FDR in $u$ and in $v$ separately.
+* Consider $p_X$ hypotheses tests $H_i : u_i = 0$.
+* The null hypothesis $H_i$ is true if the $i$th feature in $X$ is uncorrelated with all features in $Y$, i.e., if
+$$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} = 0.$$
+* Let $R\subscript{\hat{u}}$ be the number of the rejected $H_i$, and $V\subscript{\hat{u}}$ the number of false rejections (i.e., when $\hat{u}_i \neq 0$ but $\rho^{XY}\subscript{i, j} = 0$ for all $j$).
+* Define the false discovery rate in $u$ as
+$$\mathrm{FDR}(\hat{u}) := \mathbb{E}\left( \frac{V\subscript{\hat{u}}}{\max\left\\{ R\subscript{\hat{u}}, 1 \right\\}} \right).$$
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+#### FDR-corrected sparse CCA
+
+* In the classical CCA problem $u \propto X^T Y v$ (b/c SVD), and $v \propto Y^T X u$.
+* Thus, the above tests are equivalent to
+$$H_i : \left(X^TYv\right)_i = 0, \quad i\in\left\\{ 1, 2, \dots, p_X \right\\}.$$
+* This motivates an FDR-correcting approach:
+  1. Obtain initial estimates $\hat{u}^{(0)}$ and $\hat{v}^{(0)}$
+  2. Then in order to determine which entries of $u$ and $v$ are truly non-zero, test null hypotheses of the form
+  $$
+  \begin{eqnarray}
+  &\mathrm{H}^{(u)}_i : \left(X^T Y \hat{v}^{(0)}\right)_i = 0, \quad i = 1, 2, \ldots, p_X, \nonumber \\\\
+  &\mathrm{H}^{(v)}_j : \left(Y^T X \hat{u}^{(0)}\right)_j = 0 \quad j = 1, 2, \ldots, p_Y. \nonumber
+  \end{eqnarray}
+  $$
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+#### Asymptotic distribution
+
+![Asymptotic Normality Theorem](./img/20170927-Tulane-genomics-center-meeting/asymptotic_normality.png?raw=true)
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+#### The FDR-corrected sparse CCA procedure
+<small>
+1. Divide each of $X$ and $Y$ into two subsets of sizes $n_0$ and $n_1$:
+$$
+X = \begin{bmatrix} X^{(0)} \\\\ X^{(1)} \end{bmatrix}
+\quad \text{and} \quad
+Y = \begin{bmatrix} Y^{(0)} \\\\ Y^{(1)} \end{bmatrix}.
+$$
+2. Obtain preliminary sparse CCA estimates $\hat{u}^{(0)}$ and $\hat{v}^{(0)}$ on $X^{(0)}$ and $Y^{(0)}$. Additionally, use $X^{(0)}$ and $Y^{(0)}$ to obtain $\widehat{\Sigma}^{(0)}$, the ML estimate of $\mathrm{Cov}\left(\begin{bmatrix} X & Y \end{bmatrix}\right)$.
+3. Obtain p-values using the asymptotic approximation (under the null)
+$$\left(\frac{1}{\sqrt{n}} \left( X^{(1)} \right)^T Y^{(1)} \hat{v}^{(0)} \middle| \Sigma = \widehat{\Sigma}^{(0)} \right) \sim \mathcal{N}\left( 0, \widehat{\Omega}^{(0)} \right),$$
+where $\hat{\mu}^{(0)}$ and $\widehat{\Omega}^{(0)}$ are available in explicit form ($\hat{\mu}^{(0)} = 0$ under the null hypothesis).
+4. Apply an FDR correcting procedure (such as BHq), and obtain the FDR-corrected estimates:
+$$
+\begin{eqnarray}
+\hat{u}^{(1)}_i &:= \begin{cases}
+  \left(X^T Y \hat{v}^{(0)}\right)_i, &\quad\text{for any rejected }H_i^{(u)},\\\\
+  0, &\quad\text{otherwise}.
+\end{cases}\\\\
+\hat{v}^{(1)}_j &:= \begin{cases}
+  \left(Y^T X \hat{u}^{(0)}\right)_j, &\quad\text{for any rejected }H_j^{(v)},\\\\
+  0, &\quad\text{otherwise}.
+\end{cases}
+\end{eqnarray}
+$$
+
+</small>
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+## Simulation results
+
+1. We show simulation results under **Gaussian scenarios**, in order to verify that the proposed procedure indeed controls the FDR under the assumptions that its derivation relies on.
+2. We show simulation studies evaluating the performance on **non-Gaussian data**, which are generated based on real single-nucleotide polymorphism (SNP) data.
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+#### Simulation study with Gaussian data
+
+The data $\begin{bmatrix} X & Y \end{bmatrix}$ are generated from $\mathcal{N}(0, \Sigma)$, where $\Sigma$ is blockwise constant.
+
+![Covariance matrix](./img/20170921-tri-state/Sigma_constant.png?raw=true)
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+#### Simulation study with Gaussian data
+
+![Estimated FDR(v) on Gaussian data](./img/20170921-tri-state/constant_combined.png?raw=true)
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+#### Simulation study with Gaussian data
+
+![Estimated TP(v) on Gaussian data](./img/20170921-tri-state/constant_TP_combined.png?raw=true)
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+#### Simulation study with non-Gaussian data (investigating robustness to distributional assumptions)
+
+![Estimated FDR on Non-Gaussian data](./img/20170921-tri-state/FDR_combined.png?raw=true)
+            </script>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+## FDR-Corrected SCCA Application to Imaging Genomics
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+### Application to imaging genomics
+
+#### Data
+
+*The Philadelphia Neurodevelopmental Cohort (PNC)* is a large-scale collaborative study between the Brain Behaviour Laboratory at the University of Pennsylvania and the Children's Hospital of Philadelphia. It contains, among other modalities, a fractal $n$-back fMRI task, and SNP arrays for over 900 adolescents.
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+#### Data
+
+* The fractal $n$-back fMRI data were pre-processed using SPM12. Stimulus-on versus stimulus-off contrast maps were extracted for analysis. After discarding voxels with more than 1% missing data, the dataset consists of $85,796$ voxels.
+* The SNP dataset contains $98,804$ SNPs (after pre-processing). PCA was performed within each gene to reduce dimensionality, resulting in $60,372$ genomic features.
+* Our goal is to identify the essential regions of cross-correlation between the brain voxels and the genomic features.
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+### Results
+
+![PNC analysis results](./img/20170921-tri-state/voxels_vs_genes.png?raw=true)
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+### Results
+
+* We group the selected voxels using the ROI definitions of the AAL parcellation. The most significant findings correspond to the *middle occipital gyri* (13 voxels). Additional selected voxels lie in the *left and right calcarine sulcus* (158 voxels), and *left cuneus* (3 voxels). Similar brain regions have been found in other fMRI studies of working memory.
+* A literature search confirmed that a majority of the identified genes (at least 34 out of the 65) have been previously associated with various aspects of human cognitive function.
+            </script>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>FDR-Corrected SCCA References</h3>
+<ul>
+  <li>Gossmann, A., Zille, P., Calhoun, V., &amp; Wang, Y.-P. (2017). FDR-Corrected Sparse Canonical Correlation Analysis with Applications to Imaging Genomics. <a href="http://arxiv.org/abs/1705.04312">arXiv:1705.04312</a> [<a href="http://arxiv.org/pdf/1705.04312">pdf</a>] <i>(under review in IEEE/TMI)</i>
+  </li>
+
+  <li>Associated code: <a href="https://github.com/agisga/FDRcorrectedSCCA">https://github.com/agisga/FDRcorrectedSCCA</a> </li>
+</ul>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+## Further developments
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+### Population stratification and confounders
+
+Differences w.r.t. ethnicity and genotyping plattform appear to have an influence on the results.
+
+$\leadsto$ EIGENSTRAT approach (Price et. al., 2006)
+
+![SNP PC1 vs. PC2](./img/20170927-Tulane-genomics-center-meeting/SNP_PC1_vs_PC2.png?raw=true)
+            </script>
+          </section>
+
+          <section>
+<h4>Population stratification and confounders</h4>
+<img src="./img/20170927-Tulane-genomics-center-meeting/SNP_PC_loadings_by_race.png" alt="SNP PCA loadings by race" style="width:700px;">
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+### Application to functional connectivity networks
+
+* SCCA can be applied to FCN data arising from different fMRI runs for the same set of subjects (e.g., NB vs. EM vs. Rest fMRI).
+* Because FCN constitute a unique fingerprint for each subject, SCCA will pair the same connectome features across different modalities.
+* Functional network connectivity patterns can also be calculated from group spatial ICA time courses.
+* *Results:* Too many cross-correlation, not sufficiently sparse.
+            </script>
+          </section>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+# The End
+
+# Thank you
+          </script>
+        </section>
+
+
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        history: true,
+        slideNumber: true,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        // MathJax integration
+        math: {
+            mathjax: 'https://cdn.mathjax.org/mathjax/latest/MathJax.js',
+            config: 'TeX-AMS_HTML-full'
+        },
+
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/math/math.js', async: true },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+
+      Reveal.configure({ pdfMaxPagesPerSlide: 1 });
+    </script>
+  </body>
+</html>

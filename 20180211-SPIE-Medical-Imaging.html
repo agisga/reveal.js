@@ -1,0 +1,265 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>SPIE Medical Imaging 2018 - 2018/02/11 - A Gossmann, A Pezeshk, B Sahiner</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/beige.css" id="league">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Emoji -->
+    <!-- See: https://afeld.github.io/emoji-css/ -->
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- MathJax macros (inline math delimiters, new commands, etc.), more configuration under Reveal.initialize below -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ["$","$"] ],
+          displayMath: [ ["$$","$$"] ],
+          processEscapes: true
+        },
+        TeX: {
+          equationNumbers: { autoNumber: "AMS" },
+          Macros: {
+            subscript: ['_{#1}', 1],
+            superscript: ['^{#1}', 1]
+          }
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <section data-markdown>
+          <script type="text/template">
+### Test data reuse for evaluation of adaptive machine learning algorithms: over-fitting to a fixed "test" dataset and a potential solution
+#### Alexej Gossmann (Tulane Univ., United States), Aria Pezeshk, and Berkman Sahiner (U.S. Food and Drug Administration)
+#### 2018/02/11
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            Are Machine Learning algorithms and statistical models ever trained independently of previous (exploratory) analyses on the same data?
+
+            In medical research?
+
+            Doesn't that inadvertently lead to overfitting or false discoveries?
+            <aside class="notes">
+              Probably only in the rare cases of pre-registered research.
+              Yes: initial analysis suggests certain relationship in the data; follow-up analysis focuses on this relationship in isolation using the same data; inflating the statistical significance of the effect; essentially, multiple testing that's unaccounted for.
+            </aside>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            Can Machine Learning algorithms be allowed to evolve after deployment?
+
+            What if the data is partially reused to re-train and to re-test the algorithm as it evolves?
+
+            What if the ML algorithm is utilized in clinical practice in medicine?
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Keywords
+
+            * Adaptive data analysis
+            * Continuous machine learning
+            * Online machine leaning
+            * Life-long machine learning
+            * "Researcher degrees of freedom"
+            * "Fishing expedition"
+            * "A garden of forking paths" (Gelman and Loken, 2014)
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            To avoid overfitting and false findings, **ideally** one would use a **fresh new dataset** each time...
+
+            * ...a machine learning algorithm is trained or re-trained or fine-tuned based on a previously trained algorithm or model
+            * ...a new data analysis step is informed by previous data analysis steps
+            * ...the performance of a trained algorithm or model is evaluated
+
+            $\Longrightarrow$ But that's **impractical** in most cases!
+
+            <aside class="notes">
+            Elementary stats textbook: (1) Select question (2) Collect data (3) Perform inference. So a fresh dataset is basis of stats theory.
+            Modern practice: (1) collect data (2) iterative process involving the data (3) results (4) standard statistical guarantees don't apply.
+            But that makes no sense in modern practice. You may end up with a very small dataset for each analysis step. One large dataset reused across all analysis steps is still better in practice, than a separate small dataset for each step. The only step that *really* needs a fresh dataset is the evaluation of the final model before it is deployed.
+            </aside>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            In Machine Learning practice, generally, usage of two independent datasets &mdash; "training" data and "test" data.
+
+            * **Training data**: exploratory analysis, model fitting, parameter tuning, comparison of different machine learning algorithms, feature selection, etc.<p>$\Longrightarrow$ Adaptive machine learning, risk of overfitting.</p>
+            * **Test data**: Performance evaluation *after the trained machine learning algorithm has been "frozen"*.<p>$\Longrightarrow$ Accurate performance measures of the final model, **if the test data is used only once**.</p>
+
+            <aside class="notes">
+            The performance metric obtained on test data will make it evident whether any overfitting has occurred during model training. Other techniques (multiple testing, cross-validation, bootstrap) can be used to avoid or reduce the overfitting on the training data.
+            </aside>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Continuous machine learning
+
+            What if we want to *continue training and testing* the machine learning algorithm, *after a performance measure has been obtained* from the test dataset?
+
+            * Example: Availability of new training samples after deployment in clinical practice. But no new test samples.
+            * Low quality data may be useful for training of a ML algorithms, but test data needs to meet high quality requirements (representative distribution, labeling by experts, etc.).
+
+            <aside class="notes">
+            - An ML algorithm in medicine steadily encounters new cases that it has not seen before.
+            - Any data that can help to inform the solution of the problem in question in any way can be used for training.
+            - It clearly makes sense to allow the algorithm to continue learning from those new cases, in order to steadily improve its performance.
+            - The new cases cannot be used for testing because of strict conditions on data composition and quality that are hard to meet, or time-consuming processing steps by medical experts (such as labeling).
+            </aside>
+          </script>
+        </section>
+
+        <section data-transition="slide-in fade-out">
+          <img data-src="./img/20180211-SPIE-Medical-Imaging/test_data_reuse_1.png">
+        </section>
+
+        <section data-transition="fade-in fade-out">
+          <img data-src="./img/20180211-SPIE-Medical-Imaging/test_data_reuse_2.png">
+        </section>
+
+        <section data-transition="fade-in slide-out">
+          <img data-src="./img/20180211-SPIE-Medical-Imaging/test_data_reuse_3.png">
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+### Performance assessment in adaptive machine learning with test data reuse
+
+Repeated usage of the same test data inadvertently leads to:
+
+* Overly optimistic performance assessments
+* Loss of generalization &mdash; a machine learning system that performs much better on the available test cases than on the general population; i.e., overfitting to the test dataset.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+### Possible solution: Differentially private access to test data
+
+What is Differential privacy?
+
+* A mathematically rigorous definition of data privacy (Dwork, McSherry, Nissim, Smith, 2006).
+* An individual data point has little impact on the value reported by a differentially private algorithm.
+* Adversary cannot learn an individual data point from querying a differentially private algorithm.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+### Possible solution: Differentially private access to test data
+
+* __Intuition:__ If the test dataset can be accessed only via a differentially private mechanism, then the machine learning algorithm will have *no way to extract information about individual dataset records, but will only learn characteristics of the population as a whole*.
+* This limits the information learned about the test data in each analysis.
+* The machine learning algorithm will adapt to the underlying distribution rather than to records in the specific dataset.
+* Under certain theoretical conditions this works even if the test dataset is reused thousands of times (Dwork et. al., Science, 2015).
+* In practice the reported performance metrics are much more accurate even when the theoretical conditions are not met (our work).
+          </script>
+        </section>
+
+        <section data-markdown style="text-align: left">
+          <script type="text/template">
+<small>
+
+Algorithm: __Thresholdout__$\subscript{\mathrm{AUC}}$
+
+**Input:**
+- Training dataset $S\subscript{\mathrm{train}}$ and test dataset $S\subscript{\mathrm{test}}$.
+- Noise rate $\sigma$, budget $B$, threshold $T$.
+- Set $\hat{T} \gets T + \gamma$ for $\gamma \sim \mathrm{Lap}(2\sigma)$, where $\mathrm{Lap}(2\sigma)$ denotes the Laplace distribution with mean 0 and scale parameter $2\sigma$.
+
+**Query step:**
+
+Given a function $\phi$ that assigns a score between $0$ and $1$ to each observation, **do**:
+- If $B < 1$ output $\bot$ (i.e., the test data access budget is exhausted).
+- Else sample $\xi \sim \mathrm{Lap}(\sigma)$, $\gamma \sim \mathrm{Lap}(2\sigma)$, and $\eta \sim \mathrm{Lap}(4\sigma)$:
+  * If $\left\lvert \widehat{\mathrm{AUC}}\subscript{S\subscript{\mathrm{test}}}(\phi) - \widehat{\mathrm{AUC}}\subscript{S\subscript{\mathrm{train}}}(\phi) \right\rvert > \hat{T} + \eta$, output $\widehat{\mathrm{AUC}}\subscript{S\subscript{\mathrm{test}}}(\phi) + \xi$ and set $B \gets B - 1$ and $\hat{T} \gets T + \gamma$.
+  * Otherwise output $\widehat{\mathrm{AUC}}\subscript{S\subscript{\mathrm{train}}}(\phi)$.
+
+</small>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ![Some simulation results from the SPIE submission](./img/20170905-bioinnovation-meeting/naive_holdout_reuse_vs_thresholdout_AUC_landscape.png)
+
+            This work has been submitted to [SPIE Medical Imaging 2018](https://spie.org/conferences-and-exhibitions/medical-imaging/conferences?SSO=1) for publication in the [Proceeding of SPIE](http://proceedings.spiedigitallibrary.org/conferenceproceedings.aspx) and a conference presentation.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+# The End
+
+# Thank you
+          </script>
+        </section>
+
+
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        history: true,
+        slideNumber: true,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // MathJax integration
+        math: {
+            mathjax: 'https://cdn.mathjax.org/mathjax/latest/MathJax.js',
+            config: 'TeX-AMS_HTML-full'
+        },
+
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/math/math.js', async: true },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+
+      Reveal.configure({ pdfMaxPagesPerSlide: 1 });
+    </script>
+  </body>
+</html>

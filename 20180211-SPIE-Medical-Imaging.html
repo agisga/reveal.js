@@ -52,7 +52,6 @@
 ### Test data reuse for evaluation of adaptive machine learning algorithms: over-fitting to a fixed "test" dataset and a potential solution
 #### Alexej Gossmann (Tulane University), Aria Pezeshk, and Berkman Sahiner (U.S. Food and Drug Administration)
 #### 2018/02/11
-### Draft (work in progress)
           </script>
         </section>
 
@@ -82,7 +81,7 @@
 
         <section data-markdown>
           <script type="text/template">
-            ### Keywords
+            ### Some keywords
 
             * Adaptive data analysis
             * Adaptive machine learning
@@ -114,7 +113,7 @@
 
         <section data-markdown>
           <script type="text/template">
-            In Machine Learning practice, generally, usage of two independent datasets &mdash; "training" data and "test" data.
+            In Machine Learning practice, generally, usage of two independent datasets &mdash; *"training"* data and *"test"* data.
 
             * **Training data**: exploratory analysis, model fitting, parameter tuning, comparison of different machine learning algorithms, feature selection, etc.<p>$\Longrightarrow$ Adaptive machine learning, risk of overfitting.</p>
             * **Test data**: Performance evaluation *after the trained machine learning algorithm has been "frozen"*.<p>$\Longrightarrow$ Accurate performance measures of the final model, **if the test data is used only once**.</p>
@@ -284,10 +283,11 @@ Example of an (empirical) ROC curve.
           <script type="text/template">
 ### Why AUC?
 
-Many advantages compared to other "single number" performance measures.
+Many advantages compared to other "single number" performance measures:
 
-* Independence of the decision threshold.
 * Invariance to prior class probabilities or class prevalence in the data.
+* Meaning: probability of a correct ranking of a random "positive"-"negative" pair of observations.
+* Independence of the decision threshold.
 * Can choose/change a decision threshold based on cost-benefit analysis after model training.
 * Extensively used in the medical field, including medical imaging.
           </script>
@@ -295,10 +295,9 @@ Many advantages compared to other "single number" performance measures.
 
         <section data-markdown>
           <script type="text/template">
-### Estimating AUC on a finite dataset
+            ### Thresholdout + AUC = <i class="em em-heart"></i>
 
-![Wilcoxon Statistic as estimate for AUC](./img/20180211-SPIE-Medical-Imaging/Wilcoxon_statistic.png)
-
+            __Thresholdout$_{\mathrm{AUC}}$__ combines the original __Thresholdout (DFHPRR, Science, 2015)__ with __AUC__ as the reported performance metric on test data.
           </script>
         </section>
 
@@ -311,20 +310,129 @@ Many advantages compared to other "single number" performance measures.
 
         <section data-markdown>
           <script type="text/template">
-            ![Some simulation results from the SPIE submission](./img/20170905-bioinnovation-meeting/naive_holdout_reuse_vs_thresholdout_AUC_landscape.png)
-
-            This work has been submitted to [SPIE Medical Imaging 2018](https://spie.org/conferences-and-exhibitions/medical-imaging/conferences?SSO=1) for publication in the [Proceeding of SPIE](http://proceedings.spiedigitallibrary.org/conferenceproceedings.aspx) and a conference presentation.
+            ### Theorem
+            ![ThresholdoutAUC: Theorem regarding the generalization guarantees](./img/20180211-SPIE-Medical-Imaging/Theorem.png)
+            Thresholdout$_{\mathrm{AUC}}$ generalization guarantees (proof similar to DFHPRR '15 [arXiv:1506.02629](http://arxiv.org/abs/1506.02629)).
           </script>
         </section>
 
         <section data-markdown>
           <script type="text/template">
-# The End
+            ### Theorem &mdash; rough summary
 
-# Thank you
+            1. **If** a test dataset, which is used for performance evaluation repeatedly, is only accessed via Thresholdout$_{\mathrm{AUC}}$.
+            $\Longrightarrow$ **Then** with a high probability $(1 − \beta)$ the reported AUC estimates will be correct up to a small tolerance $\tau$.
+            2. **Restriction**: Test data access "budget" $B$, which is linear in the size of the test data $n$, and also depends on $\beta$, $\tau$, and the class balance.
+
+            <aside class="notes">
+            * $\beta$ and $\tau$ are pre-specified by the analyst.
+            * This result holds even when each analysis step is adaptively chosen based on the reported AUC estimates obtained from previous analyses on the same test data using Thresholdout$_{\mathrm{AUC}}$.
+            </aside>
           </script>
         </section>
 
+        <section data-markdown>
+          <script type="text/template">
+            ### Theorem &mdash; drawbacks
+
+            1. Required test data size, $n$, too large for most applications.
+            2. Thresholdout is designed for the worst case of an adversarial analyst.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Theorem &mdash; drawbacks
+
+            Will the Thresholdout$_{\mathrm{AUC}}$ procedure still work, if the test data is small, but the analyst is not adversarial, and is in fact interested in the avoidance of overfitting?
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Simulation studies on small samples
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Simulation studies on small samples
+
+            __Goal__: Compare Thresholdout$_{\mathrm{AUC}}$ to a "naive" test data reuse approach under conditions that mimic realistic adaptive data analysis practices.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            #### Simulation studies on small samples
+
+            ### Binary classification problem
+
+            * Simulated data:
+              - Small training and test sets, $n\_{\mathrm{test}} = n\_{\mathrm{train}}=100$.
+              - High-dimensional feature space, $p=300$.
+              - Non-linear outcome variable.
+              - Only $s = 10$ variables are predictive of the outcome.
+            * Classification algorithms: logistic regression (GLM), regularized GLM (elastic net), linear SVM, random forest, and AdaBoost.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            * __30 rounds of adaptive learning.__
+            * _Only AUC estimates can be reported from test data._
+            * __For__ round $r = 1, 2, \dots, 30$ __do__:
+              * $n\_{\mathrm{train}} \leftarrow n\_{\mathrm{train}} + 10$.
+              * Candidate variables for addition to the trained classifier from round $(r-1)$ determined by $t$-tests at significance level $\alpha = 0.01$.
+              * A new classifier trained using each subset of candidate variables, with cross-validation on the training data used for parameter tuning.
+              * The best among the classifers from previous step is chosen based on test data AUC estimates.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ![Average number of Thresholdout$\_{\mathrm{AUC}}$ queries by round](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_avg_cum_number_of_holdout_queries_Combined.png)
+
+            Average number of Thresholdout$\_{\mathrm{AUC}}$ queries by round.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape.png)
+            Accuracy of reported AUC values is improved, at the cost of slightly higher uncertainty in the reported AUC, and slightly worse predictive performance.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ![Average true AUC by round](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_true_performance_Combined.png)
+
+            Average true performance of the trained classifier by round with either test data reuse approach.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Conclusion
+
+* Machine learning algorithms may continue to evolve after deployment as new data becomes available for training but not for testing. $\leadsto$ Test data reuse.
+* __Theory & simulation__: Thresholdout and similar procedures reduce...
+  - ...the upward bias in the reported performance measures.
+  - ...overfitting to the test data.
+* __Simulation studies__: promising results even on small samples.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Remaining issues
+
+- Unclear how to choose parameters in practice, outside of the worst case, when the analyst is not actively trying to overfit to the test data.
+- Average behavior vs. behavior in a specific execution (deviation from the average).
+- Many possible improvements to the simulation protocol to achieve more realistic conditions, and greater range of conditions.
+          </script>
+        </section>
 
       </div>
     </div>

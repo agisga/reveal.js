@@ -57,62 +57,6 @@
 
         <section data-markdown>
           <script type="text/template">
-            Are machine learning algorithms and statistical models ever trained independently of previous (exploratory) analyses on the same data?
-
-            In medical research?
-
-            Doesn't that inadvertently lead to overfitting or false discoveries?
-            <aside class="notes">
-              Probably only in the rare cases of pre-registered research.
-              Yes: initial analysis suggests certain relationship in the data; follow-up analysis focuses on this relationship in isolation using the same data; inflating the statistical significance of the effect; essentially, multiple testing that's unaccounted for.
-            </aside>
-          </script>
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            Can machine learning algorithms be allowed to evolve after deployment?
-
-            What if the data is partially reused to re-train and to re-test the algorithm as it evolves?
-
-            What if the ML algorithm is utilized in clinical practice in medicine?
-          </script>
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Some keywords
-
-            * Adaptive data analysis
-            * Adaptive machine learning
-            * Continuous machine learning
-            * Online machine leaning
-            * Life-long machine learning
-            * "Researcher degrees of freedom"
-            * "A garden of forking paths" (Gelman and Loken, 2014)
-          </script>
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            To avoid overfitting and false findings, **ideally** one would use a **fresh new dataset** each time...
-
-            * ...a machine learning algorithm is trained or re-trained or fine-tuned based on a previously trained algorithm or model
-            * ...a new data analysis step is informed by previous data analysis steps
-            * ...the performance of a trained algorithm or model is evaluated
-
-            $\Longrightarrow$ But that's **impractical** in most cases!
-
-            <aside class="notes">
-            Elementary stats textbook: (1) Select question (2) Collect data (3) Perform inference. So a fresh dataset is basis of stats theory.
-            Modern practice: (1) collect data (2) iterative process involving the data (3) results (4) standard statistical guarantees don't apply.
-            But that makes no sense in modern practice. You may end up with a very small dataset for each analysis step. One large dataset reused across all analysis steps is still better in practice, than a separate small dataset for each step. The only step that *really* needs a fresh dataset is the evaluation of the final model before it is deployed.
-            </aside>
-          </script>
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
             In Machine Learning practice, generally, usage of two independent datasets &mdash; *"training"* data and *"test"* data.
 
             * **Training data**: exploratory analysis, model fitting, parameter tuning, comparison of different machine learning algorithms, feature selection, etc.<p>$\Longrightarrow$ Adaptive machine learning, risk of overfitting.</p>
@@ -128,17 +72,9 @@
           <script type="text/template">
             ## Continuous machine learning
 
-            What if we want to *continue training and testing* the machine learning algorithm, *after a performance measure has been obtained* from the test dataset?
-
-            * Availability of new training samples after deployment in clinical practice. But no new test samples.
-            * Low quality data useful for training of ML alg, but test data needs to meet high quality requirements (representative distribution, labeling by experts, etc.).
-
-            <aside class="notes">
-            - An ML algorithm in medicine steadily encounters new cases that it has not seen before.
-            - Any data that can help to inform the solution of the problem in question in any way can be used for training.
-            - It clearly makes sense to allow the algorithm to continue learning from those new cases, in order to steadily improve its performance.
-            - The new cases cannot be used for testing because of strict conditions on data composition and quality that are hard to meet, or time-consuming processing steps by medical experts (such as labeling).
-            </aside>
+            * Availability of new training samples after deployment in clinical practice.
+            * Low quality data useful for (re-)training of ML alg.
+            * But no new test samples (need to satisfy data quality requirements).
           </script>
         </section>
 
@@ -228,17 +164,6 @@ __A possible solution to the test data reuse problem?__
           <script type="text/template">
 ### Differentially private access to test data
 
-* Limits/randomizes/obfuscates the information learned about the test data in each analysis.
-* The ML alg. is less likely to overfit because it cannot adapt to individual records in the test dataset.
-* Under (restrictive) theoretical conditions such techniques have provable **generalization guarantees**, even if the test dataset is reused thousands of times (e.g., Dwork et. al., Science, 2015).
-* In practice the reported performance metrics can be much more accurate even when the theoretical conditions are not met (e.g., this work).
-          </script>
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
-### Differentially private access to test data
-
 * Currently available literature focuses on theory.
 * Available theoretical requirements too restrictive for most of applied data analysis and machine learning.
 * Computational experiments available in the literature consider only simple instances of adaptivity, simple performance metrics, and simple machine learning algorithms &mdash; not capturing the reality of current data analysis practices adequately.
@@ -249,23 +174,12 @@ __A possible solution to the test data reuse problem?__
           <script type="text/template">
 ## In this work:
 
-1. Combining the *Thresholdout* procedure (DFHPRR, Science, 2015) with *AUC* (area under the ROC curve) as the reported performance metric.<p>$\leadsto$ Thresholdout$_{\mathrm{AUC}}$.</p>
+1. Combining the **Thresholdout** procedure (DFHPRR, Science, 2015) with **AUC** (area under the ROC curve) as the reported performance metric.<p>$\leadsto$ Thresholdout$_{\mathrm{AUC}}$.</p>
 2. Empirical investigation of Thresholdout$_{\mathrm{AUC}}$ by simulation of realistic adaptive data analysis practices.
 
 <aside class="notes">
 Our contribution is two-fold: (1) we combine Thresholtout with AUC and investigate whether the theoretical gaurantees of the original Thresholdout are still valid for ThresholdoutAUC. (2) Simulation of realistic adaptive machine learning and data analysis practices on small datasets, in order to investigate the practical performance of the method.
 </aside>
-          </script>
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
-### What is AUC?
-
-* Dataset $S$: $(\mathbf{x}\_1, y\_1), \ldots, (\mathbf{x}\_n, y\_n) \in \mathbb{R}^p \times \\{0, 1\\}$.
-* A classification algorithm, trained on $S$, assigns a score to any $\mathbf{x}\_{\ast} \in \mathbb{R}^p$ signifying how likely $y\_{\ast} = 1$.
-* A threshold or (*operating point*) can be chosen to assign class labels (0 or 1), to balance how many false positives and false negatives will be obtained.
-* Plotting the true positive rate (TPR) against the false positive rate (FPR) as the operating point changes from its minimum to its maximum value yields the *receiver operating characteristic (ROC) curve*.
           </script>
         </section>
 
@@ -283,12 +197,9 @@ Example of an (empirical) ROC curve.
           <script type="text/template">
 ### Why AUC?
 
-Many advantages compared to other "single number" performance measures:
-
-* Invariance to prior class probabilities or class prevalence in the data.
-* Meaning: probability of a correct ranking of a random "positive"-"negative" pair of observations.
-* Independence of the decision threshold.
-* Can choose/change a decision threshold based on cost-benefit analysis after model training.
+* Invariance to prevalence.
+* Independence of the decision threshold (can be chosen later).
+* Probabilistic meaning.
 * Extensively used in the medical field, including medical imaging.
           </script>
         </section>
@@ -301,18 +212,37 @@ Many advantages compared to other "single number" performance measures:
           </script>
         </section>
 
-        <section data-markdown>
-          <script type="text/template">
-            ![ThresholdoutAUC: the proposed test data reuse procedure](./img/20180211-SPIE-Medical-Imaging/Thresholdout_AUC.png)
-            Thresholdout$_{\mathrm{AUC}}$ combines the original Thresholdout (DFHPRR, Science, 2015) with AUC as the reported performance metric on test data.
-          </script>
+        <section>
+          <h3>Thresholdout$_{\mathrm{AUC}}$ &mdash; rough summary</h3>
+
+          <div align="center">
+            <div style='width: 600px;'>
+              <p style='border:4px black solid; font-size:42px;'>
+                Trained classifier $\phi(x) \in [0,1]$
+              </p>
+            </div>
+          </div>
+
+          <p><i class="em em-arrow_down"></i></p>
+
+          <div align="center">
+            <div style='width: 800px;'>
+              <div align="left">
+                <p style='border:4px black solid; font-size:42px;'>
+                <b>If</b> $\lvert \mathrm{AUC}_{\mathrm{training}}(\phi) - \mathrm{AUC}_{\mathrm{test}}(\phi) \rvert > \tilde{T}$:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;output $\mathrm{AUC}_{\mathrm{test}}(\phi) +$ "a little noise"<br>
+                <b>Else</b>:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;output $\mathrm{AUC}_{\mathrm{training}}(\phi)$
+                </p>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section data-markdown>
           <script type="text/template">
-            ### Theorem
-            ![ThresholdoutAUC: Theorem regarding the generalization guarantees](./img/20180211-SPIE-Medical-Imaging/Theorem.png)
-            Thresholdout$_{\mathrm{AUC}}$ generalization guarantees (proof similar to DFHPRR '15 [arXiv:1506.02629](http://arxiv.org/abs/1506.02629)).
+            ![ThresholdoutAUC: the proposed test data reuse procedure](./img/20180211-SPIE-Medical-Imaging/Thresholdout_AUC.png)
+            Thresholdout$_{\mathrm{AUC}}$ combines the original Thresholdout (DFHPRR, Science, 2015) with AUC as the reported performance metric on test data.
           </script>
         </section>
 
@@ -328,6 +258,14 @@ Many advantages compared to other "single number" performance measures:
             * $\beta$ and $\tau$ are pre-specified by the analyst.
             * This result holds even when each analysis step is adaptively chosen based on the reported AUC estimates obtained from previous analyses on the same test data using Thresholdout$_{\mathrm{AUC}}$.
             </aside>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Theorem &mdash; actual statement
+            ![ThresholdoutAUC: Theorem regarding the generalization guarantees](./img/20180211-SPIE-Medical-Imaging/Theorem.png)
+            Thresholdout$_{\mathrm{AUC}}$ generalization guarantees (proof similar to DFHPRR '15 [arXiv:1506.02629](http://arxiv.org/abs/1506.02629)).
           </script>
         </section>
 
@@ -358,14 +296,22 @@ Many advantages compared to other "single number" performance measures:
           <script type="text/template">
             ## Simulation studies on small samples
 
-            __Goal__: Compare Thresholdout$_{\mathrm{AUC}}$ to a "naive" test data reuse approach under conditions that mimic realistic adaptive data analysis practices.
+            __Goal__: Compare Thresholdout$_{\mathrm{AUC}}$ to a "naive" test data reuse approach under under plausible adaptive data analysis practices.
+
+            ("naive" means: use exact test AUC values)
           </script>
         </section>
 
         <section data-markdown>
           <script type="text/template">
-            #### Simulation studies on small samples
+### Simulated data
 
+![The data generation procedure](./img/20180211-SPIE-Medical-Imaging/data_generation.png)
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
             ### Binary classification problem
 
             * Simulated data:
@@ -379,6 +325,8 @@ Many advantages compared to other "single number" performance measures:
 
         <section data-markdown>
           <script type="text/template">
+            TODO: flow chart
+
             * __30 rounds of adaptive learning.__
             * _Only AUC estimates can be reported from test data._
             * __For__ round $r = 1, 2, \dots, 30$ __do__:
@@ -399,8 +347,22 @@ Many advantages compared to other "single number" performance measures:
 
         <section data-markdown>
           <script type="text/template">
+            ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape_GLM_only.png)
+            Accuracy of reported AUC values is improved, at the cost of slightly higher uncertainty in the reported AUC, and slightly worse predictive performance.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
             ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape.png)
             Accuracy of reported AUC values is improved, at the cost of slightly higher uncertainty in the reported AUC, and slightly worse predictive performance.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape.png)
+            The gap between the reported and the true AUC is much narrower! "Learn the effect of local noise in the data"
           </script>
         </section>
 
@@ -423,17 +385,6 @@ Many advantages compared to other "single number" performance measures:
 * __Simulation studies__: promising results even on small samples.
           </script>
         </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Remaining issues
-
-- Unclear how to choose parameters in practice, outside of the worst case, when the analyst is not actively trying to overfit to the test data.
-- Average behavior vs. behavior in a specific execution (deviation from the average).
-- Many possible improvements to the simulation protocol to achieve more realistic conditions, and greater range of conditions.
-          </script>
-        </section>
-
       </div>
     </div>
 

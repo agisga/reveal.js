@@ -68,16 +68,6 @@
           </script>
         </section>
 
-        <section data-markdown>
-          <script type="text/template">
-            ## Continuous machine learning
-
-            * Availability of new training samples after deployment in clinical practice.
-            * Low quality data useful for (re-)training of ML alg.
-            * But no new test samples (need to satisfy data quality requirements).
-          </script>
-        </section>
-
         <section data-transition="slide-in fade-out">
           <img data-src="./img/20180211-SPIE-Medical-Imaging/test_data_reuse_1.png">
         </section>
@@ -139,15 +129,15 @@ $$P[\mathcal{M}(D) \in S] \leq e^\varepsilon P[\mathcal{M}(D^\prime) \in S] + \d
           </script>
         </section>
 
-        <section data-markdown>
-          <script type="text/template">
-### Differential privacy (Dwork, McSherry, Nissim, Smith, 2006)
+        <section>
+          <h3>Differential privacy (Dwork, McSherry, Nissim, Smith, 2006)</h3>
 
-* A mathematically rigorous definition of data privacy.
-* __Intuition:__ An individual data point has little impact on the value reported by a DP mechanism.
-* __Intuition:__ An adversary cannot learn an individual data point from querying a DP mechanism.
-* __Properties:__ DP is *preserved* under *post-processing* and under *adaptive composition*.
-          </script>
+          <ul>
+            <font color="#7e7e7e" size=6><li>A mathematically rigorous definition of data privacy.</li></font>
+            <font color="#7e7e7e" size=6><li><b>Intuition:</b> An individual data point has little impact on the value reported by a DP mechanism.</li></font>
+            <font color="#7e7e7e" size=6><li><b>Intuition:</b> An adversary cannot learn an individual data point from querying a DP mechanism.</li></font>
+            <li><b>Properties:</b> DP is <i>preserved</i> under <i>post-processing</i> and under <i>adaptive composition</i>.</li>
+          </ul>
         </section>
 
         <section data-markdown>
@@ -156,7 +146,11 @@ $$P[\mathcal{M}(D) \in S] \leq e^\varepsilon P[\mathcal{M}(D^\prime) \in S] + \d
 
 __A possible solution to the test data reuse problem?__
 
-* __Intuition:__ If the test dataset can be accessed only via a DP mechanism, then the ML alg. will have no way to extract information about individual dataset records, but it can only learn characteristics of the underlying distribution.
+* __Idea:__ Access test data only through a DP mechanism
+
+    $\Longrightarrow$ ML alg. is prevented from extracting information about individual test data records
+
+    $\Longrightarrow$ only characteristics of the underlying distribution are learned
           </script>
         </section>
 
@@ -178,7 +172,7 @@ __A possible solution to the test data reuse problem?__
 2. Empirical investigation of Thresholdout$_{\mathrm{AUC}}$ by simulation of realistic adaptive data analysis practices.
 
 <aside class="notes">
-Our contribution is two-fold: (1) we combine Thresholtout with AUC and investigate whether the theoretical gaurantees of the original Thresholdout are still valid for ThresholdoutAUC. (2) Simulation of realistic adaptive machine learning and data analysis practices on small datasets, in order to investigate the practical performance of the method.
+Our contribution is two-fold: (1) we combine Thresholtout with AUC and investigate whether the theoretical guarantees of the original Thresholdout are still valid for ThresholdoutAUC. (2) Simulation of realistic adaptive machine learning and data analysis practices on small datasets, in order to investigate the practical performance of the method.
 </aside>
           </script>
         </section>
@@ -254,6 +248,8 @@ Example of an (empirical) ROC curve.
             $\Longrightarrow$ **Then** with a high probability $(1 − \beta)$ the reported AUC estimates will be correct up to a small tolerance $\tau$.
             2. **Restriction**: Test data access "budget" $B$, which is linear in the size of the test data $n$, and also depends on $\beta$, $\tau$, and the class balance.
 
+            (Proof similar to DFHPRR '15 [arXiv:1506.02629](http://arxiv.org/abs/1506.02629))
+
             <aside class="notes">
             * $\beta$ and $\tau$ are pre-specified by the analyst.
             * This result holds even when each analysis step is adaptively chosen based on the reported AUC estimates obtained from previous analyses on the same test data using Thresholdout$_{\mathrm{AUC}}$.
@@ -261,29 +257,25 @@ Example of an (empirical) ROC curve.
           </script>
         </section>
 
-        <section data-markdown>
-          <script type="text/template">
-            ### Theorem &mdash; actual statement
-            ![ThresholdoutAUC: Theorem regarding the generalization guarantees](./img/20180211-SPIE-Medical-Imaging/Theorem.png)
-            Thresholdout$_{\mathrm{AUC}}$ generalization guarantees (proof similar to DFHPRR '15 [arXiv:1506.02629](http://arxiv.org/abs/1506.02629)).
-          </script>
+        <section>
+          <h3>Theorem &mdash; drawbacks</h3>
+
+          <ul>
+            <li>Required test data size, $n$, too large for most applications.</li>
+            <li>Thresholdout is designed for the worst case of an adversarial analyst.</li>
+          </ul>
+
         </section>
 
-        <section data-markdown>
-          <script type="text/template">
-            ### Theorem &mdash; drawbacks
+        <section>
+          <h3>Theorem &mdash; drawbacks</h3>
 
-            1. Required test data size, $n$, too large for most applications.
-            2. Thresholdout is designed for the worst case of an adversarial analyst.
-          </script>
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Theorem &mdash; drawbacks
+          <ul>
+            <font color="#7e7e7e" size=6><li>Required test data size, $n$, too large for most applications.</li></font>
+            <font color="#7e7e7e" size=6><li>Thresholdout is designed for the worst case of an adversarial analyst.</li></font>
+          </ul>
 
             Will the Thresholdout$_{\mathrm{AUC}}$ procedure still work, if the test data is small, but the analyst is not adversarial, and is in fact interested in the avoidance of overfitting?
-          </script>
         </section>
 
         <section data-markdown>
@@ -314,26 +306,22 @@ Example of an (empirical) ROC curve.
           <script type="text/template">
             ### Binary classification problem
 
-            * Simulated data:
-              - Small training and test sets, $n\_{\mathrm{test}} = n\_{\mathrm{train}}=100$.
-              - High-dimensional feature space, $p=300$.
-              - Non-linear outcome variable.
-              - Only $s = 10$ variables are predictive of the outcome.
+            * Initially $n\_{\mathrm{test}} = n\_{\mathrm{train}}=100$.
+            * In each round of adaptive learning: $n\_{\mathrm{train}} \leftarrow n\_{\mathrm{train}} + 10$.
             * Classification algorithms: logistic regression (GLM), regularized GLM (elastic net), linear SVM, random forest, and AdaBoost.
           </script>
         </section>
 
         <section data-markdown>
           <script type="text/template">
-            TODO: flow chart
-
             * __30 rounds of adaptive learning.__
             * _Only AUC estimates can be reported from test data._
             * __For__ round $r = 1, 2, \dots, 30$ __do__:
-              * $n\_{\mathrm{train}} \leftarrow n\_{\mathrm{train}} + 10$.
-              * Candidate variables for addition to the trained classifier from round $(r-1)$ determined by $t$-tests at significance level $\alpha = 0.01$.
-              * A new classifier trained using each subset of candidate variables, with cross-validation on the training data used for parameter tuning.
-              * The best among the classifers from previous step is chosen based on test data AUC estimates.
+              1. $n\_{\mathrm{train}} \leftarrow n\_{\mathrm{train}} + 10$.
+              2. Identify new candidate variables on training data.
+              3. New classifiers trained with each subset of candidate variables added to the classifier from round $(r-1)$; 5-fold CV for parameter tuning.
+              4. Estimate AUC on test data for each classifier from step 3.
+              5. Pick the best classifier based on step 4.
           </script>
         </section>
 
@@ -347,8 +335,20 @@ Example of an (empirical) ROC curve.
 
         <section data-markdown>
           <script type="text/template">
+            ### Logistic Regression
+
             ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape_GLM_only.png)
-            Accuracy of reported AUC values is improved, at the cost of slightly higher uncertainty in the reported AUC, and slightly worse predictive performance.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Logistic Regression
+
+            * __Naive approach__: Classifier learns the effect of local noise in the test data (overfitting).
+            * __Thresholdout approach__: The gap between the reported and the true AUC is much narrower!
+
+            ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape_GLM_only_small.png)
           </script>
         </section>
 
@@ -356,13 +356,6 @@ Example of an (empirical) ROC curve.
           <script type="text/template">
             ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape.png)
             Accuracy of reported AUC values is improved, at the cost of slightly higher uncertainty in the reported AUC, and slightly worse predictive performance.
-          </script>
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape.png)
-            The gap between the reported and the true AUC is much narrower! "Learn the effect of local noise in the data"
           </script>
         </section>
 

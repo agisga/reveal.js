@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Bioinnovation PhD Program – Prospectus - Alexej Gossmann</title>
+
+    <meta name="description" content="Bioinnovation PhD Program - PhD Prospectus Presentation">
+    <meta name="author" content="Alexej Gossmann">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Emoji support -->
+    <!-- See: https://afeld.github.io/emoji-css/ -->
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- MathJax macros (inline math delimiters, new commands, etc.), more configuration under Reveal.initialize below -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ["$","$"] ],
+          displayMath: [ ["$$","$$"] ],
+          processEscapes: true
+        },
+        TeX: {
+          equationNumbers: { autoNumber: "AMS" },
+          Macros: {
+            subscript: ['_{#1}', 1],
+            superscript: ['^{#1}', 1]
+          }
+        }
+      });
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h3>Regaining control of false findings in feature selection, classification, and prediction on neuroimaging and genomics data</h3>
+          <p>
+            <small>A PhD prospectus presentation for the Bioinnovation PhD Program at Tulane University.
+            </small>
+          </p>
+          <h4>Alexej Gossmann</h4>
+          <p>March 12, 2018</p>
+        </section>
+
+        <!-- Precision Medicine -->
+        <section>
+          <section>
+            <h2>Precision Medicine</h2>
+            <p>Inter-personal diversity in the patients' biology</p>
+            <p>⇾ differences in disease susceptibility/progression</p>
+            <p>⇾ differences in treatment efficacy</p>
+            <p>⇾ "personalized" treatment plans.</p>
+          </section>
+
+          <section>
+            <h2>Precision Medicine</h2>
+            <ul>
+              <li>New drugs and devices targeting specific subpopulations (or even individuals).</li>
+              <li>No more treatment based on trial-and-error.</li>
+              <li>↑ Quality of healthcare</li>
+              <li>↓ Treatment time and cost.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Precision Medicine</h2>
+            <p>Made possible by:
+            <ol>
+              <li>Big data including <b>genomics</b> and <b>neuroimaging</b>.</li>
+              <li>Computational methods including <b>machine learning</b> and <b>modern statistics</b>.</li>
+            </ol></p>
+          </section>
+
+          <section>
+            <h3>Precision Medicine & Mental Disorders</h3>
+            <img width="600" src="./img/20180312-Prospectus/endophenotype.png" alt="Relationship: Genomics - Brain MRI - Phenotype">
+            <p>Heritability of mental disorders. Neuroimaging as an endophenotype, e.g., use of fMRI to monitor & guide drug treatment [Weickert et al., 2004, Apud et al., 2007,Goldstein-Piekarski et al., 2016].</p>
+          </section>
+        </section>
+
+        <section>
+          <section data-background="#0f829d">
+            <small>From left to right: (1) gene region on a chromosome; (2) chemical structure of DNA; (3) transcription/translation of genes into ncRNA, mRNA, protein.</small>
+            <img width="380" src="./img/20180312-Prospectus/Chromosome_DNA_Gene.svg.png" alt="Gene region on a chromosome">
+            <img width="500" src="./img/20180312-Prospectus/DNA_chemical_structure_2.svg.png" alt="Chemical structure of genes">
+            <img width="390" src="./img/20180312-Prospectus/DNA_to_protein_or_ncRNA.svg.png" alt="Transcription and translation of genes">
+            <br>
+            <small>Source: Images by Thomas Shafee [<a href="http://creativecommons.org/licenses/by/4.0">CC BY 4.0</a>] via Wikimedia Commons.</small>
+          </section>
+
+          <section data-background="#0f829d">
+            <small>Functional magnetic resonance imaging (fMRI) measures brain activity by detecting changes associated with blood flow (hemodynamic response) related to energy use by brain cells. Structural MRI provides information about the anatomical structure of the brain.</small>
+            <img width="270" src="./img/20180312-Prospectus/Parasagittal_MRI_of_human_head_in_patient_with_benign_familial_macrocephaly_prior_to_brain_injury_(ANIMATED).gif" alt="Structural MRI animation">
+            <img width="270" src="./img/20180312-Prospectus/T1_raw.png" alt="Structural MRI from a randomly chosen PNC subject">
+            <img width="270" src="./img/20180312-Prospectus/processed_emoid_fMRI.png" alt="BOLD fMRI from a randomly chosen PNC subbject at a fixed time point">
+            <p><small>From left to right: (1) Animation by Dwayne Reed at English Wikipedia [<a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>] via <a href="https://commons.wikimedia.org/wiki/File%3AParasagittal_MRI_of_human_head_in_patient_with_benign_familial_macrocephaly_prior_to_brain_injury_(ANIMATED).gif">Wikimedia Commons.</a> (2) T1-weighted MRI of a randomly chosen subject from the Philadelphia Neurodevelopmental Cohort, before preprocessing, $192\times 256 \times 160$ voxels.(3) fMRI of the same subject at a fixed time point, after preprocessing, $79\times 95\times 79$ voxels measured at $>200$ time points.</small></p>
+          </section>
+        </section>
+
+        <section>
+          <section data-background="#003300">
+            <h3>Resources and collaborators</h3>
+            <ul>
+              <li>The Multiscale Bioimaging and Bioinformatics Laboratory (MBB) at Tulane University</li>
+              <li>Tulane Center for Bioinformatics and Genomics (CBG)</li>
+              <li>FDA, Office of Science and Engineering, Division of Imaging, Diagnostics, and Software Reliability</li>
+              <li>Other: The Mind Research Network, University of Wrocław, Indiana University Bloomington, University of Tennessee Health Science Center.</li>
+            </ul>
+          </section>
+
+          <section data-background="#003300">
+            <h2>Reproducible Research</h2>
+            <p>
+            Reproducibility = <i>re-performing the same analyses on the same data with the same code, while using a different data analyst</i> [Patil et al., 2016].
+            </p>
+            <ul>
+              <li>Usage of publicly accessible datasets only.</li>
+              <li>Publication of free & open-source software through established software repositories (CRAN, Bioconductor, PyPI, RubyGems, Github).</li>
+              <li>One-off analysis scripts deposited at Github.</li>
+              <li>Clear documentation of methods and analyses in peer-reviewed publications.</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <h2>Touch Optimized</h2>
+          <p>
+            Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
+          </p>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Markdown support
+
+            Write content using inline or external Markdown.
+            Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+
+            ```
+            <section data-markdown>
+              ## Markdown support
+
+              Write content using inline or external Markdown.
+              Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+            </section>
+            ```
+          </script>
+        </section>
+
+        <section>
+          <section id="fragments">
+            <h2>Fragments</h2>
+            <p>Hit the next arrow...</p>
+            <p class="fragment">... to step through ...</p>
+            <p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
+
+            <aside class="notes">
+              This slide has fragments which are also stepped through in the notes window.
+            </aside>
+          </section>
+          <section>
+            <h2>Fragment Styles</h2>
+            <p>There's different types of fragments, like:</p>
+            <p class="fragment grow">grow</p>
+            <p class="fragment shrink">shrink</p>
+            <p class="fragment fade-out">fade-out</p>
+            <p class="fragment fade-up">fade-up (also down, left and right!)</p>
+            <p class="fragment current-visible">current-visible</p>
+            <p>Highlight <span class="fragment highlight-red">red</span> <span class="fragment highlight-blue">blue</span> <span class="fragment highlight-green">green</span></p>
+          </section>
+        </section>
+
+        <section id="transitions">
+          <h2>Transition Styles</h2>
+          <p>
+            You can select from different transitions, like: <br>
+            <a href="?transition=none#/transitions">None</a> -
+            <a href="?transition=fade#/transitions">Fade</a> -
+            <a href="?transition=slide#/transitions">Slide</a> -
+            <a href="?transition=convex#/transitions">Convex</a> -
+            <a href="?transition=concave#/transitions">Concave</a> -
+            <a href="?transition=zoom#/transitions">Zoom</a>
+          </p>
+        </section>
+
+        <section id="themes">
+          <h2>Themes</h2>
+          <p>
+            reveal.js comes with a few themes built in: <br>
+            <!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
+            <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
+            <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
+            <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
+            <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
+            <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
+            <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
+            <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
+            <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
+            <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
+            <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
+            <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
+          </p>
+        </section>
+
+        <section>
+          <section data-background="#dddddd">
+            <h2>Slide Backgrounds</h2>
+            <p>
+              Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
+            </p>
+            <a href="#" class="navigate-down">
+              <img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
+            </a>
+          </section>
+          <section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
+            <h2>Image Backgrounds</h2>
+            <pre><code class="hljs">&lt;section data-background="image.png"&gt;</code></pre>
+          </section>
+          <section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
+            <h2>Tiled Backgrounds</h2>
+            <pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
+          </section>
+          <section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
+            <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
+              <h2>Video Backgrounds</h2>
+              <pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
+            </div>
+          </section>
+          <section data-background="http://i.giphy.com/90F8aUepslB84.gif">
+            <h2>... and GIFs!</h2>
+          </section>
+        </section>
+
+        <section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+          <h2>Background Transitions</h2>
+          <p>
+            Different background transitions are available via the backgroundTransition option. This one's called "zoom".
+          </p>
+          <pre><code class="hljs">Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
+        </section>
+
+        <section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
+          <h2>Background Transitions</h2>
+          <p>
+            You can override background transitions per-slide.
+          </p>
+          <pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
+        </section>
+
+        <section>
+          <h2>Pretty Code</h2>
+          <pre><code class="hljs" data-trim contenteditable>
+function linkify( selector ) {
+  if( supports3DTransforms ) {
+
+    var nodes = document.querySelectorAll( selector );
+
+    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
+      var node = nodes[i];
+
+      if( !node.className ) {
+        node.className += ' roll';
+      }
+    }
+  }
+}
+          </code></pre>
+          <p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
+        </section>
+
+        <section>
+          <h2>Marvelous List</h2>
+          <ul>
+            <li>No order here</li>
+            <li>Or here</li>
+            <li>Or here</li>
+            <li>Or here</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Fantastic Ordered List</h2>
+          <ol>
+            <li>One is smaller than...</li>
+            <li>Two is smaller than...</li>
+            <li>Three!</li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Tabular Tables</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Value</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Apples</td>
+                <td>$1</td>
+                <td>7</td>
+              </tr>
+              <tr>
+                <td>Lemonade</td>
+                <td>$2</td>
+                <td>18</td>
+              </tr>
+              <tr>
+                <td>Bread</td>
+                <td>$3</td>
+                <td>2</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h2>Clever Quotes</h2>
+          <p>
+            These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">The nice thing about standards is that there are so many to choose from</q> and block:
+          </p>
+          <blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+            &ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
+            reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
+          </blockquote>
+        </section>
+
+        <section>
+          <h2>Intergalactic Interconnections</h2>
+          <p>
+            You can link between slides internally,
+            <a href="#/2/3">like this</a>.
+          </p>
+        </section>
+
+        <section>
+          <h2>Speaker View</h2>
+          <p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
+          <p>Press the <em>S</em> key to try it out.</p>
+
+          <aside class="notes">
+            Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+          </aside>
+        </section>
+
+        <section>
+          <h2>Export to PDF</h2>
+          <p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
+          <iframe data-src="https://www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+        </section>
+
+        <section>
+          <h2>Global State</h2>
+          <p>
+            Set <code>data-state="something"</code> on a slide and <code>"something"</code>
+            will be added as a class to the document element when the slide is open. This lets you
+            apply broader style changes, like switching the page background.
+          </p>
+        </section>
+
+        <section data-state="customevent">
+          <h2>State Events</h2>
+          <p>
+            Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
+          </p>
+          <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
+Reveal.addEventListener( 'customevent', function() {
+  console.log( '"customevent" has fired' );
+} );
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Take a Moment</h2>
+          <p>
+            Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
+          </p>
+        </section>
+
+        <section>
+          <h2>Much more</h2>
+          <ul>
+            <li>Right-to-left support</li>
+            <li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
+            <li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
+            <li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
+            <li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
+          </ul>
+        </section>
+
+        <section style="text-align: left;">
+          <h1>THE END</h1>
+          <p>
+            - <a href="https://slides.com">Try the online editor</a> <br>
+            - <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
+          </p>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        // MathJax integration
+        math: {
+            mathjax: 'https://cdn.mathjax.org/mathjax/latest/MathJax.js',
+            config: 'TeX-AMS_HTML-full'
+        },
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/search/search.js', async: true },
+          // Zoom in and out with Alt+click
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          // Speaker notes
+          { src: 'plugin/notes/notes.js', async: true },
+          // MathJax
+          { src: 'plugin/math/math.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>

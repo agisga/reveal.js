@@ -77,9 +77,9 @@
           <section>
             <h2>Precision Medicine</h2>
             <p>Inter-personal diversity in the patients' biology</p>
-            <p>⇾ differences in disease susceptibility/progression</p>
-            <p>⇾ differences in treatment efficacy</p>
-            <p>⇾ "personalized" treatment plans.</p>
+            <p class="fragment fade-right">⇾ differences in disease susceptibility/progression</p>
+            <p class="fragment fade-right">⇾ differences in treatment efficacy</p>
+            <p class="fragment fade-right">⇾ "personalized" treatment plans.</p>
           </section>
 
           <section>
@@ -96,8 +96,8 @@
             <h2>Precision Medicine</h2>
             <p>Made possible by:
             <ol>
-              <li>Big data including <b>genomics</b> and <b>neuroimaging</b>.</li>
-              <li>Computational methods including <b>machine learning</b> and <b>modern statistics</b>.</li>
+              <li class="fragment highlight-green">Big data including <b>genomics</b> and <b>neuroimaging</b>.</li>
+              <li class="fragment highlight-red">Computational methods including <b>machine learning</b> and <b>modern statistics</b>.</li>
             </ol></p>
           </section>
 
@@ -138,25 +138,210 @@
             </ul>
           </section>
 
-          <section data-background="#003300">
-            <h2>Reproducible Research</h2>
-            <p>
-            Reproducibility = <i>re-performing the same analyses on the same data with the same code, while using a different data analyst</i> [Patil et al., 2016].
-            </p>
+          <section data-background="#003300" data-markdown>
+            <script type="text/template">
+            ## Reproducible Research
+
+            Reproducibility = *re-performing the same analyses on the same data with the same code, while using a different data analyst* [Patil et al., 2016].
             <ul>
-              <li>Usage of publicly accessible datasets only.</li>
-              <li>Publication of free & open-source software through established software repositories (CRAN, Bioconductor, PyPI, RubyGems, Github).</li>
-              <li>One-off analysis scripts deposited at Github.</li>
               <li>Clear documentation of methods and analyses in peer-reviewed publications.</li>
+              <li>Usage of publicly accessible datasets only.</li>
+              <li>Publication of free & open-source software (through [CRAN](https://cran.r-project.org/), [Bioconductor](https://www.bioconductor.org/), [PyPI](https://pypi.python.org/), [RubyGems](https://rubygems.org/), [Github](https://github.com/), etc.).</li>
+              <li>One-off analysis scripts deposited on [Github](https://github.com/).</li>
+              <li>Open access, [arXiv](https://arxiv.org/), [bioRxiv](https://www.biorxiv.org/), [Creative Commons](https://creativecommons.org/).</li>
             </ul>
+            </script>
           </section>
         </section>
 
+        <!-- 2 types of problems: feature selection and prediction -->
         <section>
-          <h2>Touch Optimized</h2>
-          <p>
-            Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
-          </p>
+          <section>
+            <h2>Regression Models</h2>
+            <p>
+            $$y = f(x\subscript{1}, x\subscript{2}, \ldots, x\subscript{p}) + \varepsilon,$$
+            where $x\subscript{1}, x\subscript{2}, \ldots, x\subscript{p}$ are predictor variables (DNA mutations, brain activations, age, gender, etc.), $\varepsilon$ is random noise, and $y$ is the phenotype.</p>
+            <p class="fragment fade-up">Human DNA $\approx 3\cdot 10^9$ bp ⇝ vast majority not related to phenotype of interest ⇝ sparse models
+            $$\Rightarrow y = f(x\subscript{a\subscript{1}}, x\subscript{a\subscript{2}}, \ldots, x\subscript{a\subscript{m}}) + \varepsilon,$$
+            where $\{a\subscript{1}, a\subscript{2}, \ldots, a\subscript{m}\} \subset \{1,2,\ldots,p\}$ is a small subset ($m \ll p$).</p>
+            <ul>
+            </ul>
+          </section>
+          <section>
+            <img width = 360 src="./img/20180312-Prospectus/sparsity.png" alt="The sparsity assumption in statistical modeling">
+          </section>
+          <section data-background="#220d48">
+            <h3>The two-faced model selection problem</h3>
+            <p style="text-align:left;">
+              <i class="em em-arrow_right"></i> <strong>Prediction:</strong>
+              <span style="float:right;">
+                <i class="em em-arrow_right"></i> <strong>Feature selection:</strong>
+              </span>
+            </p>
+            <p style="text-align:left;">
+              <i>Find best predictions for $y$.</i>
+              <span style="float:right;">
+                <i>Which $x\subscript{j}$ are predictive?</i>
+              </span>
+            </p>
+            <h3>Two types of false findings</h3>
+            <p style="text-align:left;">
+              <i class="em em-scream"></i> <strong>False positives.</strong>
+              <span style="float:right;">
+                <i class="em em-scream_cat"></i> <strong>False discoveries.</strong>
+              </span>
+            </p>
+            <p style="text-align:left;">
+              Overfitting.
+              <span style="float:right;">
+                Curse of dimensionality.
+              </span>
+            </p>
+          </section>
+        </section>
+
+        <!-- Feature selection background -->
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+### Feature selection in genomics and neuroimaging
+
+* Prediction of a disease phenotype based on a handful of features is needed for inexpensive diagnosis.
+* Elimination of noisy or redundant features leads to more accurate prediction.
+* "Data-generated hypotheses" lead to a better understanding of the underlying biology.
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+### Sparse regression
+
+$$\hat{\boldsymbol{\beta}} = \arg\min\subscript{\mathbf{b}\in\mathbb{R}^p} \frac{1}{2} \lVert\mathbf{y} - X\mathbf{b}\rVert\subscript{2}^2 + \lambda\lVert\mathbf{b}\rVert\subscript{1}$$
+
+* Yields a sparse $\hat{\boldsymbol{\beta}}$.
+* Computationally efficient and very useful in practice.
+* Problem 1: how sparse should $\hat{\boldsymbol{\beta}}$ be? (controlled by setting $\lambda$).
+* Problem 2: how to do statistical inference on $\hat{\boldsymbol{\beta}}$?
+            </script>
+          </section>
+          <section>
+            <h3>Multiple hypotheses testing</h3>
+              <p>
+              Alternatively, feature selection can be regarded as testing the $p$ hypotheses
+              $$H\subscript{i} : \beta\subscript{i} = 0, \quad i = 1,\ldots,p.$$
+              </p>
+              <ul>
+                <li> $R := $ number of rejected hypotheses</li>
+                <li>$V := $ number of false rejections (i.e., Type I errors).</li>
+                <li> <strong>Family-wise error rate:</strong> $\mathrm{FWER} = \mathbb{P}(V \geq 1)$. E.g., Bonferroni, Holm (1979), Hommel (1988).</li>
+                <li> <strong>False discovery rate:</strong> $\mathrm{FDR} = \mathbb{E}\left( \frac{V}{\min\{R, 1\}} \right)$.  E.g., Benjamini-Hochberg (1995), Benjamini-Yukutieli (2001).</li>
+              </ul>
+          </section>
+        </section>
+
+        <!-- SLOPE and Group SLOPE -->
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+#### Sorted L-One Penalized Estimation (SLOPE, Bogdan et. al., Annals Appl Stat, 2015)
+
+$$\hat{\boldsymbol{\beta}}\subscript{\mathrm{SLOPE}} = \mathrm{argmin}\subscript{\mathbf{b}\in\mathbb{R}^p} \frac{1}{2} \lVert \mathbf{y} - X\mathbf{b}\rVert\subscript{2}^2 + \sum\subscript{i=1}^p \lambda\subscript{i} |\mathbf{b}|\subscript{(i)},$$
+
+where $\lambda\subscript{1} \geq \lambda\subscript{2} \geq \ldots \geq \lambda\subscript{p} \geq 0$; and $|b|\subscript{(1)} \geq |b|\subscript{(2)} \geq \ldots \geq |b|\subscript{(p)}$ denotes the order statistic of the magnitudes of the vector $\mathbf{b}\in\mathbb{R}^p$.
+
+$\leadsto$ Given $q\in(0,1)$, there is a procedure to choose $\boldsymbol{\lambda}$ s.t. $\mathrm{FDR}(\hat{\boldsymbol{\beta}}\subscript{\mathrm{SLOPE}}) \leq q$ is guaranteed,
+*...if the explanatory variables have very small pair-wise correlations*.
+            </script>
+          </section>
+          <section>
+            <h2>Group SLOPE Motivation</h2>
+            <ul>
+              <li>Divide the data into groups by correlation.</li>
+              <li>Then select/drop entire groups rather than individual variables.</li>
+              <li>Redefine FDR w.r.t. groups: <strong>gFDR</strong>.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Group SLOPE</h2>
+            <p>
+            <ul>
+              <li>$\mathbf{y} = X\boldsymbol{\beta} + \boldsymbol{\varepsilon}$, $X\in\mathbb{R}^{n\times p}$, $\boldsymbol{\beta}\in\mathbb{R}^p$, $\boldsymbol{\varepsilon}\sim\mathrm{N}(0, \sigma\subscript{\varepsilon}^2 I)$.</li>
+              <li>$\boldsymbol{\beta}$ divided into $J$ groups of sizes $p_1, p_2, \cdots, p_J$, i.e. $\boldsymbol{\beta} = (\boldsymbol{\beta}_1^T, \boldsymbol{\beta}_2^T, \ldots, \boldsymbol{\beta}_J^T)^T$ with $\boldsymbol{\beta}_i \in \mathbb{R}^{p_i}$.</li>
+            </ul>
+            </p>
+            <p class="fragment fade-down"><i class="em em-arrow_down"></i>
+            $$\min\subscript{\mathbf{b}\in\mathbb{R}^p} \frac{1}{2} \left\lVert\mathbf{y} - X\mathbf{b}\right\rVert\subscript{2}^2 + \sum\subscript{i=1}^J \lambda\subscript{i} \sqrt{p\subscript{(i)}}\left\lVert X\subscript{(i)} \mathbf{b}\subscript{(i)}\right\rVert\subscript{2},$$
+            where $\sqrt{p\subscript{(1)}}\left\lVert  X\subscript{(1)} \mathbf{b}\subscript{(1)} \right\rVert\subscript{2} \geq \sqrt{p\subscript{(2)}}\left\lVert  X\subscript{(2)} \mathbf{b}\subscript{(2)} \right\rVert\subscript{2} \geq \ldots$</p>
+          </section>
+          <section>
+            <h3>Group SLOPE - Theoretical results</h3>
+            <ul>
+              <li>Given a user-specified $q \in (0, 1)$, we provide several procedures to select $\boldsymbol{\lambda}$, such that
+$$\mathrm{gFDR} \leq q,$$
+[Gossmann et. al., 2015], [Brzyski, Gossmann, et. al., 2018] and [Gossmann et. al., 2018].<br>
+<span class="fragment"><i class="em em-arrow_right"></i> Confirmed with extensive simulation studies on synthetic and real data (not shown).</span></li>
+              <li class="fragment">Optimality in estimation (asymptotically minimax [Brzyski, Gossmann et. al., 2018]).</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Application - Framingham Cohort</h3>
+            <ul>
+              <li>SNP data for 8915 subjects.</li>
+              <li>1771 subjects have corresponding spine BMD measurements.</li>
+              <li>The remaining ~7000 subjects used to group SNPs.</li>
+            </ul>
+            <p class="fragment fade-right"><i class="em em-arrow_right"></i> $X$ with dimensions $1771 \times 117933$, consisting of 6403 groups of average size 18.42 (median size 2).</p>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+### Group SLOPE results
+
+* 40 SNPs were selected by Group SLOPE with target gFDR $q = 0.1$, and mapped to nearby genes.
+* 15 genes reported in previous studies:
+  - BMD (SMOC1, RPS6KA5, FGFR2, GAA, SCN1A, RAB5A, SOX1, and A2BP1),
+  - osteoarthritis (A2BP1, ADAM12, MATN1),
+  - lumbar disc herniation (KIAA1217),
+  - osteopetrosis (VAV3),
+  - biology of osteoclasts, osteoblasts and osteogenesis (VAV3, SLC7A7, ADAM12, PPARD, FGFR2, PTPRU, SMOC1).
+            </script>
+          </section>
+        </section>
+
+        <!-- CCA Background -->
+        <section>
+          <section>
+            <h3>Canonical Correlation Analysis</h3>
+            <img width=960 src="./img/20180312-Prospectus/SCCA.png" alt="(Sparse) Canonical Correlation Analysis">
+          </section>
+          <section>
+            <h3>Classical canonical correlation analysis</h3>
+            <p>$$\mathrm{maximize}\subscript{u\in\mathbb{R}^p, v\in\mathbb{R}^q} \widehat{\mathrm{Cov}}(Xu, Yv) = \frac{1}{n} u^T X^T Y v,$$
+            $$\mathrm{subject\,to} \quad \widehat{\mathrm{Var}}(Xu) = 1, \widehat{\mathrm{Var}}(Yv) = 1.$$
+            [Hotelling, 1936]</p>
+            <p class="fragment grow">The problem is degenerate if $n \leq \mathrm{max}\left( p, q \right)$.</p>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+### Sparse CCA (SCCA)
+
+* Regularization to achive sparsity (e.g., $\ell_1$-norm).
+* Unique solution even when $p_X, p_Y \gg n$.
+* Witten et. al. (2009):
+$$
+\begin{eqnarray}
+&\mathrm{maximize}\subscript{u\in\mathbb{R}^p, v\in\mathbb{R}^q} \frac{1}{n} u^T X^T Y v, \nonumber \\\\
+&\mathrm{subject\,to} \quad \lVert u \rVert_2^2 \leq 1, \lVert v \rVert_2^2 \leq 1, \lVert u \rVert_1 \leq c_1, \lVert v \rVert_1 \leq c_2. \nonumber
+\end{eqnarray}
+$$
+* _Selection of the sparsity parameters remains a challenging problem_ (cross-validation, AIC, permutation-based).
+* Higher-order pairs of canonical vectors can be found by applying SCCA to a residual matrix ($X^T Y - d u v^T$).
+            </script>
+          </section>
+        </section>
+
+        <!-- SlopeCCA and gSlopeCCA -->
+        <section>
+          <section>
+          </section>
         </section>
 
         <section data-markdown>

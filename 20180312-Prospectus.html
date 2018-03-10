@@ -319,22 +319,43 @@ $$\mathrm{gFDR} \leq q,$$
             [Hotelling, 1936]</p>
             <p class="fragment grow">The problem is degenerate if $n \leq \mathrm{max}\left( p, q \right)$.</p>
           </section>
+          <section>
+            <h3>Sparse CCA</h3>
+            <p>$\mathrm{maximize}\subscript{\mathbf{u}\in\mathbb{R}^p, \mathbf{v}\in\mathbb{R}^q} \frac{1}{n} \mathbf{u}^T X^T Y \mathbf{v},$</p>
+            <p>subject to</p>
+            <p>$\lVert \mathbf{u} \rVert_2^2 \leq 1, \lVert \mathbf{v} \rVert_2^2 \leq 1, \lVert \mathbf{u} \rVert_1 \leq c_1, \lVert \mathbf{v} \rVert_1 \leq c_2$.</p>
+            <p>[Witten et. al., 2009], [Parkhomenko et. al., 2009]</p>
+            <ul>
+              <li>Unique solution even when $p_X, p_Y \gg n$.</li>
+              <li class="fragment grow">Selection of the sparsity parameters remains a challenging problem.</li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- Sparse CCA with FDR control -->
+        <section>
+          <section>
+            <h3>Sparse CCA</h3>
+            <p><i class="em em-arrow_right"></i> Select sparsity parameters in a data-driven fashion, such that FDR is controlled.</p>
+          </section>
           <section data-markdown>
             <script type="text/template">
-### Sparse CCA (SCCA)
+### Defining FDR for sparse CCA
 
-* Regularization to achive sparsity (e.g., $\ell_1$-norm).
-* Unique solution even when $p_X, p_Y \gg n$.
-* Witten et. al. (2009):
-$$
-\begin{eqnarray}
-&\mathrm{maximize}\subscript{u\in\mathbb{R}^p, v\in\mathbb{R}^q} \frac{1}{n} u^T X^T Y v, \nonumber \\\\
-&\mathrm{subject\,to} \quad \lVert u \rVert_2^2 \leq 1, \lVert v \rVert_2^2 \leq 1, \lVert u \rVert_1 \leq c_1, \lVert v \rVert_1 \leq c_2. \nonumber
-\end{eqnarray}
-$$
-* _Selection of the sparsity parameters remains a challenging problem_ (cross-validation, AIC, permutation-based).
-* Higher-order pairs of canonical vectors can be found by applying SCCA to a residual matrix ($X^T Y - d u v^T$).
+* Consider FDR in $\mathbf{u}$ and in $\mathbf{v}$ separately.
+* Consider hypotheses tests $H_i : u_i = 0$.
+* The null hypothesis $H_i$ is true if the $i$th feature in $X$ is uncorrelated with all features in $Y$, i.e., if
+$$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} = 0.$$
+* Let $R\subscript{\hat{\mathbf{u}}}$ be the number of the rejected $H_i$, and $V\subscript{\hat{\mathbf{u}}}$ the number of false rejections (i.e., when $\hat{u}_i \neq 0$ but $\rho^{XY}\subscript{i, j} = 0$ for all $j$).
+<p><i class="em em-arrow_right"></i> Define: $\mathrm{FDR}(\hat{\mathbf{u}}) := \mathbb{E}\left( \frac{V\subscript{\hat{\mathbf{u}}}}{\max\left\\{ R\subscript{\hat{\mathbf{u}}}, 1 \right\\}} \right).$</p>
             </script>
+          </section>
+          <section>
+            <img width="500" src="./img/20180312-Prospectus/CCA_FD_def.png" alt="Illustration of the false discovery concept for sparse CCA">
+            <small>
+            <p>⇾ False discovery proportions: FDP(u) = 1/3 and FDP(v) = 1/4.</p>
+            <p>⇾ FDR = E(FDP).</p>
+            </small>
           </section>
         </section>
 

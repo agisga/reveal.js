@@ -74,6 +74,11 @@
           </p>
           <h4>Alexej Gossmann</h4>
           <p>March 12, 2018</p>
+          <aside class="notes">
+            <p>I will present to you my ongoing work on machine learning methodology for neuroimaging genomics.</p>
+            <p>I won't have the time to go much into detail, since I have many projects to discuss.
+            But I will be happy to answer any questions you have after the talk.</p>
+          </aside>
         </section>
 
         <!-- Precision Medicine -->
@@ -104,14 +109,9 @@
               <li class="fragment highlight-red">Computational methods including <b>machine learning</b> and <b>modern statistics</b>.</li>
             </ol>
           </section>
-
-          <section>
-            <h3>Precision Medicine & Mental Disorders</h3>
-            <img width="600" src="./img/20180312-Prospectus/endophenotype.png" alt="Relationship: Genomics - Brain MRI - Phenotype">
-            <p>Heritability of mental disorders. Neuroimaging as an endophenotype, e.g., use of fMRI to monitor & guide drug treatment [Weickert et al., 2004, Apud et al., 2007,Goldstein-Piekarski et al., 2016].</p>
-          </section>
         </section>
 
+        <!-- Review of genomics and neuroimaging -->
         <section>
           <section data-background="#0f829d">
             <small>From left to right: (1) gene region on a chromosome; (2) chemical structure of DNA; (3) transcription/translation of genes into ncRNA, mRNA, protein.</small>
@@ -120,29 +120,60 @@
             <img width="390" src="./img/20180312-Prospectus/DNA_to_protein_or_ncRNA.svg.png" alt="Transcription and translation of genes">
             <br>
             <small>Source: Images by Thomas Shafee [<a href="http://creativecommons.org/licenses/by/4.0">CC BY 4.0</a>] via Wikimedia Commons.</small>
-          </section>
 
+            <aside class="notes">
+              <p>First let me give you some background on where genomic and neuroimagning data comes from.
+              A gene is a section of DNA.
+              DNA is physically encoded in four molecules (nucleobases).
+              Genes encode proteins or non-coding RNA, which have a biological function.
+              Genomic data includes information on the structure of the DNA, and amount of protein produced.
+            </aside>
+          </section>
           <section data-background="#0f829d">
-            <small>Functional magnetic resonance imaging (fMRI) measures brain activity by detecting changes associated with blood flow (hemodynamic response) related to energy use by brain cells. Structural MRI provides information about the anatomical structure of the brain.</small>
+            <ul>
+              <li>Structural MRI: anatomical structure of the brain.</li>
+              <li>Functional MRI: brain activity associated with blood flow related to energy use by brain cells.</li>
+            </ul>
             <img width="270" src="./img/20180312-Prospectus/Parasagittal_MRI_of_human_head_in_patient_with_benign_familial_macrocephaly_prior_to_brain_injury_(ANIMATED).gif" alt="Structural MRI animation">
             <img width="270" src="./img/20180312-Prospectus/T1_raw.png" alt="Structural MRI from a randomly chosen PNC subject">
             <img width="270" src="./img/20180312-Prospectus/processed_emoid_fMRI.png" alt="BOLD fMRI from a randomly chosen PNC subbject at a fixed time point">
-            <p><small>From left to right: (1) Animation by Dwayne Reed at English Wikipedia [<a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>] via <a href="https://commons.wikimedia.org/wiki/File%3AParasagittal_MRI_of_human_head_in_patient_with_benign_familial_macrocephaly_prior_to_brain_injury_(ANIMATED).gif">Wikimedia Commons.</a> (2) T1-weighted MRI of a randomly chosen subject from the Philadelphia Neurodevelopmental Cohort, before preprocessing, $192\times 256 \times 160$ voxels.(3) fMRI of the same subject at a fixed time point, after preprocessing, $79\times 95\times 79$ voxels measured at $>200$ time points.</small></p>
+            <small>
+            <ul>
+              <li>Animation by Dwayne Reed at English Wikipedia [<a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>] via <a href="https://commons.wikimedia.org/wiki/File%3AParasagittal_MRI_of_human_head_in_patient_with_benign_familial_macrocephaly_prior_to_brain_injury_(ANIMATED).gif">Wikimedia Commons.</a></li>
+              <li>
+                A randomly chosen subject from the Philadelphia Neurodevelopmental Cohort:
+                <ul>
+                  <li>T1-weighted MRI before preprocessing ($192\times 256 \times 160$ voxels).</li>
+                  <li>fMRI after preprocessing ($79\times 95\times 79$ voxels at $>200$ time points).</li>
+                </ul>
+              </li>
+            </ul>
+            </small>
+            <aside class="notes">
+              <p>These are some MRIs of the human brain.</p>
+              <p>They either supply us with anatomical structure, or brain activity over time.</p>
+              <p>I mostly use fMRI data which gives you brain activity measures in brain voxels, which are 3d pixels, at discrete points in time.</p>
+            </aside>
+          </section>
+          <section>
+            <h3>Precision Med. & Mental Disorders</h3>
+            <img width="600" src="./img/20180312-Prospectus/endophenotype.png" alt="Relationship: Genomics - Brain MRI - Phenotype">
+            <ul>
+              <li>Neuroimaging as an endophenotype.<sup>[1-2]</sup></li>
+              <li>Use of fMRI to monitor & guide drug treatment.<sup>[3-5]</sup></li>
+            </ul>
+            <br><br>
+            <p><small>[1]: Hashimoto et. al., 2015, [2]: Poline et. al., 2015, [3]: Weickert et al., 2004, [4]: Apud et al., 2007, [5]: Goldstein-Piekarski et al., 2016.</small></p>
+            <aside class="notes">
+              <p>Mental disorders are known to be heritable, but it has proven to be very difficult to identify the causal genes of these complex diseases.
+              Measures of brain function and structure, as an intermediate phenotype between genomics and clinical traits or behavioral measures, are more powerful in the identification of genomic associations, and in the interpretation of the function of the identified genes
+              (because gene expression directly affects cellular metabolism, which directly influences the neural circuity).</p>
+            </aside>
           </section>
         </section>
 
         <section>
-          <section data-background="#003300">
-            <h3>Resources and collaborators</h3>
-            <ul>
-              <li>The Multiscale Bioimaging and Bioinformatics Laboratory (MBB) at Tulane University</li>
-              <li>Tulane Center for Bioinformatics and Genomics (CBG)</li>
-              <li>FDA, Office of Science and Engineering, Division of Imaging, Diagnostics, and Software Reliability</li>
-              <li>Other: The Mind Research Network, University of Wrocław, Indiana University Bloomington, University of Tennessee Health Science Center.</li>
-            </ul>
-          </section>
-
-          <section data-background="#003300" data-markdown>
+          <section data-markdown>
             <script type="text/template">
             ## Reproducible Research
 
@@ -154,38 +185,36 @@
               <li>One-off analysis scripts deposited on [Github](https://github.com/).</li>
               <li>Open access, [arXiv](https://arxiv.org/), [bioRxiv](https://www.biorxiv.org/), [Creative Commons](https://creativecommons.org/).</li>
             </ul>
+            <aside class="notes">
+            <p>Throughout my work I focus on the reproducibility of my research,
+            which means that a different data analyst should be able to obtain the same data, the same code,
+            and a clear description of the performed analysis steps, in order to reproduce my results.<p>
+            <p>In addition, some of my methods are generally applicable, and I make them available to the broad research community
+            as well-documented, free & open-source software, for example through the Comprehensive R Archive Network.</p>
+            </aside>
             </script>
-          </section>
-        </section>
-
-        <section>
-          <section data-background="#093748">
-            <p><strong>Parts of this work apear in:</strong></p>
-            <ol>
-              <li><strong>G.A.</strong>, Cao, S., &amp; Wang, Y.-P. In proceedings of ACM BCB '15. 2015.</li>
-              <li><strong>G.A.</strong>, Cao, S., Brzyski, D., Zhao, L. J., Deng, H. W., &amp; Wang, Y. P. IEEE/ACM TCBB. 2017.</li>
-              <li>Brzyski, D., <strong>G.A.</strong>, Su, W., &amp; Bogdan, M. JASA. 2018.</li>
-              <li><strong>G.A.</strong>, Zille, P., Calhoun, V., &amp; Wang, Y.-P. IEEE TMI. 2018.</li>
-              <li><strong>G.A.</strong>, Pezeshk, A., &amp; Sahiner, B. In proceedings of SPIE Medical Imaging '18. 2018.</li>
-            </ol>
           </section>
         </section>
 
         <!-- 2 types of problems: feature selection and prediction -->
         <section>
           <section>
-            <h2>Regression Models</h2>
+            <h2>Models</h2>
             <p>
             $$y = f(x\subscript{1}, x\subscript{2}, \ldots, x\subscript{p}) + \varepsilon,$$
-            where $x\subscript{1}, x\subscript{2}, \ldots, x\subscript{p}$ are predictor variables (DNA mutations, brain activations, age, gender, etc.), $\varepsilon$ is random noise, and $y$ is the phenotype.</p>
-            <p class="fragment fade-up">Human DNA $\approx 3\cdot 10^9$ bp ⇝ vast majority not related to phenotype of interest ⇝ sparse models
+            where $x\subscript{1}, x\subscript{2}, \ldots, x\subscript{p}$ are predictor variables, $\varepsilon$ is random noise, and $y$ is the phenotype.</p>
+            <p class="fragment fade-up">Human DNA $\approx 3\cdot 10^9$ base pairs ⇝ vast majority not related to phenotype of interest ⇝ sparse models
             $$\Rightarrow y = f(x\subscript{a\subscript{1}}, x\subscript{a\subscript{2}}, \ldots, x\subscript{a\subscript{m}}) + \varepsilon,$$
             where $\{a\subscript{1}, a\subscript{2}, \ldots, a\subscript{m}\} \subset \{1,2,\ldots,p\}$ is a small subset ($m \ll p$).</p>
+            <aside class="notes">
+              <p>Before I get into the details let me give some brief background on statistical methods.</p>
+              <p>A statistical model is essentially a randomized function that maps a set of predictor variables to an outcome variables.</p>
+            </aside>
           </section>
           <section>
             <img width = 360 src="./img/20180312-Prospectus/sparsity.png" alt="The sparsity assumption in statistical modeling">
           </section>
-          <section data-background="#220d48">
+          <section>
             <h3>The two-faced model selection problem</h3>
             <p style="text-align:left;">
               <i class="em em-arrow_right"></i> <strong>Prediction:</strong>
@@ -213,59 +242,104 @@
               </span>
             </p>
           </section>
+          <section>
+            <h2>Aims</h2>
+            <p>Establish <strong>guarantees</strong> on...</p>
+            <ul>
+              <li>false discoveries in feature selection,</li>
+              <li>false predictions on new data (generalization)</li>
+            </ul>
+            <p>...for types of methods commonly used in the analysis of genomic and neuroimaging data.</p>
+          </section>
+        </section>
+
+        <section>
+          <section data-background="#003300">
+            <h3>Resources and collaborators</h3>
+            <ul>
+              <li class="fragment">The Multiscale Bioimaging and Bioinformatics Laboratory (MBB) at Tulane University.</li>
+              <li class="fragment">Tulane Center for Bioinformatics and Genomics (CBG).</li>
+              <li class="fragment">FDA, Office of Science and Engineering, Division of Imaging, Diagnostics, and Software Reliability.</li>
+              <li class="fragment">Other: The Mind Research Network, University of Wrocław, Indiana University Bloomington, University of Tennessee Health Science Center.</li>
+            </ul>
+            <aside class="notes">
+              <p>At this point I would like to acknowledge my collaborators at Tulane at beyond...</p>
+              <p>Most importantly Dr. Yu-Ping Wang's MBB lab at Tulane.</p>
+            </aside>
+          </section>
         </section>
 
         <!-- Feature selection background -->
         <section>
-          <section data-markdown>
-            <script type="text/template">
-### Feature selection in genomics and neuroimaging
-
-* Prediction of a disease phenotype based on a handful of features is needed for inexpensive diagnosis.
-* Elimination of noisy or redundant features leads to more accurate prediction.
-* "Data-generated hypotheses" lead to a better understanding of the underlying biology.
-            </script>
-          </section>
-          <section data-markdown>
-            <script type="text/template">
-### Sparse regression
-
-$$\hat{\boldsymbol{\beta}} = \arg\min\subscript{\mathbf{b}\in\mathbb{R}^p} \frac{1}{2} \lVert\mathbf{y} - X\mathbf{b}\rVert\subscript{2}^2 + \lambda\lVert\mathbf{b}\rVert\subscript{1}$$
-
-* Yields a sparse $\hat{\boldsymbol{\beta}}$.
-* Computationally efficient and very useful in practice.
-* Problem 1: how sparse should $\hat{\boldsymbol{\beta}}$ be? (controlled by setting $\lambda$).
-* Problem 2: how to do statistical inference on $\hat{\boldsymbol{\beta}}$?
-            </script>
+          <section>
+            <h3>Feature selection in genomics and neuroimaging</h3>
+            <ul>
+              <li>Prediction of a phenotype based on few features.
+                <br><span class="fragment">↳ Inexpensive diagnosis.</span>
+              </li>
+              <li>Elimination of noisy or redundant features.
+                <br><span class="fragment">↳ More accurate prediction.</span>
+              </li>
+              <li>Data-generated hypotheses.
+                <br><span class="fragment">↳ Biological insights.</span>
+              </li>
+            </ul>
+            <aside class="notes">
+              <p>First I will focus on the feature selection problem, and later I will talk about the prediction problem.</p>
+            </aside>
           </section>
           <section>
             <h3>Multiple hypotheses testing</h3>
               <p>
-              Alternatively, feature selection can be regarded as testing the $p$ hypotheses
+              <strong>Feature selection</strong> as testing of hypotheses:
               $$H\subscript{i} : \beta\subscript{i} = 0, \quad i = 1,\ldots,p.$$
               </p>
               <ul>
-                <li> $R := $ number of rejected hypotheses</li>
+                <li>$\beta\subscript{i} := $ effect of $i$th feature.</li>
+                <li>$R := $ number of rejected hypotheses.</li>
                 <li>$V := $ number of false rejections (i.e., Type I errors).</li>
-                <li> <strong>Family-wise error rate:</strong> $\mathrm{FWER} = \mathbb{P}(V \geq 1)$. E.g., Bonferroni, Holm (1979), Hommel (1988).</li>
-                <li> <strong>False discovery rate:</strong> $\mathrm{FDR} = \mathbb{E}\left( \frac{V}{\min\{R, 1\}} \right)$.  E.g., Benjamini-Hochberg (1995), Benjamini-Yukutieli (2001).</li>
+                <li class="fragment highlight-green"><strong>Family-wise error rate:</strong> $\mathrm{FWER} = \mathbb{P}(V \geq 1)$.<sup>(*)</sup></li>
+                <li class="fragment highlight-green"><strong>False discovery rate:</strong> $\mathrm{FDR} = \mathbb{E}\left( \frac{V}{\min\{R, 1\}} \right)$.<sup>(**)</sup></li>
               </ul>
+              <br><br>
+              <p><small>
+                (*): E.g., Bonferroni, Holm (1979), Hommel (1988).
+                <br>
+                (**): E.g., Benjamini-Hochberg (1995), Benjamini-Yukutieli (2001).
+              </small></p>
+              <aside class="notes">
+                <p>By design the FDR or FWER will be controlled.
+                E.g, GWAS.</p>
+                <p>But: Like trying to understand a sentence by analysing each letter separately, one at a time.</p>
+              </aside>
+          </section>
+          <section>
+            <h3>Sparse regression</h3>
+            <p>$$\hat{\boldsymbol{\beta}} = \arg\min\subscript{\mathbf{b}\in\mathbb{R}^p} \frac{1}{2} \lVert\mathbf{y} - X\mathbf{b}\rVert\subscript{2}^2 + \lambda\lVert\mathbf{b}\rVert\subscript{1}.$$</p>
+            <ul>
+              <li>Yields a sparse solution $\hat{\boldsymbol{\beta}}$.</li>
+              <li>Computationally efficient (convex).</li>
+              <li>Very useful in practice.</li>
+              <li class="fragment highlight-green"><strong>Problem:</strong> how sparse should $\hat{\boldsymbol{\beta}}$ be?</li>
+              <li class="fragment highlight-green"><strong>Problem:</strong> how to do statistical inference on $\hat{\boldsymbol{\beta}}$?</li>
+            </ul>
+            <aside class="notes">
+              <p>All features are analysed jointly (possible to include interaction effects, non-linear effects).</p>
+              <p>Feature selection and prediction is performed simultaneously.</p>
+              <p>A subset of significant features is selected from the whole set of features <i>in one step</i>, rather than "one letter at a time".</p>
+              <p>Cannot control for the error rates mentioned on the last slide.</p>
+            </aside>
           </section>
         </section>
 
         <!-- SLOPE and Group SLOPE -->
         <section>
-          <section data-markdown>
-            <script type="text/template">
-#### Sorted L-One Penalized Estimation (SLOPE, Bogdan et. al., Annals Appl Stat, 2015)
-
-$$\hat{\boldsymbol{\beta}}\subscript{\mathrm{SLOPE}} = \mathrm{argmin}\subscript{\mathbf{b}\in\mathbb{R}^p} \frac{1}{2} \lVert \mathbf{y} - X\mathbf{b}\rVert\subscript{2}^2 + \sum\subscript{i=1}^p \lambda\subscript{i} |\mathbf{b}|\subscript{(i)},$$
-
-where $\lambda\subscript{1} \geq \lambda\subscript{2} \geq \ldots \geq \lambda\subscript{p} \geq 0$; and $|b|\subscript{(1)} \geq |b|\subscript{(2)} \geq \ldots \geq |b|\subscript{(p)}$ denotes the order statistic of the magnitudes of the vector $\mathbf{b}\in\mathbb{R}^p$.
-
-$\leadsto$ Given $q\in(0,1)$, there is a procedure to choose $\boldsymbol{\lambda}$ s.t. $\mathrm{FDR}(\hat{\boldsymbol{\beta}}\subscript{\mathrm{SLOPE}}) \leq q$ is guaranteed,
-*...if the explanatory variables have very small pair-wise correlations*.
-            </script>
+          <section>
+            <h4>Sorted L-One Penalized Estimation<sup>[1]</sup></h4>
+            <p>$\hat{\boldsymbol{\beta}}\subscript{\mathrm{SLOPE}} = \mathrm{argmin}\subscript{\mathbf{b}\in\mathbb{R}^p} \frac{1}{2} \lVert \mathbf{y} - X\mathbf{b}\rVert\subscript{2}^2 + \sum\subscript{i=1}^p \lambda\subscript{i} |\mathbf{b}|\subscript{(i)},$</p>
+            <p>where $\lambda\subscript{1} \geq \lambda\subscript{2} \geq \ldots \geq \lambda\subscript{p} \geq 0$; and $|b|\subscript{(1)} \geq |b|\subscript{(2)} \geq \ldots \geq |b|\subscript{(p)}$ denotes the order statistic of the magnitudes of the vector $\mathbf{b}\in\mathbb{R}^p$.</p>
+            <p class="fragment fade-right"><i class="em em-arrow_right"></i> Given $q\in(0,1)$, there is a procedure to choose $\boldsymbol{\lambda}$ s.t. $\mathrm{FDR}(\hat{\boldsymbol{\beta}}\subscript{\mathrm{SLOPE}}) \leq q$ is guaranteed. <i class="fragment">...if the explanatory variables have very small pair-wise correlations.</i></p>
+            <p><small>[1]: Bogdan et. al., Annals Appl Stat, 2015.</small></p>
           </section>
           <section>
             <h2>Group SLOPE Motivation</h2>
@@ -288,12 +362,19 @@ $\leadsto$ Given $q\in(0,1)$, there is a procedure to choose $\boldsymbol{\lambd
           <section>
             <h3>Group SLOPE - Theoretical guarantees</h3>
             <ul>
-              <li>Given a user-specified $q \in (0, 1)$, we provide several procedures to select $\boldsymbol{\lambda}$, such that
-$$\mathrm{gFDR} \leq q,$$
-[Gossmann et. al., 2015], [Brzyski, Gossmann, et. al., 2018] and [Gossmann et. al., 2018].<br>
-<span class="fragment"><i class="em em-arrow_right"></i> Confirmed with extensive simulation studies on synthetic and real data (not shown).</span></li>
-              <li class="fragment">Optimality in estimation (asymptotically minimax [Brzyski, Gossmann et. al., 2018]).</li>
+              <li>Given a user-specified $q \in (0, 1)$,
+                we show how to construct $\boldsymbol{\lambda}$,
+                such that $\mathrm{gFDR} \leq q$.<sup>[1-3]</sup>
+                <br>
+                <span class="fragment"><i class="em em-arrow_right"></i> Confirmed with extensive simulation studies on synthetic and real data.<sup>[1-3]</sup></span>
+              </li>
+              <li class="fragment">Asymptotically minimax estimation.<sup>[2]</sup></li>
             </ul>
+            <br>
+            <br>
+            <p><small>
+              [1]: Gossmann et. al., 2015. [2]: Brzyski, Gossmann, et. al., 2018. [3]: Gossmann et. al., 2018.
+            </small></p>
           </section>
           <section>
             <h3>Application - Framingham Cohort</h3>
@@ -333,15 +414,16 @@ $$\mathrm{gFDR} \leq q,$$
             <p class="fragment grow">The problem is degenerate if $n \leq \mathrm{max}\left( p, q \right)$.</p>
           </section>
           <section>
-            <h3>Sparse CCA</h3>
+            <h3>Sparse CCA<sup>[1-2]</sup></h3>
             <p>$\mathrm{maximize}\subscript{\mathbf{u}\in\mathbb{R}^p, \mathbf{v}\in\mathbb{R}^q} \frac{1}{n} \mathbf{u}^T X^T Y \mathbf{v},$</p>
             <p>subject to</p>
             <p>$\lVert \mathbf{u} \rVert_2^2 \leq 1, \lVert \mathbf{v} \rVert_2^2 \leq 1, \lVert \mathbf{u} \rVert_1 \leq c_1, \lVert \mathbf{v} \rVert_1 \leq c_2$.</p>
-            <p>[Witten et. al., 2009], [Parkhomenko et. al., 2009]</p>
             <ul>
               <li>Unique solution even when $p_X, p_Y \gg n$.</li>
               <li class="fragment grow">Selection of the sparsity parameters remains a challenging problem.</li>
             </ul>
+            <br><br>
+            <p><small>[1]: Witten et. al., 2009, [2]: Parkhomenko et. al., 2009.</small></p>
           </section>
         </section>
 
@@ -396,6 +478,14 @@ $$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} 
           <section>
             <img width="900" src="./img/20180312-Prospectus/TCGA_gslopeCCA_canonical_variates.png" alt="Results from an application of gSlopeCCA to the Cancer Genome Atlas data">
             <p><strong>Application example:</strong> Results of gSlopeCCA applied to methylation and mRNA data from 12 diseases available from the Cancer Genome Atlas data.</p>
+            <aside class="notes">
+              <p>Apart from looking at the results of feature selection (i.e., which genes got selected),
+              we can also look at the canonical variates.
+              These derived features can reveal new information about disease phenotypes,
+              and can be used for dimensionality reduction, classification, and prediction.
+              Here we see that by looking at a pair of canonical variates (only two features!)
+              one can distinguish different types of cancer cells rather well.</p>
+            </aside>
           </section>
         </section>
 
@@ -412,6 +502,9 @@ $$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} 
                 and adjust for multiple comparisons to control the FDR.
               </li>
             </ol>
+            <aside class="notes">
+              I modified my approach.
+            </aside>
           </section>
           <section>
             <h3>FDR-corrected sparse CCA - Theoretical Guarantees</h3>
@@ -421,7 +514,10 @@ $$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} 
               </li>
               <li>After approximating the distribution of $X^T Y \hat{\fatv}^{(0)}$, we can use Benjamini-Hochberg to control FDR.</li>
             </ol>
-            <p class="fragment"><i class="em em-arrow_right"></i> Confirmed with extensive simulation studies on synthetic and real data (not shown).</p>
+            <p class="fragment"><i class="em em-arrow_right"></i> Confirmed with extensive simulation studies on synthetic and real data.<sup>[1]</sup>
+            <br>
+            <br>
+            <small>[1]: Gossmann et. al., IEEE TMI, 2018.</small></p>
           </section>
           <!--<section>
             <h3>Simulation Studies</h3>
@@ -435,10 +531,21 @@ $$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} 
             <p>True positive rate is on par with competing methods.</p>
           </section>-->
           <section>
+            <h3>FDR-corrected SCCA - Application</h3>
+            <ul>
+              <li>Diversity in brain activity and brain connectivity in children and adolescents.</li>
+              <li>What are the driver genes?</li>
+              <li>Relationship to neurodevelopmental and psychiatric disorders.</li>
+            </ul>
+          </section>
+          <section>
             <h3>Dataset</h3>
             <blockquote>
-              The Philadelphia Neurodevelopmental Cohort (PNC) is a large-scale collaborative study between the Brain Behaviour Laboratory at the University of Pennsylvania and the Children's Hospital of Philadelphia. It contains, among other modalities, a fractal $n$-back fMRI task, an emotion identification fMRI task, and SNP arrays for over 900 adolescents.
+              The Philadelphia Neurodevelopmental Cohort (PNC) is a large-scale collaborative study between the Brain Behaviour Laboratory at the University of Pennsylvania and the Children's Hospital of Philadelphia. It contains a fractal $n$-back fMRI task, an emotion identification fMRI task, SNP arrays, and questionnaire data for over 900 adolescents.
             </blockquote>
+            <aside class="notes">
+              <p>Including subjects with increased (prodromal) symptoms of ADD (107 PNC subjects), schizophrenia (103 PNC subjects), and depression (85 PNC subjects) [Kaufmann et. al., 2017].</p>
+            </aside>
           </section>
           <section>
             <h3>Objective</h3>
@@ -447,17 +554,9 @@ $$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} 
             </blockquote>
           </section>
           <section>
-            <ul>
-              <li>Diversity in brain activity and brain connectivity in children and adolescents</li>
-              <li>What are the driver genes?</li>
-              <li>Relationship to neurodevelopmental and psychiatric disorders.</li>
-              <li>Increased (prodromal) symptoms of ADD (107 PNC subjects), schizophrenia (103 PNC subjects), and depression (85 PNC subjects) [Kaufmann et. al., 2017].
-            </ul>
-          </section>
-          <section>
             <h3>n-back fMRI vs. SNPs</h3>
             <img width="960" src="./img/20180312-Prospectus/voxels_vs_genes.png" alt="PNC results: n-back task fMRI vs. SNP analysis">
-            <p><small>Data after preprocessing: $85796$ brain voxels, $60372$ genomic features.</small></p>
+            <p><small>Selection from $85796$ brain voxels and $60372$ genomic features.</small></p>
           </section>
           <section>
             <h4>Results validation - n-back fMRI vs. SNPs</h4>
@@ -543,10 +642,10 @@ $$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} 
           </section>
           <section>
             <p>In Machine Learning practice, generally, usage of two independent datasets &mdash; <i>"training"</i> and <i>"test"</i> data.</p>
-            <p><strong>Training data:</strong> exploratory analysis, model fitting, parameter tuning, comparison of different machine learning algorithms, feature selection, etc.</p>
-            <p class="fragment grow">$\Longrightarrow$ Adaptive machine learning, risk of overfitting.</p>
-            <p><strong>Test data:</strong> Performance evaluation <i>after the trained machine learning algorithm has been "frozen"</i>.</p>
-            <p class="fragment grow">$\Longrightarrow$ Accurate performance measures of the final model, <strong>if the test data is used only once</strong>.</p>
+            <p class="fragment"><strong>Training data:</strong> exploratory analysis, model fitting, parameter tuning, comparison of different machine learning algorithms, feature selection, etc.</p>
+            <p class="fragment fade-right">$\Longrightarrow$ Adaptive machine learning, risk of overfitting.</p>
+            <p class="fragment"><strong>Test data:</strong> Performance evaluation <i>after the trained machine learning algorithm has been "frozen"</i>.</p>
+            <p class="fragment fade-right">$\Longrightarrow$ Accurate performance measures of the final model, <strong>if the test data is used only once</strong>.</p>
               <aside class="notes">
               The performance metric obtained on test data will make it evident whether any overfitting has occurred during model training. Other techniques (multiple testing, cross-validation, bootstrap) can be used to avoid or reduce the overfitting on the training data.
               </aside>
@@ -561,11 +660,30 @@ $$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} 
             <img width="960" src="./img/20180211-SPIE-Medical-Imaging/test_data_reuse_3.png" alt="Test data reuse 3">
           </section>
           <section>
-            <h3>Idea</h3>
+            <h2>Idea</h2>
             <p>Can we <strong>obfuscate</strong> the test data to avoid overfitting?</p>
-            <p class="fragment fade-right"><i class="em em-arrow_right"></i> Differential privacy [Dwork, McSherry, Nissim, Smith, 2006].</p>
-            <p class="fragment">Promising simulation results [Dwork et. al., Science, 2015], [Gossmann et. al., SPIE 2018].</p>
-            <p class="fragment fade-right"><i class="em em-arrow_right"></i> <strong>Next:</strong>Test the method on real neuroimaging data.</p>
+            <p class="fragment fade-right"><i class="em em-arrow_right"></i> Differential privacy.<sup>[1]</sup></p>
+            <p class="fragment">Promising simulation results.<sup>[2-3]</sup>
+            <br><br><br>
+            <small>[1]: Dwork, McSherry, Nissim, Smith, 2006.<br> [2]: Dwork et. al., Science, 2015.<br> [3]: Gossmann et. al., SPIE 2018.</small></p>
+          </section>
+          <section>
+            <h2>Next</h2>
+            <p class="fragment fade-right"><i class="em em-arrow_right"></i> Investigation of the overfitting behavior resulting from the use of modern "black box" machine learning algorithms.</p>
+            <p class="fragment fade-right"><i class="em em-arrow_right"></i> Apply our test data reuse method to real neuroimaging and genomic data.</p>
+          </section>
+        </section>
+
+        <section>
+          <section data-background="#093748">
+            <p><strong>Parts of this work appear in:</strong></p>
+            <ol>
+              <li><strong>G.A.</strong>, Cao, S., &amp; Wang, Y.-P. In proceedings of ACM BCB '15. 2015.</li>
+              <li><strong>G.A.</strong>, Cao, S., Brzyski, D., Zhao, L. J., Deng, H. W., &amp; Wang, Y. P. IEEE/ACM TCBB. 2017.</li>
+              <li>Brzyski, D., <strong>G.A.</strong>, Su, W., &amp; Bogdan, M. JASA. 2018.</li>
+              <li><strong>G.A.</strong>, Zille, P., Calhoun, V., &amp; Wang, Y.-P. IEEE TMI. 2018.</li>
+              <li><strong>G.A.</strong>, Pezeshk, A., &amp; Sahiner, B. In proceedings of SPIE Medical Imaging '18. 2018.</li>
+            </ol>
           </section>
         </section>
 

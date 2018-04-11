@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Journal Club - Center for Genomics Tulane University - Alexej Gossmann</title>
+
+    <meta name="description" content="Deep Learning in Medical Imaging - Journal Club - Center for Genomics Tulane University">
+    <meta name="author" content="Alexej Gossmann">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Emoji support -->
+    <!-- See: https://afeld.github.io/emoji-css/ -->
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- MathJax macros (inline math delimiters, new commands, etc.), more configuration under Reveal.initialize below -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ["$","$"] ],
+          displayMath: [ ["$$","$$"] ],
+          processEscapes: true
+        },
+        TeX: {
+          equationNumbers: { autoNumber: "AMS" },
+          Macros: {
+            subscript: ['_{#1}', 1],
+            superscript: ['^{#1}', 1],
+            fatu: '\\mathbf{u}',
+            fatv: '\\mathbf{v}',
+            fatlambda: '\\boldsymbol{\\lambda}',
+            R: '\\mathbb{R}'
+          }
+        }
+      });
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h3>Journal Club &mdash; A presentation on:</h3>
+
+          <p style="color:green;"><b>Litjens, Kooi, Bejnordi, Setio, Ciompi, Ghafoorian, van der Laak, van Ginneken, and Sánchez (Medical Image Analysis 2017) <i>“A Survey on Deep Learning in Medical Image Analysis.”</i></b></p>
+
+          <h3>Tulane University Center for Bioinformatics and Genomics</h3>
+          <h4>Alexej Gossmann</h4>
+          <h4>April 11, 2018</h4>
+        </section>
+
+        <section>
+          <blockquote cite="https://arxiv.org/pdf/1702.05747">
+          <small>
+            &ldquo; This paper reviews the major deep learning concepts pertinent to medical image analysis and summarizes over 300 contributions to the field, most of which appeared in the last year [through Feb. 2017].&rdquo;
+          </small>
+          </blockquote>
+          <iframe data-src="https://arxiv.org/pdf/1702.05747.pdf" width="600" height="400" frameborder="0" marginwidth="0" marginheight="0" scrolling="yes" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+        </section>
+
+        <section>
+          <img width="900" src="./img/20180411-Journal-Club/papers.png" alt="Summarized papers breakdown">
+          <p><small>Litjens, Geert, Thijs Kooi, Babak Ehteshami Bejnordi, Arnaud Arindra Adiyoso Setio, Francesco Ciompi, Mohsen Ghafoorian, Jeroen A. W. M. van der Laak, Bram van Ginneken, and Clara I. Sánchez. 2017. “A Survey on Deep Learning in Medical Image Analysis.” Medical Image Analysis 42 (December): 60–88.</small></p>
+        </section>
+        <!-- TODO: Disclaimer -->
+
+        <!-- Introduction -->
+        <section>
+          <h3>Medical Image Analysis</h3>
+          <dl>
+            <dt>1970-1990</dt>
+            <dd>Rule-based image processing &amp; expert systems</dd>
+            <dt>1990s</dt>
+            <dd>Supervised machine learning in medical imaging (atlas based methods, handcrafted features, pattern recognition, statistical classifiers)</dd>
+            <dt>≈2012-now</dt>
+            <dd>Transition to deep learning</dd>
+          </dl>
+        </section>
+
+        <!-- DL Methods Review -->
+
+        <section data-background="#0f829d">
+          <h1>Deep Learning Methods Review</h1>
+        </section>
+
+        <section>
+          <h3>Neural Network</h3>
+          <p>NN: Comprised of <i>units</i> that have activations $a = \sigma(\mathbf{w}^T \mathbf{x} + b)$, where $\sigma$ is called <i>transfer function</i> (sigmoid, softmax, ReLU, etc.).</p>
+          <p>MLP: Multi-layer perceptron or "vanilla" NN is given by</p>
+          <p><small>$f(\mathbf{x}; \Theta) = \sigma(W^{(L)} \sigma(W^{(L-1)} \ldots \sigma(W^{(1)} \mathbf{x} + b^{(1)})\ldots) + b^{(L)})$</small></p>
+          <p>Optimization via stochastic gradient descent (SGD): use minibatches for each step of descent instead of the entire dataset.</p>
+        </section>
+
+        <section>
+          <h3>"Vanilla" Neural Network</h3>
+          <a title="By Akritasa [CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0)], from Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Two-layer_feedforward_artificial_neural_network.png"><img width="550" alt="Two-layer feedforward artificial neural network" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Two-layer_feedforward_artificial_neural_network.png/512px-Two-layer_feedforward_artificial_neural_network.png"/></a>
+        </section>
+
+        <section>
+          <h3>"Vanilla" Neural Network</h3>
+          <p>
+          Downsides:
+          </p>
+          <ul>
+            <li>Hard to train efficiently.</li>
+            <li>In medical imaging we are typically not interested in the optimized cost function directly (maximal likelihood, categorical cross-entropy). Measures such as AUC (for classification) or Dice coefficient (for segmentation) are more relevant.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Convolutional Neural Network</h3>
+          <p>At the $l$th convolutional layer the input is convolved with $K$ kernels, each generating a new features map</p>
+          <p><small>$X^{(l)}_k = \sigma(W^{(l-1)}_k \ast X^{(l-1)} + b^{(l)}_k)$, for $k = 1, \ldots, K$.</small></p>
+          <p><img width="150" src="./img/20180411-Journal-Club/no_padding_no_strides.gif" alt="3x3 convolution (https://github.com/vdumoulin/conv_arithmetic)">
+          <small>Animation source:<br> <a href="https://github.com/vdumoulin/conv_arithmetic">https://github.com/vdumoulin/conv_arithmetic</a></small></p>
+          <p>$\leadsto$ Shared weights, invariance properties, drastically fewer parameters, smaller memory footprint, etc.<br>
+          + Pooling layers (fewer parameters, regularization, etc.)
+        </section>
+
+        <section>
+          <h3>Convolutional Neural Network</h3>
+          <a title="By Aphex34 [CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0)], from Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Typical_cnn.png"><img width="800" alt="Typical cnn" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Typical_cnn.png/512px-Typical_cnn.png"/></a>
+        </section>
+
+        <section>
+          <h3>Important deep CNN architectures</h3>
+          <ul>
+            <li>LeNet &amp; AlexNet: $\leq 2012$, $\leq 5$ layers.</li>
+            <li>After 2012: Deeper architectures, smaller kernels.</li>
+            <li>2014: 19-layer VGG19, or OxfordNet, won the ImageNet challenge.</li>
+            <li>2014: 22-layer GoogLeNet, or Inception, introduces <i>inception blocks</i> to improve basic convolutions.</li>
+            <li>2015: ResNet with $>100$ layers. Introduces <i>residual blocks</i> (which learn the residual, similar to boosting).</li>
+            <li>In Medical Imaging most people seem to favor the GoogLeNet Inception v3 architecture of 2017.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Multi-stream architectures</h3>
+          <p><small>Multiple sources/representations/scales/channels as input. Can be merged at any point in the network.</small></p>
+          <img width="500" src="./img/20180411-Journal-Club/multi-stream_architecture.png" alt="Multi-stream CNN architecture">
+          <p><small>Litjens, Geert, Thijs Kooi, Babak Ehteshami Bejnordi, Arnaud Arindra Adiyoso Setio, Francesco Ciompi, Mohsen Ghafoorian, Jeroen A. W. M. van der Laak, Bram van Ginneken, and Clara I. Sánchez. 2017. “A Survey on Deep Learning in Medical Image Analysis.” Medical Image Analysis 42 (December): 60–88.</small></p>
+        </section>
+
+        <section>
+          <h3>Segmentation architectures</h3>
+          <ul>
+            <li>CNN can be used to classify each pixel/voxel individually. $\leadsto$ Computationally wasteful.</li>
+            <li>Fully connected layers can be rewritten as convolutions. $\leadsto$ <b>fCNN</b>. $\leadsto$ Can be trained to produce a likelihood map.</li>
+            <li><b>U-net</b> architecture: fCNN followed by up-sampling to restore the original image size + skip connections + residual blocks.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Segmentation architectures</h3>
+          <img width="700" src="./img/20180411-Journal-Club/u-net-architecture.png" alt="U-net architecture">
+          <p><small>Ronneberger, Fischer, Brox. 2015. "U-Net: Convolutional Networks for Biomedical Image Segmentation." Medical Image Computing and Computer-Assisted Intervention (MICCAI), Springer, LNCS, Vol.9351: 234--241.</small></p>
+        </section>
+
+        <section>
+          <h3>Recurrent Neural Network</h3>
+          <ul>
+            <li>Discrete sequence analysis. E.g., classification based on a sequence $x_1, x_2, \ldots, x_T$ rather than a single input $x$.</li>
+            <li>Hidden (or latent) state at time $t$:<br>
+              $\mathbf{h}_t = \sigma(W\mathbf{x}_t + R\mathbf{h}_{t-1} + \mathbf{b})$.</li>
+            <li>Inherent depth in time makes plain RNNs hard to train $\leadsto$ Long Short Term Memory cell (or LSTM, 1997) and Gated Recurrent Unit (2014) solve the problem.</li>
+            <li>Image analysis: autoregressive models, generative models, certain segmentation problems.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Unsupervised models</h3>
+          <p>(Stacked) Autoencoder: learn a low-dimensional representation of the data.</p>
+          <a title="By Chervinskii [CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0)], from Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Autoencoder_structure.png"><img width="480" alt="Autoencoder structure" src="https://upload.wikimedia.org/wikipedia/commons/2/28/Autoencoder_structure.png"/></a>
+        </section>
+
+        <section>
+          <h3>Unsupervised models</h3>
+          <p>
+          <a title="By Qwertyus [CC0], from Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Deep_belief_net.svg"><img style="float:left" width="200" alt="Deep belief net" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Deep_belief_net.svg/128px-Deep_belief_net.svg.png"/></a>
+          Restricted Bolzmann Machine (RBM): Markov Random Field with visible layer $\mathbf{x}$ and hidden layer $\mathbf{h}$ (a latent representation).<br><br>
+          Deep Belief Network (DBN): Composition of multiple RBMs.
+          </p>
+        </section>
+
+        <section data-background="#0f829d">
+          <h1>Deep Learning Uses in Medical Imaging</h1>
+        </section>
+
+        <section data-background="#0f829d">
+          <ol>
+            <li>Image/Exam Classification</li>
+            <li>Object or Lesion Classification</li>
+            <li>Organ, region, and landmark detection</li>
+            <li>Object or lesion detection</li>
+            <li>Organ and substructure segmentation</li>
+            <li>Lesion segmentation</li>
+            <li>Registration</li>
+            <li>Content-based image retrieval</li>
+            <li>Image generation and enhancement</li>
+            <li>Combining Image Data With Reports</li>
+          </ol>
+        </section>
+
+        <section>
+          <h3>Image/Exam Classification</h3>
+          <ul>
+            <li>Input: Exam Images.</li>
+            <li>Output: A single diagnostic outcome.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Image/Exam Classification</h3>
+          <ul>
+            <li>Initially SAEs and RBMs. E.g., Pils et al. (2014).</li>
+            <li>Recently shift towards CNNs (36/47 papers in 2015-16) with applications in brain MRI, retinal imaging, digital pathology, lung CT.</li>
+            <li>Innovation:
+              <ul>
+                <li>Hosseini-Asl et al. (2016) use 3D convolution instead of the 2D convolution.</li>
+                <li>Kawahara et al. (2016) CNN on brain connectivity graph derived from MRI diffusion-tensor imaging, to predict brain development.</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Image/Exam Classification</h3>
+          <ul>
+            <li>Transfer learning (i.e., use of pre-trained networks) is popular &mdash; two strategies:
+              <ol>
+              <li>As feature extractor, to plug into existing image analysis pipelines.</li>
+              <li>For fine-tuning the last layers on medical data.</li>
+              </ol>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Image/Exam Classification</h3>
+          <p>Feature extractor vs. fine-tuning approach.</p>
+          <ul>
+            <li>Antony et al. (2016): fine-tuning outperformed feature extraction on knee osteoarthritis assessment.</li>
+            <li>Kim et al. (2016): CNN as feature extractor outperformed fine-tuning in cytopathology image classification.</li>
+            <li>Esteva et al. (2017) and Gulshan et al. (2016): (near) human expert level performance with fine-tuning Inception v3. Unmatched by the feature extractor approach yet.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Object or Lesion Classification</h3>
+          <ul>
+            <li>Classification of a previously identified part of the image into two or more classes (e.g. nodule classification in chest CT).</li>
+            <li>Local and global information need to be combined. Typically not possible with generic DL architectures.</li>
+            <li>Multi-stream architectures are used to combine local information of lesion appearance with contextual or global information of lesion location.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Object or Lesion Classification</h3>
+          <ul>
+            <li>Shen et al. (2015) use three CNNs, each with different scale input, and concatenate the outputs for final classification.</li>
+            <li>Setio et al. (2016) use 9 differently oriented patches of a 3D image in separate CNN streams. The 9 streams are merged in the fully connected layers.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Organ, region, and landmark detection</h3>
+          <ul>
+            <li>Anatomical object/organ/landmark localization in space or time, for preprocessing or segmentation.</li>
+            <li>Challenge: 3D data parsing.</li>
+          </ul>
+        </section>
+
+        <section>
+          <ul>
+            <li>Approach: View the localization problem as a classification task; then generic deep learning architectures can be used.</li>
+              <ul>
+                <li>Yang et al. (2015): Three sets of 2D MRI slices (one set for each plane) are processed with regular CNNs. Select the three 2D slices with the highest classification output. Their intersection is the 3D position of the landmark.</li>
+                <li>De Vos et al. (2016): 3D bounding box is constructed from analysing 2D slices with regular pre-trained CNNs.</li>
+              </ul>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Organ, region, and landmark detection</h3>
+          <ul>
+            <li>Very few methods address the direct localization of landmarks in 3D image space.</li>
+            <li>Other approaches include LSTM-RNN to exploit temporal information in medical videos (e.g., Chen et al. 2015), LSTM-RNN combined with CNN (Kong et al. 2016), reinforcement learning (Ghesu et al. 2016).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Object or lesion detection</h3>
+          <ul>
+            <li>Typically many small lesions in the full image &mdash; lesion detection is one of the most labor intensive parts in diagnosis for clinicians.</li>
+            <li>Most published DL systems still use pixel (or voxel) classification (i.e., a separate classification task performed at each pixel/voxel).</li>
+            <li>Difficulties due to class imbalance (most pixels are not lesions).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Object or lesion detection</h3>
+          <ul>
+            <li>Most published DL systems still use pixel (or voxel) classification (i.e., a separate classification task performed at each pixel/voxel).
+              <ul>
+                <li>Typically in a sliding window fashion ($\leadsto$ a lot of redundant computation).</li>
+                <li>Incorporation of contextual or 3D information using multi-stream CNNs (e.g., Brabu et al. 2016, Roth et al. 2016)</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Object or lesion detection</h3>
+          <p>Innovation</p>
+          <ul>
+            <li>Teramoto et al. (2016) used multi-stream CNN to integrate CT and PET data.</li>
+            <li>Hwang and Kim (2016) explore weakly-supervised DL to ease the burden of training data annotation (with application in nodule detection in chest radiographs, and lesions in mammography).</li>
+            <li>Wolterink et al. (2016) use fCNN, which improves computational performance by avoiding the redundant computations of per-pixel approach.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Organ and substructure segmentation</h3>
+          <ul>
+            <li>Task: Identifying the set of voxels making up the contour or the interior of the organ or object of interest.</li>
+            <li>The most common application of DL in medical imaging so far.</li>
+            <li>custom architectures improve results obtained with CNNs and fCNNs.</li>
+            <li>Most well-known architecture is U-net by Ronneberger et al. (2015) &mdash; equal number of upsampling and downsampling layers, and skip connections.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>Organ and substructure segmentation</h4>
+          <p>Most well-known architecture U-net by Ronneberger et al. (2015) &mdash; equal number of upsampling and downsampling layers, and skip connections.</p>
+          <ul>
+            <li>Entire image is processed at once.</li>
+            <li>The full context is taken into consideration.</li>
+            <li>Extensions of U-net: Cicek et al. (2016) take the full 3D structure of the image into account; Milletari et al.(2016) - V-net - another 3D variant of U-net; Drozdzal et al. (2016) use ResNet-like skip connections.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>Organ and substructure segmentation</h4>
+          <p>RNNs are becoming more popular for segmentation tasks.</p>
+          <ul>
+            <li>Xie et al. (2016) apply RNN four times in different orientation across 2D image.</li>
+            <li>Stollenga et al. (2015) use 3D LSTM-RNN with convolutional layers in six directions.</li>
+            <li>Andermatt et al. (2016) use 3D RNN with gated recurrent unit to segment gray and white matter in brain MRI.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>Organ and substructure segmentation</h4>
+          <p>Other approaches.</p>
+          <ul>
+            <li>Sliding window patch-based segmentation (e.g., Ciresan et al. 2012) can yield excellent results, at the cost of higher computational burden.</li>
+            <li>3D fCNNs, e.g., Korez et al. (2016).</li>
+            <li>3D fCNN with multiple targets, e.g., Zhou et al. (2016), Moeskops et al. (2016).</li>
+            <li>Graphical models such as MRFs or CRFs can be applied on top of the likelihood map produced by CNNs or fCNNs as regularizers (e.g., Shakeri et al. 2016, Song et al. 2015, Alansary et al. 2016, Cai et al 2016)</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Lesion segmentation</h3>
+          <ul>
+            <li>Mixture of challenges and approaches used in object detection and organ segmentation.</li>
+            <li>Global and local context are typically needed to perform accurate lesion segmentation.</li>
+            <li>Multi-stream networks with different scales or non-uniformly sampled patches are often used (e.g., Kamnitsas et al. 2017, Ghafoorian et al. 2016).</li>
+            <li>U-net like architectures are also applied.</li>
+            <li>Data augmentation can be used to address the class imbalance.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Registration</h3>
+          <ul>
+            <li>Registration = spatial alignment.</li>
+            <li>Classically: estimation of transformation parameters to optimize a metric such as the L2-norm.</li>
+            <li>Two DL strategies:
+              <ol>
+                <li>DNN to directly optimize a similarity measure of two images.</li>
+                <li>DNN to predict the transformation parameters.</li>
+              </ol>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Registration</h3>
+          <ul>
+            <li>Two DL strategies:
+              <ol>
+                <li>DNN to directly optimize a similarity measure of two images. E.g., Cheng et al. (2015) used two types of stacked auto-encoders to assess the local similarity between CT and MRI images of the head.</li>
+                <li>DNN to predict the transformation parameters. E.g., Miao et al. use CNN to perform 3D model to 2D x-ray registration predicting 6 transform parameters. Superior to traditional intensity based methods.</li>
+              </ol>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Content-based image retrieval</h3>
+          <ul>
+            <li>CBIR is a <q cite="https://arxiv.org/pdf/1702.05747">technique for knowledge discovery in massive databases and offers the possibility to identify similar case histories, understand rare disorders</q>.</li>
+            <li>Current approaches use (pre-trained) CNNs to extract feature descriptors from medical images. Then obtain a distance metric using the extracted features, or classify between a large number of classes (e.g., Anavi et al. 2016, Liu et al. 2016).</li>
+            <li>Not horribly successful yet... But maybe that's just a matter of time.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Image generation and enhancement</h3>
+          <ul>
+            <li>Essentially: convert an input image into another image.</li>
+            <li>Typically no pooling layers.</li>
+            <li>E.g., bone-suppressed X-ray in Yang et al. 2016, 3T and 7T brain MRI in Bahrami et al. (2016), PET from MRI in Li et al. (2014), and CT from MRI in Nie et al. (2016).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Image generation and enhancement</h3>
+          <ul>
+            <li>Li et al. (2014) generate PET from MRI, and use the generated images in computer-aided diagnosis of Alzheimer's disease.</li>
+            <li> Oktay et al. (2016) and Golkov et al. (2016) use multi-stream CNN to generate super-resolution images from multiple low-resolution input images.</li>
+            <li>Other image enhancement such as denoising and intensity normalization have seen limited application of DL so far.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Combining Image Data With Reports</h3>
+          <p>Text reports + medical images. Two strategies:</p>
+          <ol>
+            <li>Leveraging reports to improve classification accuracy. E.g., Schlegl et al. (2015) add semantic descriptors from reports as labels, increasing classification accuracy for a variety of pathologies in Optical Coherence Tomography images.</li>
+            <li>Generating text reports from images. E.g., Shin et al. (2016) proposed a system to generate descriptors from chest X-rays &mdash; first a CNN generates representation; then an RNN generates a sequence of keywords.</li>
+          </ol>
+        </section>
+
+        <section data-background="#0f829d">
+          <h2>Anatomical application areas</h2>
+        </section>
+
+        <section data-background="#0f829d">
+          <ol>
+            <li>Brain</li>
+            <li>Eye</li>
+            <li>Chest</li>
+            <li>Digital pathology and microscopy</li>
+            <li>Breast</li>
+            <li>Cardiac</li>
+            <li>Abdomen</li>
+            <li>Musculoskeletal</li>
+          </ol>
+        </section>
+
+        <section>
+          <h3>Brain</h3>
+          <ul>
+            <li>Classification of Alzheimer's disease.</li>
+            <li>Segmentation of brain tissue and anatomical structures (e.g., hippocampus).</li>
+            <li>Detection and segmentation of lesions (e.g., tumors, white matter lesions, micro-bleeds, lacunes).</li>
+            <li>CNNs have dominated the 2014 and 2015 brain tumor segmentation challenge (BRATS), the 2015 longitudinal multiple sclerosis segmentation challenge, the 2015 ischemic stroke lesion segmentation challenge (ISLES), and the 2013 MR brain image segmentation challenge (MRBrains).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Brain</h3>
+          <ul>
+            <li>Most methods map local patches to representations and representations to labels.</li>
+            <li>This may lack contextual information.</li>
+            <li>Multi-scale analysis and fusion of representations are used to address this.</li>
+            <li>Most methods work in 2D, analysing 3D volumes slice-by-slice.</li>
+            <li>Almost all work so far has concentrated on MRI, rather than other modalities.</li>
+          </ul>
+        </section>
+
+        <!-- Conclusion -->
+        <section data-background="#0f829d">
+          <h2>Discussion</h2>
+        </section>
+
+        <section>
+          <h4>Key aspects of successful deep learning methods</h4>
+          <ul>
+            <li>CNN based methods are top performers, but the exact architecture is not the most important determinant in getting a good solution.</li>
+            <li>Novel aspects outside of DL, such as novel data preprocessing or augmentation techniques.</li>
+            <li>Architectures incorporating unique task-specific properties (e.g., multi-view or multi-scale networks).</li>
+            <li>Choice of network input size and receptive field.</li>
+            <li>Unfortunately, no clear recipe for model hyperparameter choice (e.g. learning rate, dropout rate).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>Unique Challenges in medical image analysis</h4>
+          <ul>
+            <li>Acquisition of relevant annotations/labeling for images.</li>
+            <li>Labeling uncertainty: Even when data is annotated by domain expert, label noise can be a significant limiting factor.</li>
+            <li>Class imbalance, and within-class heterogeneity.</li>
+            <li>Incorporation of data on patient history, age, demographics, etc. Improvements obtained in previous work not as large as expected.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>Outlook</h4>
+          <small>
+          <ul>
+            <li>It is possible to outperform medical experts in certain tasks using deep learning for image classification, but in most medical imaging tasks 3D gray-scale or multi-channel images are used for which pre-trained networks or architectures don't exist.</li>
+            <li>A key area which can be highly relevant for medical imaging and is receiving (renewed) interest is unsupervised learning.
+              <ul>
+                <li>In medical imaging obtaining large amounts of unlabeled medical data is generally much easier than labeled data.</li>
+                <li>Two novel unsupervised strategies which we expect to have an impact in medical imaging are variational auto-encoders (VAEs), introduced by Kingma and Welling (2013) and generative adversarial networks (GANs), introduced by Goodfellow et al. (2014).</li>
+              </ul>
+            </li>
+            <li>Interpretability:
+              <ul>
+                <li>Approaches to understand what intermediate layers of convolutional networks are responding to, for example deconvolution networks (Zeiler and Fergus, 2014), guided back-propagation (Springenberg et al., 2014) or deep Taylor composition (Montavon et al., 2017).</li>
+                <li>Combining Bayesian statistics with deep networks to obtain true network uncertainty estimates, Kendall and Gal (2017).</li>
+              </ul>
+            </li>
+          </ul>
+          </small>
+        </section>
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        // MathJax integration
+        math: {
+            mathjax: 'https://cdn.mathjax.org/mathjax/latest/MathJax.js',
+            config: 'TeX-AMS_HTML-full'
+        },
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/search/search.js', async: true },
+          // Zoom in and out with Alt+click
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          // Speaker notes
+          { src: 'plugin/notes/notes.js', async: true },
+          // MathJax
+          { src: 'plugin/math/math.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>

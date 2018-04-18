@@ -73,7 +73,7 @@
 
           <h3>Tulane University Center for Bioinformatics and Genomics</h3>
           <h4>Alexej Gossmann</h4>
-          <h4>April 11, 2018</h4>
+          <h4>April 18, 2018</h4>
         </section>
 
         <section>
@@ -222,6 +222,14 @@
           <a title="By Qwertyus [CC0], from Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Deep_belief_net.svg"><img style="float:left" width="200" alt="Deep belief net" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Deep_belief_net.svg/128px-Deep_belief_net.svg.png"/></a>
           Restricted Bolzmann Machine (RBM): Markov Random Field with visible layer $\mathbf{x}$ and hidden layer $\mathbf{h}$ (a latent representation).<br><br>
           Deep Belief Network (DBN): Composition of multiple RBMs.
+          </p>
+        </section>
+
+        <section>
+          <h3>Hardware and software</h3>
+          <p>GPU and GPU-computing libraries (CUDA and OpenCL).</p>
+          <p>Open source software packages:
+            <img width="900" src="./img/20180411-Journal-Club/DL_Frameworks.jpg" alt="Popularity of DL frameworks">
           </p>
         </section>
 
@@ -524,17 +532,136 @@
         </section>
 
         <section>
-          <ol>
-            <li><i class="em em-white_check_mark"></i>Brain</li>
-            <li>Eye</li>
-            <li>Chest</li>
-            <li>Digital pathology and microscopy</li>
-            <li>Breast</li>
-            <li>Cardiac</li>
-            <li>Abdomen</li>
-            <li>Musculoskeletal</li>
-          </ol>
-          <p><i class="em em-arrow_right"></i> Corresponding slides will be added here soon!</p>
+          <h3>2. Eye</h3>
+          <ul>
+            <li>Ophthalmic imaging</li>
+            <li>Common applications:
+              <ul>
+                <li>Segmentation of anatomical structures</li>
+                <li>Segmentation and detection of retinal abnormalities</li>
+                <li>Diagnosis of eye diseases</li>
+                <li>Image quality assessment.</li>
+              </ul>
+            </li>
+            <li>E.g., CNNs for the analysis of color fundus imaging</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>2. Eye</h3>
+          <p>E.g., Gulshan et al. (2016): Google Inception v3 network for diabetic retinopathy detection; performance comparable to a panel of seven ophthalmologists.</p>
+          <img width="800" src="./img/20180411-Journal-Club/gulshan2016.png" alt="Figures from Gulshan et al. 2016">
+          <small>Figures: Gulshan V, Peng L, Coram M, et al. Development and Validation of a Deep Learning Algorithm for Detection of Diabetic Retinopathy in Retinal Fundus Photographs. JAMA. 2016;316(22):2402–2410. doi:10.1001/jama.2016.17216</small>
+        </section>
+
+        <section>
+          <h3>2. Eye</h3>
+          <p><small>April 11,  2018 &mdash; For the first time autonomous AI diagnostic software approved by the FDA (<a href="https://www.fda.gov/NewsEvents/Newsroom/PressAnnouncements/ucm604357.htm">https://www.fda.gov/NewsEvents/Newsroom/PressAnnouncements/ucm604357.htm</a>):</small></p>
+          <blockquote cite="https://www.fda.gov/NewsEvents/Newsroom/PressAnnouncements/ucm604357.htm">
+            &ldquo;The U.S. Food and Drug Administration today permitted marketing of the first medical device to use artificial intelligence to detect greater than a mild level of the eye disease diabetic retinopathy in adults who have diabetes.&rdquo;
+          </blockquote>
+        </section>
+
+        <section>
+          <h3>3. Chest</h3>
+          <ul>
+            <li>Chest radiography is the most common radiological exam.</li>
+            <li>Common applications: detection, characterization, and classification of nodules.</li>
+            <li>Several works combine CNNs for image analysis and RNNs for text analysis.</li>
+            <li>LUNA16 challenge for nodule detection in CT: CNN architectures used by all top performing teams.</li>
+            <li>Kaggle Data Science Bowl 2017: competition for prediction of lung cancer from a CT scan, $1 million in prizes (more than any previous competition).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>4. Digital pathology and microscopy</h3>
+          <ul>
+            <li>Growing availability of high-resolution whole-slide images (WSI) of tissue specimen.</li>
+            <li>Analysis tasks:
+              <ol>
+                <li>Detecting, segmenting, or classifying nuclei</li>
+                <li>Segmentation of large organs</li>
+                <li>Classification/detection of disease at the lesion or WSI-level.</li>
+              </ol>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>4. Digital pathology and microscopy</h4>
+          <p>Many competitions:</p>
+          <small>
+          <ul>
+            <li>EM segmentation challenge 2012 for the 2D segmentation of neuronal processes. Winner: Ciresan et al. (2012) who use a CNN to compute pixel probabilities, which are then smoothed and thresholded.</li>
+            <li>Mitosis detection challenges in ICPR 2012 and AMIDA 2013. Winner: Ciresan et al. (2013) with a CNN based approach.</li>
+            <li>GLAS for gland segmentation in colorectal cancer. Winner: Xu et al. (2016) with a combination of three CNN models (1. classification of pixels as gland versus non-gland; 2. edge estimation from the output of first CNN; 3. a CNN merges gland and edge maps).</li>
+            <li>CAMELYON16. Large amount of annotated WSI. Winner: Wang et al. (2016) based on the GoogLeNet architecture with a type of WSI standardization; AUC = 0.9935 vs. individual pathologist AUC = 0.966 on test dataset.</li>
+            <li>TUPAC. Detection of mitosis in breast cancer tissue, and prediction of tumor grading at the WSI level. Winner: Paeng et al. (2016) using three main components: (1) Finding high cell density regions, (2) CNN to detect mitoses in the regions, (3) converting the CNN results to a feature vector and using an SVM classifier to compute the tumor proliferation.</li>
+            <li>Kaggle 2018 Data Science Bowl (finished yesterday). Detection of cells' nuclei. 1st place solution ($100,000 prize pool) uses U-Net with pre- and post-processing tricks.</li>
+          </ul>
+          </small>
+        </section>
+
+        <section>
+          <h3>5. Breast</h3>
+          <small>
+          <ul>
+            <li>Mostly 2D data</li>
+            <li>Modalities: Mammography most common. Tomosynthesis, US, shear wave elastography, and breast MRI far more rare.</li>
+            <li>DL achieve the performance of human readers (e.g., Kooi et al., 2016).</li>
+            <li>Detection of breast cancer &mdash; three subtasks: (1) detection and classification of mass-like lesions, (2) detection and classification of micro-calcifications, and (3) breast cancer risk scoring of images.</li>
+            <li>Often amount of annotated data is small: Semi-supervised learning (Sun et al., 2016), weakly supervised learning (Hwang and Kim, 2016), transfer learning (Kooi et al., 2017; Samala et al., 2016), or combination of DL with handcrafted features (Dhungel et al., 2016).</li>
+            <li>But several companies are actively working on large proprietary datasets.</li>
+            </ul>
+          </small>
+        </section>
+
+        <section>
+          <h3>6. Cardiac</h3>
+          <small>
+          <ul>
+            <li>Tasks: segmentation, tracking, slice classification, image quality assessment, automated calcium scoring and coronary centerline tracking, and super-resolution.</li>
+            <li>MRI is the most researched modality, left ventricle segmentation the most common task.</li>
+            <li>Often 2D CNN to analyze the 3D or 4D data slice by slice; but also 3D CNNs (e.g., Wolterink et al., 2016).</li>
+            <li>Combination of CNNs with RNNs:
+              <ul>
+                <li>Poudel et al. (2016) introduced a recurrent connection within U-Net to segment the left ventricle slice by slice (learn what information to remember from previous slices).</li>
+                <li>Kong et al. (2016) combined a standard 2D CNN and an LSTM-RNN to perform temporal regression to identify specific frames and a cardiac sequence.</li>
+              </ul>
+            </li>
+            <li>2015 Kaggle Data Science Bowl challenge ($200,000 prize) to measure endsystolic and end-diastolic volumes in cardiac MRI: all top ranking teams used fCNN or U-Net.</li>
+          </ul>
+          </small>
+        </section>
+
+        <section>
+          <h3>7. Abdomen</h3>
+          <ul>
+            <li>Common tasks:
+              <ul>
+                <li>Localize and segment liver, kidneys, bladder, pancreas, prostate.</li>
+                <li>Liver tumor segmentation.</li>
+              </ul>
+            </li>
+            <li>Modalities: MRI for prostate, and CT for all other organs.</li>
+            <li>PROMISE12 competition (for prostate): hybrid between ResNet and U-net (Yu et al., 2017) took the first position in 2016.</li>
+            <li>SLIVER07 competition (for liver): CNNs started to dominate in 2016.</li>
+        </section>
+
+        <section>
+          <h3>8. Musculoskeletal</h3>
+          <ul>
+            <li>Segmentation and identification of bone, joint, and associated soft tissue abnormalities in diverse imaging modalities.</li>
+            <li>E.g., Jamaludin et al. (2016) show near-human performances across four different radiological scoring tasks.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>9. Other</h3>
+          <ul>
+            <li>Obstetric applications: E.g., selection of an appropriate frame from an US stream; more work on automated measurements with DL in these US sequences is likely to follow.</li>
+            <li>Dermoscopic image analysis: E.g., Esteva et al. (2017) Google’s Inception v3 trained on a dataset of dermoscopic and standard photographic images performed on par with 30 board certified dermatologists.</li>
+          </ul>
         </section>
 
         <!-- Conclusion -->

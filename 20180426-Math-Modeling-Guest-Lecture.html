@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>BMEN Mathematical Modeling - Guest Lecture - Alexej Gossmann</title>
+
+    <meta name="description" content="An introduction to neural networks and deep learning">
+    <meta name="author" content="Alexej Gossmann">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Emoji support -->
+    <!-- See: https://afeld.github.io/emoji-css/ -->
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- MathJax macros (inline math delimiters, new commands, etc.), more configuration under Reveal.initialize below -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ["$","$"] ],
+          displayMath: [ ["$$","$$"] ],
+          processEscapes: true
+        },
+        TeX: {
+          equationNumbers: { autoNumber: "AMS" },
+          Macros: {
+            subscript: ['_{#1}', 1],
+            superscript: ['^{#1}', 1],
+            fatu: '\\mathbf{u}',
+            fatv: '\\mathbf{v}',
+            fatlambda: '\\boldsymbol{\\lambda}',
+            R: '\\mathbb{R}'
+          }
+        }
+      });
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h3>An introduction to neural networks and deep learning</h3>
+          <p>A guest lecture for BMEN Mathematical Modeling</p>
+          <h3>Tulane University</h3>
+          <h4>Alexej Gossmann</h4>
+          <h4>April 26, 2018</h4>
+        </section>
+
+        <section>
+          <section>
+            <p>Before we get to the theoretical part of this presentation...</p>
+            <h3>Live demos</h3>
+            <p>This lecture contains several live demos:</p>
+            <ul>
+              <li>DL is largely an empirical research field.</li>
+              <li>Sometimes DL in actions is like magic!</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Live demos</h3>
+            <p><b>Main example:</b></p>
+            <h3>Ultrasound nerve segmentation</h3>
+            <ul>
+              <li>Task: Identify nerve structures in ultrasound images of the neck.</li>
+              <li>Needed for effective and accurate insertion of a patient's pain management catheter.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h4>Ultrasound nerve segmentation</h4>
+            <img style="float:left" width="400" src="./img/20180426-Math-Modeling-Guest-Lecture/us_nerve.png" alt="A perceptron">
+            <p>Task: Predict the nerve mask for an input ultrasound image.</p>
+            <p>5635 training images, 5508 test images.</p>
+            <p>420&times;580 resolution.</p>
+            <p>~47% images don't have a mask.</p>
+            <p><small>Data from a &#36;100,000 competition held in 2016: <a href="https://www.kaggle.com/c/ultrasound-nerve-segmentation">https://www.kaggle.com/c/ultrasound-nerve-segmentation</a></small></p>
+          </section>
+
+          <section>
+            <p>I will live-execute the following code (more on the hardware &amp; software requirements later):</p>
+            <p><small><a href="https://github.com/agisga/ultrasound-nerve-segmentation/blob/master/jupyter/U-net_improved.ipynb">https://github.com/agisga/ultrasound-nerve-segmentation/blob/master/jupyter/U-net_improved.ipynb</a></small></p>
+            <p>This is not my research area. The code borrows from: <a href="https://github.com/jocicmarko/ultrasound-nerve-segmentation">[1]</a>,
+            <a href="https://github.com/EdwardTyantov/ultrasound-nerve-segmentation">[2]</a>.</p>
+            <p>Hopefully, by the end of this lecture you will understand all of the components of this deep learning model.</p>
+          </section>
+        </section>
+
+        <section data-background="#a50f15">
+          <h2>Artificial neural networks and deep learning</h2>
+          <p>The theoretical part of this presentation (including most figures) is largely based on:</p>
+          <p><a href="http://neuralnetworksanddeeplearning.com/"><b>Michael A. Nielsen, "Neural Networks and Deep Learning", Determination Press, 2015</b></a>
+          (licensed under a Creative Commons Attribution-NonCommercial 3.0 Unported License)</p>
+          <p><small>To follow in spirit this work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.</small></p>
+          <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="float:right; border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a>
+        </section>
+
+        <!-- Perceptrons -->
+        <section>
+          <section>
+            <h2>Perceptrons</h2>
+            <ul>
+              <li>Developed in the 50s and 60s by Frank Rosenblatt.</li>
+              <li>Inspired by earlier work by Warren McCulloch and Walter Pitts (cf., <a href="https://nautil.us/issue/21/information/the-man-who-tried-to-redeem-the-world-with-logic">NAUTILUS. The Man Who Tried to Redeem the World with Logic.</a>).</li>
+            </ul>
+          </section>
+
+          <section>
+            <p>Weighing multiple input factors to make a decision according to a decision threshold.</p>
+            <img style="float:left" width="300" src="./img/20180426-Math-Modeling-Guest-Lecture/perceptron.png" alt="A perceptron">
+            <p>Binary inputs $x_1, x_2, \ldots \in \{0, 1\}$,<br>and binary output.</p>
+            $$
+            \begin{eqnarray}
+              \mbox{output} & = & \left\{ \begin{array}{ll}
+              0 & \mbox{if } \sum_i w_i x_i \leq \mbox{threshold} \\
+              1 & \mbox{if } \sum_i w_i x_i > \mbox{threshold}
+              \end{array} \right.
+            \end{eqnarray}
+            $$
+          </section>
+
+          <section>
+            <h4>Better notation</h4>
+            <p>
+            $$
+            \begin{eqnarray}
+            \mathbf{x} \mapsto \left\{ \begin{array}{ll}
+              0 & \mbox{if } \mathbf{w}^T \mathbf{x} + b \leq 0 \\
+              1 & \mbox{if } \mathbf{w}^T \mathbf{x} + b > 0
+              \end{array} \right.
+            \end{eqnarray}
+            $$
+            </p>
+            <ul>
+              <li>Input vector $\mathbf{x} \in \{0, 1\}^p$,</li>
+              <li>Vector of weights $\mathbf{w} \in \mathbb{R}^p$,</li>
+              <li>A <i>bias</i> term $b \in \mathbb{R}$,</li>
+              <li>An output in $\{0, 1\}$.</li>
+            </ul>
+          </section>
+
+          <section>
+            <p>Example: <b>NAND Gate</b>.</p>
+            <img width="400" src="./img/20180426-Math-Modeling-Guest-Lecture/NAND.png" alt="NAND gate perceptron">
+            $$
+            \begin{eqnarray}
+              \mbox{output} & = & \left\{ \begin{array}{ll}
+              0 & \mbox{if } (-2x_1 - 2x_2 + 3) \leq 0 \\
+              1 & \mbox{if } (-2x_1 - 2x_2 + 3) > 0
+              \end{array} \right.
+            \end{eqnarray}
+            $$
+            <p>
+            That is,
+            00 $\mapsto$ 1,
+            01 $\mapsto$ 1,
+            10 $\mapsto$ 1,
+            11 $\mapsto$ 0.
+            </p>
+            <p>(NAND gate is universal for computation. Analogy: a network of perceptrons and a computational circuit.)</p>
+          </section>
+
+          <section>
+            <h3>A network of perceptrons</h3>
+            <img width="700" src="./img/20180426-Math-Modeling-Guest-Lecture/perceptron_network.png" alt="A network of perceptrons">
+            <p>Hidden layer: Making a decision at a more abstract level by weighing up the results of the first layer.</p>
+          </section>
+
+          <section>
+            <h4>The &ldquo;Mark 1 perceptron&rdquo; (Cornell, 1957)</h4>
+            <img width="900" src="./img/20180426-Math-Modeling-Guest-Lecture/Cornell_perceptron.png" alt="A physical network of perceptrons (1960s Cornell)">
+            <p>Array of 400 photocells, connected to the &ldquo;neurons&rdquo;. The weights ($w_i$) and biases ($b$) are potentiometers.</p>
+            <p><small>In 1958 The New York Times reported the perceptron to be &ldquo;the embryo of an electronic computer that [the Navy] expects will be able to walk, talk, see, write, reproduce itself and be conscious of its existence.&rdquo; (Mikel Olazaran (1996) <i>A Sociological Study of the Official History of the Perceptrons Controversy</i>)</small></p>
+          </section>
+
+          <section>
+            <img style="float:left" width="600" src="./img/20180426-Math-Modeling-Guest-Lecture/sigmoid_motivation.png" alt="Motivation for the sigmoid neuron">
+            <img width="200" src="./img/20180426-Math-Modeling-Guest-Lecture/sigmoid_function.png" alt="The sigmoid function">
+            <p>Use the sigmoid function as the <i>activation function</i>.</p>
+            <p><i>The sigmoid neuron</i>: $$\mathbf{x} \mapsto \frac{1}{1 + \exp(-\mathbf{w}^T\mathbf{x} - b)}$$</p>
+          </section>
+
+          <section>
+            <h3>Multilayer perceptron (MLP)</h3>
+            <img width="600" src="./img/20180426-Math-Modeling-Guest-Lecture/MLP.png" alt="Multilayer perceptron">
+            <ul>
+              <li>Made up of sigmoid neurons, not perceptrons &mdash; a misnomer?</li>
+              <li><i>Feedforward</i> neural network &mdash; no loops allowed.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Universality theorem</h3>
+            <blockquote>Neural networks can be used to approximate any continuous function to any desired precision.</blockquote>
+            <p><small>(among other sources, see <a href="http://neuralnetworksanddeeplearning.com/chap4.html">Chapter 4 in Michael Nielsen's book</a>, or George Cybenko (1989) Approximation by superpositions of a sigmoidal function).</small></p>
+          </section>
+
+          <section>
+            <h4>MLP for recognition of handwritten digits</h4>
+            <img width="600" src="./img/20180426-Math-Modeling-Guest-Lecture/1hidden_layer_digit_classification.png" alt="Multilayer perceptron for hand-written digit recognition">
+            <p>Let's see how well it works in a live demonstration!</p>
+          </section>
+        </section>
+
+        <!-- First live demonstration -->
+        <section>
+          <section>
+            <h3>Live demonstrations</h3>
+            <p>State-of-the-art neural network models require a modern GPU (or GPUs).</p>
+            <p>In this talk I use the following setup on a Google Cloud virtual machine.</p>
+            <p>Instructions to reproduce the same exact setup can be found at <a href="https://github.com/agisga/coding_notes/blob/master/google_cloud.md">https://github.com/agisga/coding_notes/blob/master/google_cloud.md</a>.</p>
+          </section>
+
+          <section>
+            <p>Components:</p>
+            <ul>
+              <li>
+                NVIDIA Tesla P100 GPU rented on Google Cloud (about &#36;1.19 per hour), and GPU drivers on linux<br>
+              </li>
+              <li>
+                CUDA and cuDNN libraries for numerical computing on the GPU.
+              </li>
+              <li>TensorFlow, with Keras as frontend.</li>
+              <li>Python, SciPy, NumPy, Jupyter Notebook, ...</li>
+            </ul>
+            <img style="float:left" width="400" src="./img/20180426-Math-Modeling-Guest-Lecture/nvidia_p100.png" alt="NVIDIA Tesla P100 GPU">
+            <img width="500" src="./img/20180426-Math-Modeling-Guest-Lecture/logos.jpg" alt="NVIDIA CUDA, TensorFlow, and Keras logos">
+          </section>
+
+          <section>
+            <h3>Classification of handwritten digits</h3>
+            <!-- TODO: put in an image of correct classification results from my model <img width="500" src="./img/20180426-Math-Modeling-Guest-Lecture/MNIST_digits.png" alt="Some example images form the MNIST dataset"> -->
+            <p>I will execute the following code:</p>
+            <p><small><a href="https://github.com/agisga/coding_notes/blob/master/Keras/MNIST_functional_API.ipynb">https://github.com/agisga/coding_notes/blob/master/Keras/MNIST_functional_API.ipynb</a></small></p>
+          </section>
+        </section>
+
+        <!-- Gradient descent -->
+        <section>
+          <section>
+            <h2>Stochastic gradient descent (SGD)</h2>
+            <p>How do we find the optimal weights and biases?</p>
+            <p><i>Cost function</i>:
+            $$C = \frac{1}{2n} \sum\subscript{i=1}^n \lVert y(\mathbf{x}_i) - a(\mathbf{x}_i) \rVert_2^2,$$
+            where $a(\mathbf{x}_i)$ is the output of the NN and $y(\mathbf{x}_i)$ is the desired output for the input $\mathbf{x}_i$.</p>
+          </section>
+
+          <section>
+            <h4>Gradient descent</h4>
+            <ul>
+              <li>
+                $
+                \begin{bmatrix} \mathbf{w} + \Delta \mathbf{w} \\ b + \Delta b \end{bmatrix}
+                \leadsto
+                C + \Delta C.
+                $
+              </li>
+              <li>$\Delta C \approx \nabla C \cdot \begin{bmatrix} \Delta \mathbf{w} \\ \Delta b \end{bmatrix}$.</li>
+              <li>We want: $\Delta C < 0$.</li>
+              <li>
+                Update:
+                $
+                \begin{bmatrix} \mathbf{w} \\ b \end{bmatrix}
+                \gets \begin{bmatrix} \mathbf{w} \\ b \end{bmatrix}
+                - \eta \nabla C.
+                $
+              </li>
+              <li>$\eta > 0$ is called the <i>learning rate</i>.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h4>Stochastic gradient descent (SGD)</h4>
+            <p>$C = \frac{1}{2n} \sum\subscript{i=1}^n \lVert y(\mathbf{x}_i) - a(\mathbf{x}_i) \rVert_2^2 = \frac{1}{n} \sum\subscript{i=1}^n C_i$,</p>
+            <p>where $C_i := (y(\mathbf{x}_i) - a(\mathbf{x}_i))^2 / 2$.</p>
+            <p>Randomly choose a subset $\mathbf{x}\subscript{i_1}, \ldots, \mathbf{x}\subscript{i_m}$ of size $m\ll n$.</p>
+            <p>Then, $\nabla C \approx \frac{1}{m} \sum\subscript{j=1}^m \nabla C\subscript{i_j}$,</p>
+            <p>The set $\{\mathbf{x}\subscript{i_1}, \ldots, \mathbf{x}\subscript{i_m}\}$ is called a <i>mini-batch</i>.</p>
+          </section>
+
+          <section>
+            <h4>Stochastic gradient descent (SGD)</h4>
+            <ol>
+              <li>Pick a mini-batch size $m \ll n$.</li>
+              <li>Randomly (without replacement) choose a mini-batch $\mathbf{x}\subscript{i_1}, \ldots, \mathbf{x}\subscript{i_m}$.</li>
+              <li>
+                Update all weights and biases:
+                $$
+                \begin{bmatrix} \mathbf{w} \\ b \end{bmatrix}
+                \gets \begin{bmatrix} \mathbf{w} \\ b \end{bmatrix}
+                - \frac{\eta}{m} \sum\subscript{j=1}^m \nabla C\subscript{i_j}.
+                $$
+              </li>
+              <li>Repeat 2-3.</li>
+              <li>An <i>epoch</i> is completed, when every input $\mathbf{x}_i$ has been used.</li>
+            </ol>
+          </section>
+
+          <section>
+            <h4>Stochastic gradient descent (SGD)</h4>
+            <p>Now we only need to figure out how to differentiate $C\subscript{i_j}$ with respect to every weight and every bias in the neural network...<i class="em em-thinking_face"></i></p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>The backpropagation algorithm</h3>
+            <ul>
+              <li><a href="https://www.nature.com/articles/323533a0">1986 paper by Rumelhart, Hinton, and Williams.</a></li>
+              <li>The &ldquo;workhorse&rdquo; of deep learning.</li>
+            </ul>
+          </section>
+
+          <section>
+            <img width="900" src="./img/20180426-Math-Modeling-Guest-Lecture/NeuralNet.png" alt="Neural Net matrix-vector notation">
+          </section>
+
+          <section>
+            <h3>More notation</h3>
+            <ul>
+              <li>Layers $l = 1, 2, \ldots, L$.</li>
+              <li>$\mathbf{a}^1 :=$ input layer (as a vector).</li>
+              <li>$\mathbf{a}^l :=$ activations of layer $l$ (as a vector).</li>
+              <li>$W^l :=$ matrix of weights at layer $l$.</li>
+              <li>$\mathbf{b}^l :=$ vector of biases at layer $l$.</li>
+              <li>$\mathbf{z}^l := W^l \mathbf{a}^{l-1} + \mathbf{b}^l$.</li>
+            </ul>
+            <p>$$\Rightarrow \mathbf{a}^l = \sigma(W^l \mathbf{a}^{l-1} + \mathbf{b}^l) = \sigma(\mathbf{z}^l)$$</p>
+          </section>
+
+          <section>
+            <h3>Chain rule!</h3>
+          </section>
+
+          <section>
+            <p>
+            <small>
+              <b>Layer L (last layer):</b>
+              $$
+              \begin{eqnarray}
+              \frac{\partial C}{\partial W\subscript{ij}^L}
+              &=& \nabla\subscript{\mathbf{a}^L} C
+              \cdot \frac{\partial \sigma(\mathbf{z}^L)}{\partial \mathbf{z}^L}
+              \cdot \frac{\partial \mathbf{z}^L}{\partial W\subscript{ij}^L} \nonumber \\
+              &=:& \delta^L
+              \cdot \frac{\partial \mathbf{z}^L}{\partial W\subscript{ij}^L}
+              = \delta^L \cdot \mathbf{a}_j^{L-1} \nonumber
+              \end{eqnarray}
+              $$
+            </small>
+            </p>
+            <p>
+            <small>
+              <b>Layer L-1:</b>
+              $$
+              \begin{eqnarray}
+              \frac{\partial C}{\partial W\subscript{ij}^{L-1}}
+              &=&
+              \nabla\subscript{\mathbf{a}^L} C
+              \cdot \frac{\partial \sigma(\mathbf{z}^L)}{\partial \mathbf{z}^L}
+              \cdot \frac{\partial \mathbf{z}^L}{\partial \mathbf{z}^{L-1}}
+              \cdot \frac{\partial \mathbf{z}^{L-1}}{\partial W\subscript{ij}^{L-1}} \nonumber \\
+              &=&
+              \delta^L \cdot W^L
+              \cdot \frac{\partial \sigma(\mathbf{z}^{L-1})}{\partial \mathbf{z}^{L-1}}
+              \cdot \frac{\partial \mathbf{z}^{L-1}}{\partial W\subscript{ij}^{L-1}} \nonumber \\
+              &=:&
+              \delta^{L-1}
+              \cdot \frac{\partial \mathbf{z}^{L-1}}{\partial W\subscript{ij}^{L-1}} \nonumber
+              = \delta^{L-1} \cdot \mathbf{a}_j^{L-2} \nonumber
+              \end{eqnarray}
+              $$
+            </small>
+            </p>
+            <p>
+            <small>
+              Likewise, any other <b>layer $l$:</b>
+              $
+              \frac{\partial C}{\partial W\subscript{ij}^{l}} = \delta^{l} \cdot \mathbf{a}_j^{l-1}
+              $
+            </small>
+            </p>
+          </section>
+
+          <section>
+            <h4>The backpropagation algorithm</h4>
+            <img width="700" src="./img/20180426-Math-Modeling-Guest-Lecture/backprop_alg.png" alt="The backpropagation algorithm">
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>Backpropagation &mdash; Aside:</h3>
+            <p><small><a href="https://www.axios.com/artificial-intelligence-pioneer-says-we-need-to-start-over-1513305524-f619efbd-9db0-4947-a9b2-7a4c310a28fe.html">https://www.axios.com/artificial-intelligence-pioneer-says-we-need-to-start-over-1513305524-f619efbd-9db0-4947-a9b2-7a4c310a28fe.html</a></small></p>
+            <img width="500" src="./img/20180426-Math-Modeling-Guest-Lecture/hinton.png" alt="Geoffrey Hinton">
+          </section>
+
+          <section>
+            <h3>Backpropagation &mdash; Aside:</h3>
+            <blockquote cite="https://www.axios.com/artificial-intelligence-pioneer-says-we-need-to-start-over-1513305524-f619efbd-9db0-4947-a9b2-7a4c310a28fe.html">
+              Hinton (...) is now &ldquo;deeply suspicious&rdquo; of back-propagation (...). &ldquo;My view is throw it all away and start again,&rdquo; he said.
+              <br>
+              (...)
+              <br>
+              &ldquo;Max Planck said, &lsquo;Science progresses one funeral at a time.&rsquo; The future depends on some graduate student who is deeply suspicious of everything I have said.&rdquo;
+            </blockquote>
+            <small>(I may be wrong but I think this was said mostly in relationship to unsupervised learning)</small>
+          </section>
+        </section>
+
+        <!-- Improving the way NN work -->
+        <section>
+          <section>
+            <h3>Improving the way NN work</h3>
+            <p>There are a lot of techniques, tricks, and best practices (some based on theory, some on empirical trial and error). Here is a small selection.</p>
+          </section>
+
+          <section>
+            <p>Least squares loss: Learning slowdown b/c $\nabla C$ depends on $\sigma^\prime(z)$ ($\approx 0$ for $|z| > 5$).</p>
+            <h4>A better choice of cost fnct.</h4>
+            <p>
+            Categorical cross-entropy:
+            $$
+            C = -\frac{1}{n} \sum_x [y \ln(a) + (1-y) \ln(1-a)].
+            $$
+            </p>
+          </section>
+
+          <section>
+            <h4>Regularization</h4>
+            <p>Reduce over-fitting to the training data.</p>
+            <ul>
+              <li>L2: minimize $C + \frac{\lambda}{2n}\sum_w w^2$.</li>
+              <li>L1: minimize $C + \frac{\lambda}{n}\sum_w |w|$.</li>
+              <li>Dropout: Within every iteration of backprop, randomly and temporarily delete some neurons.</li>
+            </ul>
+            <img width="500" src="./img/20180426-Math-Modeling-Guest-Lecture/dropout.png" alt="Dropout illustrated">
+          </section>
+
+          <section>
+            <h4>Variations of SGD</h4>
+            <ul>
+              <li>Hessian technique</li>
+              <li>Momentum-based GD</li>
+            </ul>
+          </section>
+
+          <section>
+            <h4>Activation functions</h4>
+            <ul>
+              <li>Sigmoid: $\frac{1}{1 + \exp(-\mathbf{w}^T\mathbf{x} - b)}$</li>
+              <li>Hyperbolic tan: $\mathrm{tanh}(\mathbf{w}^T\mathbf{x} + b)$</li>
+              <li>Rectifier linear unit (ReLU): $\max(0, \mathbf{w}^T \mathbf{x} + b)$.</li>
+              <li>Softmax. E.g., in MNIST last layer: $a_j^L = \frac{\exp(z_j^L)}{\sum_{k = 0}^9 \exp(z_k^L)}$ can be interpreted as "probability" that input image shows digit $j$.</li>
+            </ul>
+            <img width="800" src="./img/20180426-Math-Modeling-Guest-Lecture/activation_functions.png" alt="Plots of sigmoid, tanh, and relu.">
+          </section>
+
+          <section>
+            <p>Let's try these techniques on the handwritten digit recognition example.</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h4>Backpropagation &mdash; the vanishing gradient problem in deep NN</h4>
+            <p><small>(unrelated to Hinton's remarks on a previous slide)</small></p>
+            <img width="700" src="./img/20180426-Math-Modeling-Guest-Lecture/vanishing_gradient.png" alt="The vanishing gradient problem illustrated.">
+            <img style="float:right" width="180" src="./img/20180426-Math-Modeling-Guest-Lecture/sigma_prime.png" alt="Derivative of the sigmoid function.">
+            <p>With standard initialization $|w_j|<1$, as so, $|w_j \sigma^\prime(z_j)| < 1/4$. $\Rightarrow$ Vanishing gradient in the earlier layers of a deep model $\Rightarrow$ The earlier layers "learn" much slower than later layers.</p>
+            <p>Likewise: exploding gradient when all $|w_j \sigma^\prime(z_j)| \gg 1$.</p>
+          </section>
+        </section>
+
+        <!-- CNN -->
+        <section>
+          <section>
+            <h2>Deep Learning</h2>
+            <h3>Convolutional neural network</h3>
+            <p>Deep convolutional network is the most widely used type of deep nearal network.</p>
+            <p>Modern CNN: LeCun, Bottou, Bengio, Haffner (1998).</p>
+          </section>
+
+          <section>
+            <h4>Convolution</h4>
+            <p>Each neuron in the hidden layer is connected to only $5 \times 5 = 25$ input activations (pixels).</p>
+            <img width="900" src="./img/20180426-Math-Modeling-Guest-Lecture/conv2D.png" alt="The convolution operation applied to a 2D input matrix.">
+            <ul>
+              <li>The 25 weights and the bias parameter are shared (i.e., the same for each hidden neuron). $\Rightarrow$ Drastic reduction in the number of parameters.</li>
+              <li>Each neuron looks for the same "feature", just at a different location.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h4>Convolutional layer</h4>
+            <p>A complete convolutional layer uses several convolutional filters to produce several different feature maps.</p>
+            <img width="700" src="./img/20180426-Math-Modeling-Guest-Lecture/conv2D_layer.png" alt="A convolutional layer.">
+          </section>
+
+          <section>
+            <h4>Pooling layers</h4>
+            <p>Most common: max-pooling</p>
+            <img width="700" src="./img/20180426-Math-Modeling-Guest-Lecture/max-pooling.png" alt="A max-pooling layer.">
+            <p>Other options: L2-pooling, average pooling.</p>
+          </section>
+
+          <section>
+            <h4>Convolutional neural network</h4>
+            <p>Putting it all together</p>
+            <img width="700" src="./img/20180426-Math-Modeling-Guest-Lecture/conv2D_maxPooling_Dense.png" alt="A very simple convolutional neural network.">
+          </section>
+
+          <section>
+            <h4>Many types of convolutions</h4>
+            <p><small>Vincent Dumoulin, Francesco Visin - <a href="https://arxiv.org/abs/1603.07285" rel="nofollow">A guide to convolution arithmetic for deep learning</a></small></p>
+            <table>
+              <tbody><tr>
+                <td><a href="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/no_padding_no_strides.gif" target="_blank"><img width="150" src="https://github.com/vdumoulin/conv_arithmetic/raw/master/gif/no_padding_no_strides.gif" style="max-width:100%;"></a></td>
+                <td><a href="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/same_padding_no_strides.gif" target="_blank"><img width="150" src="https://github.com/vdumoulin/conv_arithmetic/raw/master/gif/same_padding_no_strides.gif" style="max-width:100%;"></a></td>
+                <td><a href="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/no_padding_strides.gif" target="_blank"><img width="150" src="https://github.com/vdumoulin/conv_arithmetic/raw/master/gif/no_padding_strides.gif" style="max-width:100%;"></a></td>
+                <td><a href="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/padding_strides_odd.gif" target="_blank"><img width="150" src="https://github.com/vdumoulin/conv_arithmetic/raw/master/gif/padding_strides_odd.gif" style="max-width:100%;"></a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><a href="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/no_padding_no_strides_transposed.gif" target="_blank"><img width="150" src="https://github.com/vdumoulin/conv_arithmetic/raw/master/gif/no_padding_no_strides_transposed.gif" style="max-width:100%;"></a></td>
+                <td><a href="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/full_padding_no_strides_transposed.gif" target="_blank"><img width="150" src="https://github.com/vdumoulin/conv_arithmetic/raw/master/gif/full_padding_no_strides_transposed.gif" style="max-width:100%;"></a></td>
+                <td><a href="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/padding_strides_odd_transposed.gif" target="_blank"><img width="150" src="https://github.com/vdumoulin/conv_arithmetic/raw/master/gif/padding_strides_odd_transposed.gif" style="max-width:100%;"></a></td>
+                <td><a href="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/dilation.gif" target="_blank"><img width="150" src="https://github.com/vdumoulin/conv_arithmetic/raw/master/gif/dilation.gif" style="max-width:100%;"></a></td>
+              </tr>
+            </tbody></table>
+            <p><small>Animations source: <a href="https://github.com/vdumoulin/conv_arithmetic">https://github.com/vdumoulin/conv_arithmetic</a></small></p>
+          </section>
+
+          <section>
+            <h4>Convolutional neural network</h4>
+            <p>Let's try it on the handwritten digit recognition example.</p>
+          </section>
+
+          <section>
+            <h4>Deep learning</h4>
+            <img style="float:left" width="400" src="./img/20180426-Math-Modeling-Guest-Lecture/lego.jpg" alt="Modular nature of neural networks.">
+            <p>Modular nature.</p>
+            <p>Many building blocks.</p>
+          </section>
+
+          <section>
+            <h4>Segmentation DL architectures &mdash; U-net</h4>
+            <img width="600" src="./img/20180426-Math-Modeling-Guest-Lecture/u-net-architecture.png" alt="U-net architecture">
+            <p><small>Ronneberger, Fischer, Brox. 2015. "U-Net: Convolutional Networks for Biomedical Image Segmentation." Medical Image Computing and Computer-Assisted Intervention (MICCAI), Springer, LNCS, Vol.9351: 234--241.</small></p>
+          </section>
+
+          <section>
+            <p>Back to the ultrasound image segmentation example.</p>
+          </section>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        // MathJax integration
+        math: {
+            mathjax: 'https://cdn.mathjax.org/mathjax/latest/MathJax.js',
+            config: 'TeX-AMS_HTML-full'
+        },
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/search/search.js', async: true },
+          // Zoom in and out with Alt+click
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          // Speaker notes
+          { src: 'plugin/notes/notes.js', async: true },
+          // MathJax
+          { src: 'plugin/math/math.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>

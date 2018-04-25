@@ -76,12 +76,13 @@
 
         <section>
           <section>
-            <p>Before we get to the theoretical part of this presentation...</p>
+            <p>Quick remark before we get to the theoretical part of this presentation...</p>
             <h3>Live demos</h3>
-            <p>This lecture contains several live demos:</p>
+            <p>This lecture contains several live demos. Why?</p>
             <ul>
-              <li>DL is largely an empirical research field.</li>
-              <li>Sometimes DL in actions is like magic!</li>
+              <li>DL is largely an empirical research field. <i class="em em-female-technologist"></i></li>
+              <li>Sometimes DL in actions seems like magic! <i class="em em-female_mage"></i></li>
+              <li>DL is not my research field &mdash; I finally have an excuse to spend some time figuring out the common DL libraries! <i class="em em-man-with-bunny-ears-partying"></i></li>
             </ul>
           </section>
 
@@ -90,7 +91,7 @@
             <p><b>Main example:</b></p>
             <h3>Ultrasound nerve segmentation</h3>
             <ul>
-              <li>Task: Identify nerve structures in ultrasound images of the neck.</li>
+              <li><b>Task: Identify nerve structures in ultrasound images of the neck.</b></li>
               <li>Needed for effective and accurate insertion of a patient's pain management catheter.</li>
             </ul>
           </section>
@@ -108,7 +109,7 @@
           <section>
             <p>I will live-execute the following code (more on the hardware &amp; software requirements later):</p>
             <p><small><a href="https://github.com/agisga/ultrasound-nerve-segmentation/blob/master/jupyter/U-net_improved.ipynb">https://github.com/agisga/ultrasound-nerve-segmentation/blob/master/jupyter/U-net_improved.ipynb</a></small></p>
-            <p>This is not my research area. The code borrows from: <a href="https://github.com/jocicmarko/ultrasound-nerve-segmentation">[1]</a>,
+            <p>The code borrows from: <a href="https://github.com/jocicmarko/ultrasound-nerve-segmentation">[1]</a>,
             <a href="https://github.com/EdwardTyantov/ultrasound-nerve-segmentation">[2]</a>.</p>
             <p>Hopefully, by the end of this lecture you will understand all of the components of this deep learning model.</p>
           </section>
@@ -119,7 +120,7 @@
           <p>The theoretical part of this presentation (including most figures) is largely based on:</p>
           <p><a href="http://neuralnetworksanddeeplearning.com/"><b>Michael A. Nielsen, "Neural Networks and Deep Learning", Determination Press, 2015</b></a>
           (licensed under a Creative Commons Attribution-NonCommercial 3.0 Unported License)</p>
-          <p><small>To follow in spirit this work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.</small></p>
+          <p><small>To follow in spirit, this presentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.</small></p>
           <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="float:right; border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a>
         </section>
 
@@ -257,7 +258,7 @@
 
           <section>
             <h3>Classification of handwritten digits</h3>
-            <!-- TODO: put in an image of correct classification results from my model <img width="500" src="./img/20180426-Math-Modeling-Guest-Lecture/MNIST_digits.png" alt="Some example images form the MNIST dataset"> -->
+            <img width="500" src="./img/20180426-Math-Modeling-Guest-Lecture/MNIST_misclassified.png" alt="Example images from the MNIST dataset which were missclassified by the model built in this presentation.">
             <p>I will execute the following code:</p>
             <p><small><a href="https://github.com/agisga/coding_notes/blob/master/Keras/MNIST_functional_API.ipynb">https://github.com/agisga/coding_notes/blob/master/Keras/MNIST_functional_API.ipynb</a></small></p>
           </section>
@@ -344,7 +345,7 @@
           </section>
 
           <section>
-            <h3>More notation</h3>
+            <h3>More better notation</h3>
             <ul>
               <li>Layers $l = 1, 2, \ldots, L$.</li>
               <li>$\mathbf{a}^1 :=$ input layer (as a vector).</li>
@@ -403,9 +404,9 @@
             <p>
             <small>
               Likewise, any other <b>layer $l$:</b>
-              $
-              \frac{\partial C}{\partial W\subscript{ij}^{l}} = \delta^{l} \cdot \mathbf{a}_j^{l-1}
-              $
+              $\frac{\partial C}{\partial W\subscript{ij}^{l}} = \delta^{l} \cdot \mathbf{a}_j^{l-1}$,
+              <br>
+              where $\delta^{l}$ is determined by $\delta^{l+1}$, $W^{l+1}$, and $\partial \sigma(\mathbf{z}^{l}) / \partial \mathbf{z}^{l}$.
             </small>
             </p>
           </section>
@@ -470,6 +471,7 @@
             <ul>
               <li>Hessian technique</li>
               <li>Momentum-based GD</li>
+              <li>Many more: <a href="http://ruder.io/optimizing-gradient-descent/">An overview of gradient descent optimization algorithms</a> (a blog post by Sebastian Ruder)</li>
             </ul>
           </section>
 

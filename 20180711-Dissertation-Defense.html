@@ -69,7 +69,7 @@
         <section>
           <h3>Regaining control of false findings in feature selection, classification, and prediction on neuroimaging and genomics data</h3>
           <p>
-            <small>Oral defense of a dissertation submitted to the Bioinnovation PhD Program of the School of Science and Engineering of Tulane University in partial fulfillment of the requirements for the PhD degree by</small>
+          <small>Oral defense of a dissertation submitted to the <b>Bioinnovation PhD Program</b> of the <b>School of Science and Engineering</b> of <b>Tulane University</b> in partial fulfillment of the requirements for the PhD degree by</small>
           </p>
           <h4>Alexej Gossmann</h4>
           <p>July 11, 2018</p>
@@ -128,22 +128,22 @@
               Genomic data include information on the structure of the DNA, and amount of protein produced.
             </aside>
           </section>
+
           <section data-background="#0f829d">
             <ul>
               <li>Structural MRI: anatomical structure of the brain.</li>
               <li>Functional MRI: brain activity associated with blood flow related to energy use by brain cells.</li>
             </ul>
-            <img width="270" src="./img/20180711-Dissertation-Defense/Parasagittal_MRI_of_human_head_in_patient_with_benign_familial_macrocephaly_prior_to_brain_injury_(ANIMATED).gif" alt="Structural MRI animation">
-            <img width="270" src="./img/20180711-Dissertation-Defense/T1_raw.png" alt="Structural MRI from a randomly chosen PNC subject">
-            <img width="270" src="./img/20180711-Dissertation-Defense/processed_emoid_fMRI.png" alt="BOLD fMRI from a randomly chosen PNC subbject at a fixed time point">
+            <img width="270" src="./img/20180711-Dissertation-Defense/T1.gif" alt="Structural MRI animation">
+            <img width="270" src="./img/20180711-Dissertation-Defense/T2star_raw.gif" alt="Raw BOLD fMRI (n-back task) from a randomly chosen PNC subject at a fixed time point">
+            <img width="270" src="./img/20180711-Dissertation-Defense/T2star_preproc.gif" alt="SPM12 pre-processed BOLD fMRI (n-back task) from a randomly chosen PNC subbject at a fixed time point">
             <small>
             <ul>
-              <li>Animation by Dwayne Reed at English Wikipedia [<a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>] via <a href="https://commons.wikimedia.org/wiki/File%3AParasagittal_MRI_of_human_head_in_patient_with_benign_familial_macrocephaly_prior_to_brain_injury_(ANIMATED).gif">Wikimedia Commons.</a></li>
               <li>
                 A randomly chosen subject from the Philadelphia Neurodevelopmental Cohort:
                 <ul>
                   <li>T1-weighted MRI before preprocessing ($192\times 256 \times 160$ voxels).</li>
-                  <li>fMRI after preprocessing ($79\times 95\times 79$ voxels at $>200$ time points).</li>
+                  <li>n-back task BOLD fMRI (i.e., T2*-weighted) before preprocessing ($64\times 64\times 49$ voxels), and after preprocessing ($79\times 95\times 79$ voxels).</li>
                 </ul>
               </li>
             </ul>
@@ -154,6 +154,11 @@
               <p>I mostly use fMRI data which gives you brain activity measures in brain voxels, which are 3d pixels, at discrete points in time.</p>
             </aside>
           </section>
+
+          <section data-background="./img/20180711-Dissertation-Defense/T2star_preproc_facetted.gif" data-background-size="900px" data-background-color="#0f829d">
+            <p>[230 time points]</p>
+          </section>
+
           <section>
             <h3>Precision Med. & Mental Disorders</h3>
             <img width="600" src="./img/20180711-Dissertation-Defense/endophenotype.png" alt="Relationship: Genomics - Brain MRI - Phenotype">
@@ -197,6 +202,12 @@
 
         <!-- 2 types of problems: feature selection and prediction -->
         <section>
+          <section data-background="./img/20180711-Dissertation-Defense/catwalk.gif" data-background-repeat="repeat" data-background-size="400px">
+            <div style="background-color: rgba(0, 0, 0, 0.8); color: #fff; padding: 40px;">
+              <h1>Models</h1>
+            </div>
+          </section>
+
           <section>
             <h2>Models</h2>
             <p>
@@ -250,8 +261,8 @@
             <h2>Aims</h2>
             <p>Establish <strong>guarantees</strong> on...</p>
             <ul>
-              <li>false discoveries in feature selection,</li>
-              <li>false predictions on new data (generalization)</li>
+              <li class="fragment grow">false discoveries in feature selection,</li>
+              <li class="fragment grow">false predictions on new data (generalization)</li>
             </ul>
             <p>...for types of methods commonly used in the analysis of genomic and neuroimaging data.</p>
           </section>
@@ -261,10 +272,10 @@
           <section data-background="#003300">
             <h3>Resources and collaborators</h3>
             <ul>
-              <li class="fragment">The Multiscale Bioimaging and Bioinformatics Laboratory (MBB) at Tulane University.</li>
-              <li class="fragment">Tulane Center for Bioinformatics and Genomics (CBG).</li>
-              <li class="fragment">FDA, Office of Science and Engineering, Division of Imaging, Diagnostics, and Software Reliability.</li>
-              <li class="fragment">Other: The Mind Research Network, University of Wrocław, Indiana University Bloomington, University of Tennessee Health Science Center.</li>
+              <li>The Multiscale Bioimaging and Bioinformatics Laboratory (MBB) at Tulane University.</li>
+              <li>Tulane Center for Bioinformatics and Genomics (CBG).</li>
+              <li>FDA, Office of Science and Engineering, Division of Imaging, Diagnostics, and Software Reliability.</li>
+              <li>Other: The Mind Research Network, University of Wrocław, Indiana University Bloomington, University of Tennessee Health Science Center.</li>
             </ul>
             <aside class="notes">
               <p>At this point I would like to acknowledge my collaborators at Tulane at beyond...</p>
@@ -274,7 +285,14 @@
         </section>
 
         <!-- Feature selection background -->
+        <!-- Feature selection in regression problems -->
         <section>
+          <section data-background="./img/20180711-Dissertation-Defense/dna-with-equations.jpg">
+            <div style="background-color: rgba(0, 0, 0, 0.8); color: #fff; padding: 20px;">
+              <h2>Feature selection in regression models</h2>
+            </div>
+          </section>
+
           <section>
             <h3>Feature selection in genomics and neuroimaging</h3>
             <ul>
@@ -344,8 +362,8 @@
             <h4>Sorted L-One Penalized Estimation<sup>[1]</sup></h4>
             <p>$\hat{\boldsymbol{\beta}}\subscript{\mathrm{SLOPE}} = \mathrm{argmin}\subscript{\mathbf{b}\in\mathbb{R}^p} \frac{1}{2} \lVert \mathbf{y} - X\mathbf{b}\rVert\subscript{2}^2 + \sum\subscript{i=1}^p \lambda\subscript{i} |\mathbf{b}|\subscript{(i)},$</p>
             <p>where $\lambda\subscript{1} \geq \lambda\subscript{2} \geq \ldots \geq \lambda\subscript{p} \geq 0$; and $|b|\subscript{(1)} \geq |b|\subscript{(2)} \geq \ldots \geq |b|\subscript{(p)}$ denotes the order statistic of the magnitudes of the vector $\mathbf{b}\in\mathbb{R}^p$.</p>
-            <p class="fragment fade-right"><i class="em em-arrow_right"></i> Given $q\in(0,1)$, there is a procedure to choose $\boldsymbol{\lambda}$ s.t. $\mathrm{FDR}(\hat{\boldsymbol{\beta}}\subscript{\mathrm{SLOPE}}) \leq q$ is guaranteed. <i class="fragment">...if the explanatory variables have very small pair-wise correlations.</i> <i class="fragment" style="color: #ff2c2d;"> ← typically not the case in genomics.</i></p>
-            <p><small>[1]: Bogdan et. al., Annals Appl Stat, 2015.</small></p>
+            <p class="fragment fade-right"><i class="em em-arrow_right"></i> Given $q\in(0,1)$, there is a procedure to choose $\boldsymbol{\lambda}$ s.t. $\mathrm{FDR}(\hat{\boldsymbol{\beta}}\subscript{\mathrm{SLOPE}}) \leq q$ is guaranteed. <i class="fragment">...if the explanatory variables have very small pair-wise correlations.</i> <i class="fragment" style="color: #ff2c2d;"> ← typically not the case in genomics.<sup>[2]</sup></i></p>
+            <p><small>[1]: Bogdan et. al., Annals Appl Stat, 2015. [2]: Gossmann et. al., ACM BCB, 2015.</small></p>
           </section>
 
           <section>
@@ -390,49 +408,48 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
               <li><i class="fragment highlight-green">Alternating direction method of multipliers (ADMM)</i> &mdash; derived in the thesis.</li>
             </ul>
             <p><small>
-              [1]: Gossmann et. al., 2015. [2]: Brzyski, Gossmann, et. al., 2018. [3]: Gossmann et. al., 2018.
+              [1]: Gossmann et. al., 2015. [2]: Brzyski, Gossmann, et. al., 2018. [3]: Gossmann et. al., 2017.
             </small></p>
           </section>
 
           <section>
             <img width="555" src="./img/20180711-Dissertation-Defense/FISTA_vs_ADMM_runtimes.png" alt="Comparison of FISTA and ADMM optimizers for Group SLOPE">
-            <p><small>Runtime comparison of FISTA vs. ADMM optimization algorithms for Group SLOPE<br>(Figure 3.2 in the thesis).</small></p>
+            <p><small>Runtime comparison of FISTA vs. ADMM optimization algorithms for Group SLOPE.<br>[Figure 3.2 in the thesis]</small></p>
           </section>
 
           <section>
             <h3>Group SLOPE - Theoretical guarantees</h3>
-            <ul>
-              <li>Given a user-specified $q \in (0, 1)$,
-                we show how to construct $\boldsymbol{\lambda}$ such that $\mathrm{gFDR} \leq q$.<sup>[1-3]</sup>
-                <small><b>Different approaches:</b> theoretical for orthogonal designs<sup>[2-3]</sup>, heuristic based on theory for general designs<sup>[1-2]</sup>, Monte Carlo based<sup>[3].</sup></small>
-                <br>
-                <span class="fragment"><i class="em em-arrow_right"></i> Confirmed with extensive simulation studies on synthetic and real data.<sup>[1-3]</sup></span>
-              </li>
-              <li class="fragment">Asymptotically minimax estimation.<sup>[2]</sup></li>
-            </ul>
+            <p>Given a user-specified $q \in (0, 1)$, we show how to construct $\boldsymbol{\lambda}$ such that $\mathrm{gFDR} \leq q$.<sup>[1-3]</sup></p>
+            <p><small><b>Different approaches:</b> theoretical for orthogonal designs<sup>[2-3]</sup>, heuristic based on theory for general designs<sup>[1-2]</sup>, Monte Carlo based for general designs<sup>[3].</sup></small></p>
+            <p><span class="fragment"><i class="em em-arrow_right"></i> Confirmed with extensive simulation studies on synthetic and real data.<sup>[1-3]</sup></span></p>
             <br>
             <br>
             <p><small>
-              [1]: Gossmann et. al., 2015. [2]: Brzyski, Gossmann, et. al., 2018. [3]: Gossmann et. al., 2018.
+              [1]: Gossmann et. al., 2015. [2]: Brzyski, Gossmann, et. al., 2018. [3]: Gossmann et. al., 2017.
             </small></p>
           </section>
 
           <section data-markdown>
             <script type="text/template">
 ![Chromosome 22 SNPs, simulated phenotype](./img/20180711-Dissertation-Defense/gFDR_non-ortho.png)
-<small> $X \in \mathbb{R}^{8915\times 5976}$ contains real DNA sequence data of chromosome 22; 726 groups (lengths from 1 to 1657, mean=$8.23$, median=1); between-group correlation < 0.3; **simulated response** $\mathbf{y} = X\boldsymbol{\beta} + \mathbf{z},$ where $\mathbf{z} \sim \mathcal{N}(0, I)$. </small>
+<small> $X \in \mathbb{R}^{8915\times 5976}$ contains real DNA sequence data of chromosome 22; 726 groups (lengths from 1 to 1657, mean=$8.23$, median=1); between-group correlation < 0.3; **simulated response** $\mathbf{y} = X\boldsymbol{\beta} + \mathbf{z},$ where $\mathbf{z} \sim \mathcal{N}(0, I)$. [Figure 3.5 in the thesis] </small>
             </script>
           </section>
 
           <section>
-            <h3>Application - Framingham Cohort</h3>
+            <h3>Application - Framingham Cohort Analysis<sup>[1]</sup></h3>
             <ul>
               <li>SNP data for 8915 subjects.</li>
               <li>1771 subjects have corresponding spine BMD measurements.</li>
               <li>The remaining ~7000 subjects used to group SNPs.</li>
             </ul>
             <p class="fragment fade-right"><i class="em em-arrow_right"></i> $X$ with dimensions $1771 \times 117933$, consisting of 6403 groups of average size 18.42 (median size 2).</p>
+            <br>
+            <p><small>
+              [1]: Gossmann et. al., 2017.
+            </small></p>
           </section>
+
           <section data-markdown>
             <script type="text/template">
 ### Group SLOPE results
@@ -446,21 +463,52 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
   - biology of osteoclasts, osteoblasts and osteogenesis (VAV3, SLC7A7, ADAM12, PPARD, FGFR2, PTPRU, SMOC1).
             </script>
           </section>
+
+          <section>
+            <h3>Group SLOPE</h3>
+            <p><b>Further topics covered in the thesis but skipped here:</b></p>
+            <ul>
+              <li>Testing the performance of SLOPE on DNA seq data.<sup>[1]</sup></li>
+              <li>An alternative formulation of Group SLOPE.<sup>[1, 3]</sup></li>
+              <li>Theoretical gFDR control under orthogonal groups.<sup>[2-3]</sup></li>
+              <li>Error variance estimation: <i>Scaled sparse linear regression</i> vs. <i>EigenPrism</i>.</li>
+              <li>Analysis of runtime on large DNA seq datasets.<sup>[3]</sup></li>
+            </ul>
+            <br>
+            <p><small>
+              [1]: Gossmann et. al., 2015. [2]: Brzyski, Gossmann, et. al., 2018. [3]: Gossmann et. al., 2017.
+            </small></p>
+          </section>
         </section>
 
         <!-- CCA Background -->
         <section>
-          <section>
+          <section data-background="#71C5E8">
             <h3>Canonical Correlation Analysis</h3>
             <img width=960 src="./img/20180711-Dissertation-Defense/SCCA.png" alt="(Sparse) Canonical Correlation Analysis">
           </section>
+
           <section>
-            <h3>Classical canonical correlation analysis</h3>
+            <h3>Classical CCA [Hotelling, 1936]</h3>
+            <p>Consider two <i>random vectors</i> $\mathbf{x}\in\mathbb{R}^p$ and $\mathbf{y}\in\mathbb{R}^q$.</p>
+            <p>$$
+            \begin{eqnarray}
+            \mathrm{maximize}\subscript{\mathbf{u}\in\mathbb{R}^p, \mathbf{v}\in\mathbb{R}^q} &\mathrm{Cov}(\mathbf{x} \cdot \mathbf{u}, \mathbf{y} \cdot \mathbf{v}),\nonumber \\
+            \mathrm{subject\,to} \quad &\mathrm{Var}(\mathbf{x} \cdot \mathbf{u}) = 1,\nonumber \\
+            &\mathrm{Var}(\mathbf{y} \cdot \mathbf{v}) = 1. \nonumber
+            \end{eqnarray}
+            $$</p>
+            <p>Can't be solved unless the matrices $\mathrm{Cov}(\mathbf{x}, \mathbf{y})$, $\mathrm{Cov}(\mathbf{x})$, and $\mathrm{Cov}(\mathbf{y})$ are known exactly.</p>
+          </section>
+
+          <section>
+            <h3>Classical CCA [Hotelling, 1936]</h3>
+            <p>Consider two <i>matrices</i> (i.e., datasets)<br>$X\in\mathbb{R}^{n\times p}$ and $Y\in\mathbb{R}^{n \times q}$ (with columns centered).</p>
             <p>$$\mathrm{maximize}\subscript{u\in\mathbb{R}^p, v\in\mathbb{R}^q} \widehat{\mathrm{Cov}}(Xu, Yv) = \frac{1}{n} u^T X^T Y v,$$
-            $$\mathrm{subject\,to} \quad \widehat{\mathrm{Var}}(Xu) = 1, \widehat{\mathrm{Var}}(Yv) = 1.$$
-            [Hotelling, 1936]</p>
+            $$\mathrm{subject\,to} \quad \widehat{\mathrm{Var}}(Xu) = 1, \widehat{\mathrm{Var}}(Yv) = 1.$$ </p>
             <p class="fragment grow">The problem is degenerate if $n \leq \mathrm{max}\left( p, q \right)$.</p>
           </section>
+
           <section>
             <h3>Sparse CCA<sup>[1-2]</sup></h3>
             <p>$\mathrm{maximize}\subscript{\mathbf{u}\in\mathbb{R}^p, \mathbf{v}\in\mathbb{R}^q} \frac{1}{n} \mathbf{u}^T X^T Y \mathbf{v},$</p>
@@ -481,51 +529,113 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             <h3>Sparse CCA</h3>
             <p><i class="em em-arrow_right"></i> Select sparsity parameters in a data-driven fashion, such that FDR is controlled.</p>
           </section>
-          <section data-markdown>
-            <script type="text/template">
-### Defining FDR for sparse CCA
 
-* Consider FDR in $\mathbf{u}$ and in $\mathbf{v}$ separately.
-* Consider hypotheses tests $H_i : u_i = 0$.
-* The null hypothesis $H_i$ is true if the $i$th feature in $X$ is uncorrelated with all features in $Y$, i.e., if
-$$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} = 0.$$
-* Let $R\subscript{\hat{\mathbf{u}}}$ be the number of the rejected $H_i$, and $V\subscript{\hat{\mathbf{u}}}$ the number of false rejections (i.e., when $\hat{u}_i \neq 0$ but $\rho^{XY}\subscript{i, j} = 0$ for all $j$).
-<p><i class="em em-arrow_right"></i> Define: $\mathrm{FDR}(\hat{\mathbf{u}}) := \mathbb{E}\left( \frac{V\subscript{\hat{\mathbf{u}}}}{\max\left\\{ R\subscript{\hat{\mathbf{u}}}, 1 \right\\}} \right).$</p>
-            </script>
-          </section>
           <section>
-            <img width="500" src="./img/20180711-Dissertation-Defense/CCA_FD_def.png" alt="Illustration of the false discovery concept for sparse CCA">
-            <p><small>
-              ⇾ False discovery proportions: FDP(u) = 1/3 and FDP(v) = 1/4.
-              &nbsp;&nbsp;&nbsp;&nbsp;⇾ FDR = E(FDP).
-            </small></p>
+            <h3>Defining FDR for sparse CCA</h3>
+            <ul>
+              <li>Adapt the widely-used FDR concept from multiple hypotheses testing to CCA.<sup>[1]</sup>
+                <blockquote>
+                The expected proportion of &ldquo;discoveries&rdquo; that are false.
+                </blockquote>
+              </li>
+              <li>Consider FDR in $\mathbf{u}$ and in $\mathbf{v}$ separately.</li>
+            </ul>
+            <br>
+            <br>
+            <p><small>[1]: Benjamini &amp; Hochberg, JRSSB, 1995.</small></p>
+          </section>
+
+          <section>
+            <h3>Defining FDR for sparse CCA</h3>
+            <ul>
+              <li>Let $\mathbf{u}$ and $\mathbf{v}$ be the first pair of population-level canonical vectors.</li>
+              <li>Let $\hat{\mathbf{u}}$ be an estimate of $\mathbf{u}$.</li>
+            </ul>
+            <blockquote>
+              The coefficient estimate $\hat{u}_i \neq 0$ represents a <b>false discovery</b> of the $i$th feature of $X$, if $u_i$ doesn't affect the value of $\mathrm{Cov}(\mathbf{x} \cdot \mathbf{u}, \mathbf{y} \cdot \mathbf{v})$, or <i>equivalently</i> if
+              $$\hat{u}_i \neq 0 \quad \text{and} \quad \mathrm{E}(X^T Y \mathbf{v})_i = 0.$$
+            </blockqoute>
+          </section>
+
+          <section>
+            <h3>Defining FDR for sparse CCA</h3>
+            <ul>
+              <li>$\mathrm{R}\subscript{\hat{\mathbf{u}}} =$ the number of non-zero elements in $\hat{\mathbf{u}}$,</li>
+              <li>$\mathrm{V}\subscript{\hat{\mathbf{u}}} =$ the number of false discoveries.</li>
+            </ul>
+            <p>Define</p>
+            <p>$\mathrm{FDR}(\hat{\mathbf{u}}) := \mathbb{E}\left( \frac{\mathrm{V}\subscript{\hat{\mathbf{u}}}}{\max\left\{ \mathrm{R}\subscript{\hat{\mathbf{u}}}, 1 \right\}} \right).$</p>
+          </section>
+
+          <section>
+            <h3>Defining gFDR for sparse CCA</h3>
+            <p>Analogously we define the group-wise false discovery rate (gFDR).</p>
+            <ul>
+              <li>$\mathrm{Rg}\subscript{\hat{\mathbf{u}}} =$ the number of non-zero groups of elements in $\hat{\mathbf{u}}$,</li>
+              <li>$\mathrm{Vg}\subscript{\hat{\mathbf{u}}} =$ the number of falsely discovered groups.</li>
+            </ul>
+            <p>Define</p>
+            <p>$\mathrm{gFDR}(\hat{\mathbf{u}}) := \mathbb{E}\left( \frac{\mathrm{Vg}\subscript{\hat{\mathbf{u}}}}{\max\left\{ \mathrm{Rg}\subscript{\hat{\mathbf{u}}}, 1 \right\}} \right).$</p>
           </section>
         </section>
 
         <!-- SlopeCCA and gSlopeCCA -->
         <section>
+          <section data-background="#D0DEBB">
+            <h1>SlopeCCA and gSlopeCCA</h1>
+          </section>
+
           <section>
-            <p><strong>SlopeCCA:</strong></p>
+            <p><strong>slopeCCA:</strong></p>
             <p><small>
               $\mathrm{minimize}\subscript{\fatu\in\R^p, \fatv\in\R^q}\, \left\{ -\fatu^T X^T Y \fatv + \sqrt{n} J\subscript{\fatlambda^u}(\fatu) + \sqrt{n} J\subscript{\fatlambda^v}(\fatv) \right\}$,
               <br>
               subject to $\lVert\fatu\rVert\subscript{2}^2 \leq 1, \lVert\fatv\rVert\subscript{2}^2 \leq 1$.
             </small></p>
-            <p><strong>gSlopeCCA:</strong></p>
+            <p><strong>gslopeCCA:</strong></p>
             <p><small>
               $\mathrm{minimize}\subscript{\fatu\in\R^p, \fatv\in\R^q} \left\{ -\fatu^T X^T Y \fatv + \sqrt{n} J\subscript{\fatlambda^u}\left( \left( \lVert \fatu\subscript{1} \rVert\subscript{2}, \dots\right)^T \right) + \sqrt{n} J\subscript{\fatlambda^v}\left(  \left( \lVert \fatv\subscript{1} \rVert\subscript{2}, \dots \right)^T \right) \right\}$,
               subject to $\lVert\fatu\rVert\subscript{2}^2 \leq 1, \lVert\fatv\rVert\subscript{2}^2 \leq 1$.
             </small></p>
             <p><small>Where $J\subscript{\fatlambda}(\fatu) = \Sigma\subscript{i=1}^p \lambda\subscript{i} |u|\subscript{(i)}$ is the Sorted L1 Norm.</small></p>
           </section>
+
+          <section>
+            <h3>SlopeCCA and gslopeCCA - computational methods</h3>
+            <p>Both are biconvex optimization problems.</p>
+            <p>Alternating optimization algorithms are guaranteed to converge.</p>
+          </section>
+
           <section>
             <h3>SlopeCCA and gSlopeCCA - theoretical guarantees</h3>
-            <p>Asymptotic FDR guarantees if $Cov(X)$ and $Cov(Y)$ are block-diagonal.</p>
+            <p>Asymptotic (i.e., as $n\to\infty$) FDR and gFDR guarantees if $Cov(X)$ and $Cov(Y)$ are diagonal or block-diagonal.</p>
             <p>($Cov(X, Y)$ can be of arbitrary shape)</p>
           </section>
+
           <section>
-            <img width="900" src="./img/20180711-Dissertation-Defense/TCGA_gslopeCCA_canonical_variates.png" alt="Results from an application of gSlopeCCA to the Cancer Genome Atlas data">
-            <p><strong>Application example:</strong> Results of gSlopeCCA applied to methylation and mRNA data from 12 diseases available from the Cancer Genome Atlas data.</p>
+            <img width="800" src="./img/20180711-Dissertation-Defense/slopeCCA_FDR.png" alt="Simulation studies investigating the false discovery rates resulting from slopeCCA, gslopeCCA, and L1-penalized sparse CCA.">
+            <p><small><strong>Simulation studies:</strong> FDR and gFDR of slopeCCA, gslopeCCA, and $\ell_1$-penalized CCA solutions; $n = 200, 1000, 5000, 10000$ and $p_X = p_Y = 300$; 11 evenly spaced sparsity levels between 0 (i.e., $X$ is uncorrelated with $Y$) and 1 (i.e., every feature of $X$ is correlated to some feature of $Y$, and vice versa); 500 independent simulation runs; dashed line represents theoretical bounds for slopeCCA and gslopeCCA.<br>[Figure 4.1 in the thesis]</small></p>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+### Application to TCGA
+
+The Cancer Genome Atlas (TCGA):
+
+* NIH initiative since 2005.
+* Coordinated data collection at 20 collaborating institutions in U.S. and Canada.
+* Genomic samples from tumor cells of different cancers and matched normal cells.
+* Data include: gene expression, methylation, CNV, SNP, microRNA, and whole genome, exon, or transcriptome sequencing.
+* <https://cancergenome.nih.gov/>
+            </script>
+          </section>
+
+          <section>
+            <img width="700" src="./img/20180711-Dissertation-Defense/TCGA_gslopeCCA_canonical_variates.png" alt="Results from an application of gSlopeCCA to the Cancer Genome Atlas data">
+            <p><small>Canonical variates estimated by gslopeCCA on methylation and mRNA data from TCGA ($n = 1109$, $p_X = 24981$, $p_Y = 20255$).
+              Observations are colored according to cancer type, revealing clear differences.
+              <br>[Figure 4.2 in the thesis]</small></p>
             <aside class="notes">
               <p>Apart from looking at the results of feature selection (i.e., which genes got selected),
               we can also look at the canonical variates.
@@ -535,49 +645,74 @@ $$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} 
               one can distinguish different types of cancer cells rather well.</p>
             </aside>
           </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              ### TCGA &mdash; Conclusions
+
+* Canonical variates reveal differences between cancer types.
+* Using the four canonical variates as the only predictors to classify cancer type yields classification accuracy over 93% on test data.
+* The estimated canonical vectors are not sparse (over 95% of groups selected). Biological interpretation not feasible.
+            </script>
+          </section>
         </section>
 
         <!-- FDR-corrected SCCA -->
         <section>
+          <section data-background="./img/20180711-Dissertation-Defense/T2star_preproc_facetted.gif">
+            <h1>FDR-corrected sparse CCA</h1>
+          </section>
+
           <section>
             <h2>FDR-corrected sparse CCA</h2>
-            <p>A split-sample, two-step procedure:</p>
+
+            <p><b>Motivation:</b> The assumption of slopeCCA and gslopeCCA that $Cov(X)$ and $Cov(Y)$ are diagonal or block-diagonal is too restrictive in many cases.</p>
+          </section>
+
+          <section>
+            <h2>FDR-corrected sparse CCA</h2>
+            <p>A split-sample, two-step procedure:<sup>[1]</sup></p>
             <ol>
               <li>Split the data in two parts.</li>
               <li><strong>Using the first subsample:</strong> obtain initial estimates $\hat{\fatu}^{(0)}$ and $\hat{\fatv}^{(0)}$ using conventional sparse CCA.</li>
               <li><strong>Using the second subsample:</strong> test hypotheses of the form,
-                $$\mathrm{H}^{(u)}\subscript{i} : u\subscript{i}^{(0)} = 0, \quad \mathrm{H}^{(v)}\subscript{j} : v\subscript{j}^{(0)} = 0,$$
-                and adjust for multiple comparisons to control the FDR.
+                $$\mathrm{H}^{(u)}\subscript{i} : \mathrm{E}\left(X^T Y \mathbf{v}\right)\subscript{i} = 0, \quad \mathrm{H}^{(v)}\subscript{j} : \mathrm{E}\left(Y^T X \mathbf{u}\right)\subscript{j} = 0,$$
+                and adjust for multiple comparisons to control FDR.
               </li>
             </ol>
+            <br>
+            <br>
+            <small>[1]: Gossmann et. al., IEEE TMI, 2018.</small></p>
             <aside class="notes">
               I modified my approach.
             </aside>
           </section>
+
           <section>
-            <h3>FDR-corrected sparse CCA - Theoretical Guarantees</h3>
+            <h3>FDR-corrected sparse CCA - Theoretical FDR Guarantees</h3>
             <ol>
-              <li>Equivalence to hypotheses:
-  $$\mathrm{H}^{(u)}\subscript{i} : \left(X^T Y \hat{\fatv}^{(0)}\right)\subscript{i} = 0, \quad \mathrm{H}^{(v)}\subscript{j} : \left(Y^T X \hat{\fatu}^{(0)}\right)\subscript{j} = 0,$$
-              </li>
-              <li>After approximating the distribution of $X^T Y \hat{\fatv}^{(0)}$, we can use Benjamini-Hochberg to control FDR.</li>
+              <li>Asymptotic theory allows us to approximate the distributions of $X^T Y \hat{\fatv}^{(0)}$ and $Y^T X \hat{\fatu}^{(0)}$.</li>
+              <li>We can use the Benjamini-Hochberg procedure to control the FDR.</li>
             </ol>
             <p class="fragment"><i class="em em-arrow_right"></i> Confirmed with extensive simulation studies on synthetic and real data.<sup>[1]</sup>
             <br>
             <br>
             <small>[1]: Gossmann et. al., IEEE TMI, 2018.</small></p>
           </section>
-          <!--<section>
+
+          <section>
             <h3>Simulation Studies</h3>
             <img width="960" src="./img/20180711-Dissertation-Defense/high_dim_FDR_combined.png" alt="Simulation studies of the FDR-corrected sparse CCA method.">
             <p>$X, Y \in \R^{600 \times 1500}$.
             FDR is controlled regardless of the sparsity of the true solution.</p>
           </section>
+
           <section>
             <h3>Simulation Studies</h3>
             <img width="960" src="./img/20180711-Dissertation-Defense/high_dim_TPR_combined.png" alt="Simulation studies of the FDR-corrected sparse CCA method.">
             <p>True positive rate is on par with competing methods.</p>
-          </section>-->
+          </section>
+
           <section>
             <h3>FDR-corrected SCCA - Application</h3>
             <ul>
@@ -597,12 +732,11 @@ $$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} 
           </section>
           <section>
             <h3>Objective</h3>
-            <blockquote>
-            Use sparse CCA to identify the relationships between brain activity, brain connectivity, and genomics.
-            </blockquote>
+
+            <p>Use sparse CCA to identify the relationships between brain activity, brain connectivity, and genomics.</p>
           </section>
           <section>
-            <h3>n-back fMRI vs. SNPs</h3>
+            <h3>Application 1: n-back fMRI vs. SNPs</h3>
             <img width="960" src="./img/20180711-Dissertation-Defense/voxels_vs_genes.png" alt="PNC results: n-back task fMRI vs. SNP analysis">
             <p><small>Selection from $85796$ brain voxels and $60372$ genomic features.</small></p>
           </section>
@@ -615,7 +749,7 @@ $$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} 
             </ol>
           </section>
           <section>
-            <h3>Functional connectivity (FC) vs. SNPs</h3>
+            <h3>Application 2: Functional connectivity (FC) vs. SNPs</h3>
             <ol>
               <li>Emotion identification task fMRI data transformed to FC measures.</li>
               <li>FDR-corrected sparse CCA solution includes 129 genomic features and 107 FC features.</li>
@@ -681,13 +815,14 @@ $$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} 
 
         <!-- Thresholdout -->
         <section>
-          <section>
+          <section data-background="#78BE20">
             <h3>Another type of false findings</h3>
             <p><i class="em em-white_check_mark"></i> Feature selection with FDR control.</p>
             <p><i class="em em-arrow_right"></i> Features can be used to fit a predictive model.</p>
             <p class="fragment grow">Danger of over-fitting to the local noise in the given dataset, resulting in false predictions on new data.</p>
             <p>What to do?</p>
           </section>
+
           <section>
             <p>In Machine Learning practice, generally, usage of two independent datasets &mdash; <i>"training"</i> and <i>"test"</i> data.</p>
             <p class="fragment"><strong>Training data:</strong> exploratory analysis, model fitting, parameter tuning, comparison of different machine learning algorithms, feature selection, etc.</p>
@@ -698,15 +833,19 @@ $$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} 
               The performance metric obtained on test data will make it evident whether any overfitting has occurred during model training. Other techniques (multiple testing, cross-validation, bootstrap) can be used to avoid or reduce the overfitting on the training data.
               </aside>
           </section>
+
           <section data-transition="slide-in fade-out">
             <img width="960" src="./img/20180211-SPIE-Medical-Imaging/test_data_reuse_1.png" alt="Test data reuse 1">
           </section>
+
           <section data-transition="fade-in fade-out">
             <img width="960" src="./img/20180211-SPIE-Medical-Imaging/test_data_reuse_2.png" alt="Test data reuse 2">
           </section>
+
           <section data-transition="fade-in slide-out">
             <img width="960" src="./img/20180211-SPIE-Medical-Imaging/test_data_reuse_3.png" alt="Test data reuse 3">
           </section>
+
           <section>
             <h2>Idea</h2>
             <p>Can we <strong>obfuscate</strong> the test data to avoid overfitting?</p>
@@ -715,10 +854,112 @@ $$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} 
             <br><br><br>
             <small>[1]: Dwork, McSherry, Nissim, Smith, 2006.<br> [2]: Dwork et. al., Science, 2015.<br> [3]: Gossmann et. al., SPIE 2018.</small></p>
           </section>
+
           <section>
-            <h2>Next</h2>
-            <p class="fragment fade-right"><i class="em em-arrow_right"></i> Investigation of the overfitting behavior resulting from the use of modern "black box" machine learning algorithms.</p>
-            <p class="fragment fade-right"><i class="em em-arrow_right"></i> Apply our test data reuse method to real neuroimaging and genomic data.</p>
+            <h3>Differential privacy (Dwork, McSherry, Nissim, Smith, 2006)</h3>
+
+            <ul>
+              <li>A mathematically rigorous definition of data privacy.
+                  $$P[\mathcal{M}(D) \in S] \leq e^\varepsilon P[\mathcal{M}(D^\prime) \in S] + \delta.$$
+              </li>
+              <li><b>Intuition:</b> An individual data point has little impact on the value reported by a DP mechanism.</li>
+              <li><b>Intuition:</b> An adversary cannot learn an individual data point from querying a DP mechanism.</li>
+              <li><b>Properties:</b> DP is <i>preserved</i> under <i>post-processing</i> and under <i>adaptive composition</i>.</li>
+            </ul>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+### Differentially private access to test data
+
+* Currently available literature focuses on theory.
+* Available theoretical requirements too restrictive for most of applied data analysis and machine learning.
+* Computational experiments available in the literature consider only simple instances of adaptivity, simple performance metrics, and simple machine learning algorithms &mdash; not capturing the reality of current data analysis practices adequately.
+            </script>
+          </section>
+
+          <section style="text-align: left;">
+<img src="./img/20180211-SPIE-Medical-Imaging/ROC.png" align="right" alt="Figure of an ROC curve">
+<li>Invariance to prevalence.</li>
+<li>Independence of the decision threshold (can be chosen later).</li>
+<li>Probabilistic meaning.</li>
+<li>Extensively used in the medical field, including medical imaging.</li>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+            ### Thresholdout + AUC = <i class="em em-heart"></i>
+
+            __Thresholdout$_{\mathrm{AUC}}$__ combines the original __Thresholdout (DFHPRR, Science, 2015)__ with __AUC__ as the reported performance metric on test data.
+            </script>
+          </section>
+
+          <section>
+            <h3>Thresholdout$_{\mathrm{AUC}}$ &mdash; rough summary</h3>
+
+            <div align="center">
+              <div style='background-color: rgba(0, 0, 0, 0.9); width: 600px;'>
+                <p style='border:4px black solid; font-size:42px;'>
+                  Trained classifier $\phi(x) \in [0,1]$
+                </p>
+              </div>
+            </div>
+
+            <p><i class="em em-arrow_down"></i></p>
+
+            <div align="center">
+              <div style='background-color: rgba(0, 0, 0, 0.9); width: 800px;'>
+                <div align="left">
+                  <p style='border:4px black solid; font-size:42px;'>
+                  <b>If</b> $\lvert \mathrm{AUC}_{\mathrm{training}}(\phi) - \mathrm{AUC}_{\mathrm{test}}(\phi) \rvert > \tilde{T}$:<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;output $\mathrm{AUC}_{\mathrm{test}}(\phi) +$ "a little noise"<br>
+                  <b>Else</b>:<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;output $\mathrm{AUC}_{\mathrm{training}}(\phi)$
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              ### Theorem &mdash; rough summary
+
+              1. **If** a test dataset, which is used for performance evaluation repeatedly, is only accessed via Thresholdout$_{\mathrm{AUC}}$.
+              $\Longrightarrow$ **Then** with a high probability $(1 − \beta)$ the reported AUC estimates will be correct up to a small tolerance $\tau$.
+              2. **Restriction**: Test data access "budget" $B$, which is linear in the size of the test data $n$, and also depends on $\beta$, $\tau$, and the class balance.
+
+              <aside class="notes">
+              * $\beta$ and $\tau$ are pre-specified by the analyst.
+              * This result holds even when each analysis step is adaptively chosen based on the reported AUC estimates obtained from previous analyses on the same test data using Thresholdout$_{\mathrm{AUC}}$.
+              </aside>
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              ### Logistic Regression
+
+              ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape_GLM_only.png)
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              ### Logistic Regression
+
+              * __Naive approach__: Classifier learns the effect of local noise in the test data (overfitting).
+              * __Thresholdout approach__: The gap between the reported and the true AUC is much narrower!
+
+              ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape_GLM_only_small.png)
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape.png)
+              Accuracy of reported AUC values is improved, at the cost of slightly higher uncertainty in the reported AUC, and slightly worse predictive performance.
+            </script>
           </section>
         </section>
 
@@ -738,7 +979,7 @@ $$(\forall j\in\left\\{ 1, 2, \dots, p_Y \right\\}) : \rho^{XY}\subscript{i, j} 
         <!-- Last slide -->
         <section>
           <section data-background="./img/20180711-Dissertation-Defense/dna-with-equations.jpg">
-            <img width="480" src="./img/20180711-Dissertation-Defense/Parasagittal_MRI_of_human_head_in_patient_with_benign_familial_macrocephaly_prior_to_brain_injury_(ANIMATED).gif" alt="Structural MRI animation">
+            <img width="600" src="./img/20180711-Dissertation-Defense/T2star_preproc_facetted_questions.gif" alt="Structural MRI animation">
           </section>
         </section>
 

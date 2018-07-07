@@ -195,16 +195,17 @@
           <section>
             <h2>Models</h2>
             <p>
-            $$y = f(x\subscript{1}, x\subscript{2}, \ldots, x\subscript{p}) + \varepsilon,$$
-            where $x\subscript{1}, x\subscript{2}, \ldots, x\subscript{p}$ are predictor variables, $\varepsilon$ is random noise, and $y$ is the phenotype.</p>
+            $$y = f\subscript{\boldsymbol{\theta}}(x\subscript{1}, x\subscript{2}, \ldots, x\subscript{p}) + \varepsilon,$$
+            where $x\subscript{1}, x\subscript{2}, \ldots, x\subscript{p}$ are predictor variables, $\varepsilon$ is random noise, $y$ is the phenotype, and $\boldsymbol{\theta}$ is a vector of parameters to be estimated.</p>
             <p class="fragment fade-up">Human DNA $\approx 3\cdot 10^9$ base pairs ⇝ vast majority not related to phenotype of interest
             <i class="fragment highlight-red">⇝ sparse models</i>
-            $$\Rightarrow y = f(x\subscript{a\subscript{1}}, x\subscript{a\subscript{2}}, \ldots, x\subscript{a\subscript{m}}) + \varepsilon,$$
+            $$\Rightarrow y = f\subscript{\tilde{\boldsymbol{\theta}}}(x\subscript{a\subscript{1}}, x\subscript{a\subscript{2}}, \ldots, x\subscript{a\subscript{m}}) + \varepsilon,$$
             where $\{a\subscript{1}, a\subscript{2}, \ldots, a\subscript{m}\} \subset \{1,2,\ldots,p\}$ is a small subset ($m \ll p$).</p>
             <aside class="notes">
               <p>A statistical model is essentially a randomized function that maps a set of predictor variables to an outcome variables.</p>
               <p>More precisely, you may call the shown model a regression model.</p>
               <p>However, consider for example your favorite phenotype (like certain disease or trait) and the human DNA. The human DNA consists of 3 billion base pairs, and one can't expect that all bases have an effect on the specific phenotype. In fact, one can expect that only the changes/mutations within a relatively small number of genes will have an effect. This brings us to the topic of sparse models.</p>
+              <p>Cardinality of theta may be referred to as degrees of freedom in some contexts.</p>
             </aside>
           </section>
 
@@ -463,6 +464,7 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
               <li>Theoretical gFDR control under orthogonal groups.<sup>[2-3]</sup></li>
               <li>Error variance estimation: <i>Scaled sparse linear regression</i> vs. <i>EigenPrism</i>.</li>
               <li>Analysis of runtime on large DNA seq datasets.<sup>[3]</sup></li>
+              <li>(Group SLOPE is asymptotically minimax w.r.t. estimation &mdash; in [2] but not in the thesis).</li>
             </ul>
             <br>
             <p><small>
@@ -803,6 +805,10 @@ The Cancer Genome Atlas (TCGA):
             <p><i class="em em-arrow_right"></i> Features can be used to fit a predictive model.</p>
             <p class="fragment grow">Danger of over-fitting to the local noise in the given dataset, resulting in false predictions on new data.</p>
             <p>What to do?</p>
+            <aside class="notes">
+              <p>Now that we know how to identify truly relevant predictive features, we can come back to the problem of prediction.</p>
+              <p>Whenever one does prediction based on data, there is the danger of obtaining a model that is extremely accurate on the data that you are using, but which does not generalize to the population from whic the data were drawn.</p>
+              <p>This is called over-fitting in statistics and machine learning. The trained/fitted model mistakes the particular instantiation of the noise in the given data for the signal.</p>
           </section>
 
           <section>
@@ -844,36 +850,43 @@ The Cancer Genome Atlas (TCGA):
               <li>A mathematically rigorous definition of data privacy.
                   $$P[\mathcal{M}(D) \in S] \leq e^\varepsilon P[\mathcal{M}(D^\prime) \in S] + \delta.$$
               </li>
-              <li><b>Intuition:</b> An individual data point has little impact on the value reported by a DP mechanism.</li>
-              <li><b>Intuition:</b> An adversary cannot learn an individual data point from querying a DP mechanism.</li>
+              <li><b>Idea:</b> An individual data point has little impact on the value reported by a DP mechanism.</li>
+              <li><b>Purpose:</b> An adversary cannot learn an individual data point from querying a DP mechanism.</li>
               <li><b>Properties:</b> DP is <i>preserved</i> under <i>post-processing</i> and under <i>adaptive composition</i>.</li>
             </ul>
+            <aside class="notes">
+              <p>(...) ...and trying to obfuscate or to protect data is closely related to data privacy.</p>
+              <p>Differential privacy is a beautiful mathematically regorous definition of privacy, that has gained increasing attention in about the last 5 years (in fact, Cynthia Dwork and co-authors have received the Goedel price for the invention of DP last year, which is the highest price in theoretical computer science, named after the logician Kurt Goedel, who is known for his incompleteness theorems).</p>
+            </aside>
           </section>
 
           <section data-markdown>
             <script type="text/template">
 ### Differentially private access to test data
 
-* Currently available literature focuses on theory.
-* Available theoretical requirements too restrictive for most of applied data analysis and machine learning.
-* Computational experiments available in the literature consider only simple instances of adaptivity, simple performance metrics, and simple machine learning algorithms &mdash; not capturing the reality of current data analysis practices adequately.
+Currently available literature:
+
+* Focuses on theory.
+* Theoretical assumptions are too restrictive for most of applied data analysis and machine learning.
+* Computational experiments are rather simplistic.
             </script>
           </section>
 
           <section style="text-align: left;">
 <img src="./img/20180211-SPIE-Medical-Imaging/ROC.png" align="right" alt="Figure of an ROC curve">
-<li>Invariance to prevalence.</li>
-<li>Independence of the decision threshold (can be chosen later).</li>
-<li>Probabilistic meaning.</li>
-<li>Extensively used in the medical field, including medical imaging.</li>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-            ### Thresholdout + AUC = <i class="em em-heart"></i>
-
-            __Thresholdout$_{\mathrm{AUC}}$__ combines the original __Thresholdout (DFHPRR, Science, 2015)__ with __AUC__ as the reported performance metric on test data.
-            </script>
+<p><strong>Thresholdout + AUC = <i class="em em-heart"></i></strong></p>
+<p>Thresholdout$_{\mathrm{AUC}}$<sup>[2]</sup> combines the Thresholdout technique<sup>[1]</sup> with AUC as the reported performance metric on test data.</p>
+<br>
+<br>
+<small>[1]: Dwork et. al., Science, 2015.<br>[2]: Gossmann et. al., SPIE 2018.</small></p>
+<aside class="notes">
+  <ul>
+    <li>Invariance to prevalence.</li>
+    <li>Independence of the decision threshold (can be chosen later).</li>
+    <li>Probabilistic meaning.</li>
+    <li>Extensively used in the medical field, including medical imaging.</li>
+  </ul>
+</aside>
           </section>
 
           <section>
@@ -934,6 +947,10 @@ The Cancer Genome Atlas (TCGA):
               * __Thresholdout approach__: The gap between the reported and the true AUC is much narrower!
 
               ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape_GLM_only_small.png)
+              <aside class="notes">
+              <p>We may reuse the test data as often as we like, with the containt that only AUC values can be reported back from the test data.</p>
+              <p>What model to try next is determined by the AUC values obtained on the test data for the previous models.</p>
+              </aside>
             </script>
           </section>
 

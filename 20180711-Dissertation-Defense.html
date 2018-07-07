@@ -85,19 +85,17 @@
           <section>
             <h2>Precision Medicine</h2>
             <p>Inter-personal diversity in the patients' biology</p>
-            <p class="fragment fade-right">⇾ differences in disease susceptibility/progression</p>
-            <p class="fragment fade-right">⇾ differences in treatment efficacy</p>
-            <p class="fragment fade-right">⇾ "personalized" treatment plans.</p>
-          </section>
-
-          <section>
-            <h2>Precision Medicine</h2>
-            <ul>
-              <li>New drugs and devices targeting specific subpopulations (or even individuals).</li>
-              <li>No more treatment based on trial-and-error.</li>
-              <li>↑ Quality of healthcare</li>
-              <li>↓ Treatment time and cost.</li>
-            </ul>
+            <p class="fragment fade-right">⇾ "personalized" treatment plans</p>
+            <p class="fragment fade-up">↑ Quality of healthcare</p>
+            <p class="fragment fade-down">↓ Treatment time and cost</p>
+            <aside class="notes">
+              <p>As discussed in some detail during my prospectus defense the motivation and the ultimate purpose of this research is precision medicine.</p>
+              <p>⇾ differences in disease susceptibility/progression</p>
+              <p>⇾ differences in treatment efficacy</p>
+              <p>⇾ "personalized" treatment plans.</p>
+              <p>New drugs and devices targeting specific subpopulations (or even individuals).</p>
+              <p>No more treatment based on trial-and-error.</p>
+            </aside>
           </section>
 
           <section>
@@ -124,15 +122,15 @@
               <p>First let me give you some background on where genomic and neuroimagning data comes from.
               A gene is a section of DNA.
               DNA is physically encoded in four molecules (nucleobases).
-              Genes encode proteins or non-coding RNA, which have a biological function.
-              Genomic data include information on the structure of the DNA, and amount of protein produced.
+              Broadly speaking, genes encode proteins or non-coding RNA, which have a biological function.
+              Genomic data include information on the structure of the DNA, and amount of protein produced, which can all be expressed/stored in numeric form.
             </aside>
           </section>
 
           <section data-background="#0f829d">
             <ul>
               <li>Structural MRI: anatomical structure of the brain.</li>
-              <li>Functional MRI: brain activity associated with blood flow related to energy use by brain cells.</li>
+              <li>Functional MRI: brain activity associated with blood flow related to energy use by brain cells across time.</li>
             </ul>
             <img width="270" src="./img/20180711-Dissertation-Defense/T1.gif" alt="Structural MRI animation">
             <img width="270" src="./img/20180711-Dissertation-Defense/T2star_raw.gif" alt="Raw BOLD fMRI (n-back task) from a randomly chosen PNC subject at a fixed time point">
@@ -151,12 +149,18 @@
             <aside class="notes">
               <p>These are some MRIs of the human brain.</p>
               <p>They either supply us with anatomical structure, or brain activity over time.</p>
-              <p>I mostly use fMRI data which gives you brain activity measures in brain voxels, which are 3d pixels, at discrete points in time.</p>
+              <p>MRI 3D volumes are collected as 2D axial slices, as I have visualized in the shown animations for a randomly chosen PNC subject (about 10 years old, female). As discussed in the thesis there</p>
+              <p>You can see a raw structural or T1-weighted MRI on the left, a raw BOLD fMRI in the middle, and an fMRI after preprocessing on the right.</p>
+              <p>I use BOLD fMRI data which gives you brain activity measures in brain voxels, which are 3d pixels, at discrete points in time.</p>
+              <p>In this thesis I mostly use BOLD fMRI data which gives you brain activity measures in brain voxels, which are 3d pixels, at discrete points in time.</p>
             </aside>
           </section>
 
           <section data-background="./img/20180711-Dissertation-Defense/T2star_preproc_facetted.gif" data-background-size="900px" data-background-color="#0f829d">
             <p>[230 time points]</p>
+            <aside class="notes">
+              <p>Here you see the data for the same random subject visualized at different time points.</p>
+            </aside>
           </section>
 
           <section>
@@ -164,39 +168,16 @@
             <img width="600" src="./img/20180711-Dissertation-Defense/endophenotype.png" alt="Relationship: Genomics - Brain MRI - Phenotype">
             <ul>
               <li>Neuroimaging as an endophenotype.<sup>[1-2]</sup></li>
-              <li>Use of fMRI to monitor & guide drug treatment.<sup>[3-5]</sup></li>
+              <li>Use of fMRI to aid diagnosis, or to monitor &amp; guide drug treatment.<sup>[3-5]</sup></li>
             </ul>
             <br><br>
             <p><small>[1]: Hashimoto et. al., 2015, [2]: Poline et. al., 2015, [3]: Weickert et al., 2004, [4]: Apud et al., 2007, [5]: Goldstein-Piekarski et al., 2016.</small></p>
             <aside class="notes">
+              <p>To bring this back to the topic of precision medicine:</p>
               <p>Mental disorders are known to be heritable, but it has proven to be very difficult to identify the causal genes of these complex diseases.
               Measures of brain function and structure, as an intermediate phenotype between genomics and clinical traits or behavioral measures, are more powerful in the identification of genomic associations, and in the interpretation of the function of the identified genes
               (because gene expression directly affects cellular metabolism, which directly influences the neural circuity).</p>
             </aside>
-          </section>
-        </section>
-
-        <section>
-          <section data-markdown>
-            <script type="text/template">
-            ## Reproducible Research
-
-            Reproducibility = *re-performing the same analyses on the same data with the same code, while using a different data analyst* [Patil et al., 2016].
-            <ul>
-              <li>Clear documentation of methods and analyses in peer-reviewed publications.</li>
-              <li>Usage of publicly accessible datasets only.</li>
-              <li>Publication of free & open-source software (through [CRAN](https://cran.r-project.org/), [Bioconductor](https://www.bioconductor.org/), [PyPI](https://pypi.python.org/), [RubyGems](https://rubygems.org/), [Github](https://github.com/), etc.).</li>
-              <li>One-off analysis scripts deposited on [Github](https://github.com/).</li>
-              <li>Open access, [arXiv](https://arxiv.org/), [bioRxiv](https://www.biorxiv.org/), [Creative Commons](https://creativecommons.org/).</li>
-            </ul>
-            <aside class="notes">
-            <p>Throughout my work I focus on the reproducibility of my research,
-            which means that a different data analyst should be able to obtain the same data, the same code,
-            and a clear description of the performed analysis steps, in order to reproduce my results.<p>
-            <p>In addition, some of my methods are generally applicable, and I make them available to the broad research community
-            as well-documented, free & open-source software, for example through the Comprehensive R Archive Network.</p>
-            </aside>
-            </script>
           </section>
         </section>
 
@@ -206,6 +187,9 @@
             <div style="background-color: rgba(0, 0, 0, 0.8); color: #fff; padding: 40px;">
               <h1>Models</h1>
             </div>
+            <aside class = "notes">
+              <p>Before I present my methods and results, let me give you some brief backgournd on statistical models.</p>
+            </aside>
           </section>
 
           <section>
@@ -218,17 +202,21 @@
             $$\Rightarrow y = f(x\subscript{a\subscript{1}}, x\subscript{a\subscript{2}}, \ldots, x\subscript{a\subscript{m}}) + \varepsilon,$$
             where $\{a\subscript{1}, a\subscript{2}, \ldots, a\subscript{m}\} \subset \{1,2,\ldots,p\}$ is a small subset ($m \ll p$).</p>
             <aside class="notes">
-              <p>Before I get into the details let me give some brief background on statistical methods.</p>
               <p>A statistical model is essentially a randomized function that maps a set of predictor variables to an outcome variables.</p>
+              <p>More precisely, you may call the shown model a regression model.</p>
+              <p>However, consider for example your favorite phenotype (like certain disease or trait) and the human DNA. The human DNA consists of 3 billion base pairs, and one can't expect that all bases have an effect on the specific phenotype. In fact, one can expect that only the changes/mutations within a relatively small number of genes will have an effect. This brings us to the topic of sparse models.</p>
             </aside>
           </section>
 
           <section>
             <h3>Sparse Models</h2>
             <img width = 400 src="./img/20180711-Dissertation-Defense/sparsity.png" alt="The sparsity assumption in statistical modeling">
+            <aside class="notes">
+              <p>Here is an illustration of what it means to have a sparse regression model, where the distribution of the phenotype or outcome variable y conditional on the predictor variables x5, x8, and x13 is the same as the distribution conditional on all potential predictor variables x1, x2, and so on.</p>
+            </aside>
           </section>
 
-          <section>
+          <section data-background="#fff">
             <h3>The two-faced model selection problem</h3>
             <p style="text-align:left;">
               <i class="em em-arrow_right"></i> <strong>Prediction:</strong>
@@ -255,9 +243,17 @@
                 Curse of dimensionality.
               </span>
             </p>
+            <aside class="notes">
+              <p>So, if there is this type of sparsity in the relationships between the input and output variables, then a statistical modeling actually has to solve two related but fundamentally different problems at the same time.</p>
+              <p>One - obtain the best possible predictions of the outcome variables y based on the given predictor variables x1, x2, and so on; and two - find the subset of predictor variables that are actually associated with the outcome variable y, and dispose of the irrelevant variables.</p>
+              <p>Both problems are essential in biomedical applications. One for example for disease diagnosis or risk prediction, and the other to help understand the cause of disease, that is, for the identification of targets for treatment.</p>
+              <p>Depending on which of the two modeling problems you consider, you are dealing with a conceptionally different type of false findings.</p>
+              <p>In prediction you may have FP (or FN), e.g., a misdiagnosis; while in feature selection we have false discoveries, e.g., a gene identified as associated to disease when it is not.</p>
+              <p>Unfortunately, many ML methods, and also many statistical models, which are commonly used in genomics and neuroimaging (and seem to perform well), provide no way to obtain an idea of how many false findings to expect.</p>
+            </aside>
           </section>
 
-          <section>
+          <section data-background="#fff">
             <h2>Aims</h2>
             <p>Establish <strong>guarantees</strong> on...</p>
             <ul>
@@ -265,6 +261,9 @@
               <li class="fragment grow">false predictions on new data (generalization)</li>
             </ul>
             <p>...for types of methods commonly used in the analysis of genomic and neuroimaging data.</p>
+            <aside class="notes">
+              <p>In my thesis, I proposed methods similar to the ones widely used in genomics and neuroimaging. However, my methods focus on explicitly establishing guarantees...</p>
+            </aside>
           </section>
         </section>
 
@@ -280,6 +279,7 @@
             <aside class="notes">
               <p>At this point I would like to acknowledge my collaborators at Tulane at beyond...</p>
               <p>Most importantly Dr. Yu-Ping Wang's MBB lab at Tulane.</p>
+              <p>And a few other places where people who have helped me with my research work.</p>
             </aside>
           </section>
         </section>
@@ -289,27 +289,14 @@
         <section>
           <section data-background="./img/20180711-Dissertation-Defense/dna-with-equations.jpg">
             <div style="background-color: rgba(0, 0, 0, 0.8); color: #fff; padding: 20px;">
-              <h2>Feature selection in regression models</h2>
+              <h3>Feature selection in genomics and neuroimaging</h3>
             </div>
-          </section>
-
-          <section>
-            <h3>Feature selection in genomics and neuroimaging</h3>
-            <ul>
-              <li>Prediction of a phenotype based on few features.
-                <br><span class="fragment">↳ Inexpensive diagnosis.</span>
-              </li>
-              <li>Elimination of noisy or redundant features.
-                <br><span class="fragment">↳ More accurate prediction.</span>
-              </li>
-              <li>Data-generated hypotheses.
-                <br><span class="fragment">↳ Biological insights.</span>
-              </li>
-            </ul>
             <aside class="notes">
               <p>First I will focus on the feature selection problem, and later I will talk about the prediction problem.</p>
+              <p>Feature selection is important for accuracy of prediction (removing redundant or "noisy" features), inexpensive diagnosis (accurate prediction based on a small number of features), and data-generated biological hypotheses.</p>
             </aside>
           </section>
+
           <section>
             <h3>Multiple hypotheses testing</h3>
               <p>
@@ -320,35 +307,42 @@
                 <li>$\beta\subscript{i} := $ effect of $i$th feature.</li>
                 <li>$R := $ number of rejected hypotheses.</li>
                 <li>$V := $ number of false rejections (i.e., Type I errors).</li>
-                <li class="fragment highlight-green"><strong>Family-wise error rate:</strong> $\mathrm{FWER} = \mathbb{P}(V \geq 1)$.<sup>(*)</sup></li>
-                <li class="fragment highlight-green"><strong>False discovery rate:</strong> $\mathrm{FDR} = \mathbb{E}\left( \frac{V}{\min\{R, 1\}} \right)$.<sup>(**)</sup></li>
+                <li class="fragment highlight-green"><strong>Family-wise error rate:</strong> $\mathrm{FWER} = \mathbb{P}(V \geq 1)$.<sup>[1]</sup></li>
+                <li class="fragment highlight-red"><strong>False discovery rate:</strong> $\mathrm{FDR} = \mathbb{E}\left( \frac{V}{\min\{R, 1\}} \right)$.<sup>[2]</sup></li>
               </ul>
               <br><br>
               <p><small>
-                (*): E.g., Bonferroni, Holm (1979), Hommel (1988).
+                [1]: E.g., Bonferroni, Holm (1979), Hommel (1988).
                 <br>
-                (**): E.g., Benjamini-Hochberg (1995), Benjamini-Yukutieli (2001).
+                [2]: E.g., Benjamini-Hochberg (1995), Benjamini-Yukutieli (2001).
               </small></p>
               <aside class="notes">
-                <p>By design the FDR or FWER will be controlled.
-                E.g, GWAS.</p>
+                <p>The classical way to avoid false discoveries is found in the theory on multiple hypotheses testing.</p>
+                <p>There are two imporant measures of error rates in feature selection - FWER and FDR.</p>
+                <p>By design the FDR or FWER will be controlled.  E.g, GWAS.</p>
+                <p>I focus on FDR. It is more advantageous in ver high-dimensional setting, because FWER is too unforgiving and strict (FWER says "not a singly FD", FDR says "FDs are ok as long as their proportion is below a certain percentage" leading to higher detection power).</p>
                 <p>But: Like trying to understand a sentence by analysing each letter separately, one at a time.</p>
               </aside>
           </section>
 
           <section>
             <h3>Sparse regression</h3>
-            <p>$$\hat{\boldsymbol{\beta}} = \arg\min\subscript{\mathbf{b}\in\mathbb{R}^p} \frac{1}{2} \lVert\mathbf{y} - X\mathbf{b}\rVert\subscript{2}^2 + \lambda\lVert\mathbf{b}\rVert\subscript{1}.$$</p>
+            <p><strong>LASSO:</strong> $\hat{\boldsymbol{\beta}} = \arg\min\subscript{\mathbf{b}\in\mathbb{R}^p} \frac{1}{2} \lVert\mathbf{y} - X\mathbf{b}\rVert\subscript{2}^2 + \lambda\lVert\mathbf{b}\rVert\subscript{1}.$<small><sup>[1]</sup></small></p>
             <ul>
               <li>$\mathbf{y} = f(X) + \boldsymbol{\varepsilon} \approx f(X) = X\boldsymbol{\beta} \approx X\hat{\boldsymbol{\beta}}$.</li>
               <li>Yields a sparse solution $\hat{\boldsymbol{\beta}}$.</li>
               <li>Computationally efficient (convex).</li>
               <li>Very useful in practice.</li>
-              <li class="fragment highlight-green"><strong>Problem:</strong> how sparse should $\hat{\boldsymbol{\beta}}$ be?</li>
-              <li class="fragment highlight-green"><strong>Problem:</strong> how to do statistical inference on $\hat{\boldsymbol{\beta}}$?</li>
+              <li class="fragment highlight grow"><strong>Problem:</strong> how sparse should $\hat{\boldsymbol{\beta}}$ be?</li>
+              <li class="fragment highlight grow"><strong>Problem:</strong> how to do statistical inference on $\hat{\boldsymbol{\beta}}$?</li>
             </ul>
+            <br>
+            <p><small>
+              [1]: Tibshirani, JRSSB, 1996.
+            </small></p>
             <aside class="notes">
               <p>All features are analysed jointly (possible to include interaction effects, non-linear effects).</p>
+              <p>It essentially amounts to the estimation of a coefficient vector beta, where each element may for example quantify the effect of a gene or brain region etc.</p>
               <p>Feature selection and prediction is performed simultaneously.</p>
               <p>A subset of significant features is selected from the whole set of features <i>in one step</i>, rather than "one letter at a time".</p>
               <p>Cannot control for the error rates mentioned on the last slide.</p>
@@ -398,28 +392,24 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             where $\sqrt{p\subscript{(1)}}\left\lVert  X\subscript{(1)} \mathbf{b}\subscript{(1)} \right\rVert\subscript{2} \geq \sqrt{p\subscript{(2)}}\left\lVert  X\subscript{(2)} \mathbf{b}\subscript{(2)} \right\rVert\subscript{2} \geq \ldots$</p>
           </section>
 
-          <section>
-            <h3>Computational algorithms</h3>
-            <p>The minimization problem can be rewritten as a sum of a convex function $f\subscript{2}$ and a differentiable convex function $f\subscript{1}$ with a Lipschitz continuous derivative:</p>
-            <p>$\min\subscript{\mathbf{c}\in\mathbb{R}^p} f\subscript{1}(\mathbf{c}) + f\subscript{2}(\mathbf{c}).$</p>
-            <p>Different ways to find the global solution:</p>
-            <ul>
-              <li><i class="fragment highlight-green">Fast iterative shrinkage-thresholding algorithm (FISTA)</i> &mdash; a proximal gradient method used in [1-3].</li>
-              <li><i class="fragment highlight-green">Alternating direction method of multipliers (ADMM)</i> &mdash; derived in the thesis.</li>
-            </ul>
+          <section style="text-align: left;">
+            <strong>Different ways to find the global solution:</strong>
+            <img width="455" align="right" src="./img/20180711-Dissertation-Defense/FISTA_vs_ADMM_runtimes.png" alt="Comparison of FISTA and ADMM optimizers for Group SLOPE">
+            <li><i>Fast iterative shrinkage-thresholding algorithm (FISTA)</i> &mdash; a proximal gradient method used in [1-3].</li>
+            <li><i>Alternating direction method of multipliers (ADMM)</i> &mdash; derived in the thesis.</li>
+            <p align="right"><small>[Figure 3.2 in the thesis]</small></p>
             <p><small>
               [1]: Gossmann et. al., 2015. [2]: Brzyski, Gossmann, et. al., 2018. [3]: Gossmann et. al., 2017.
             </small></p>
-          </section>
-
-          <section>
-            <img width="555" src="./img/20180711-Dissertation-Defense/FISTA_vs_ADMM_runtimes.png" alt="Comparison of FISTA and ADMM optimizers for Group SLOPE">
-            <p><small>Runtime comparison of FISTA vs. ADMM optimization algorithms for Group SLOPE.<br>[Figure 3.2 in the thesis]</small></p>
+            <aside class="notes">
+              <p>Even if our method has some kind of superior statistical properties, it would be useless without a way to obtain the solution efficiently.</p>
+              <p>In the thesis I derive two types of optimization routines.</p>
+            </aside>
           </section>
 
           <section>
             <h3>Group SLOPE - Theoretical guarantees</h3>
-            <p>Given a user-specified $q \in (0, 1)$, we show how to construct $\boldsymbol{\lambda}$ such that $\mathrm{gFDR} \leq q$.<sup>[1-3]</sup></p>
+            <p>Given a user-specified $q \in (0, 1)$, we show how to choose $\boldsymbol{\lambda}$ such that $\mathrm{gFDR} \leq q$.<sup>[1-3]</sup></p>
             <p><small><b>Different approaches:</b> theoretical for orthogonal designs<sup>[2-3]</sup>, heuristic based on theory for general designs<sup>[1-2]</sup>, Monte Carlo based for general designs<sup>[3].</sup></small></p>
             <p><span class="fragment"><i class="em em-arrow_right"></i> Confirmed with extensive simulation studies on synthetic and real data.<sup>[1-3]</sup></span></p>
             <br>
@@ -468,7 +458,7 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             <h3>Group SLOPE</h3>
             <p><b>Further topics covered in the thesis but skipped here:</b></p>
             <ul>
-              <li>Testing the performance of SLOPE on DNA seq data.<sup>[1]</sup></li>
+              <li>Performance of SLOPE on DNA seq data.<sup>[1]</sup></li>
               <li>An alternative formulation of Group SLOPE.<sup>[1, 3]</sup></li>
               <li>Theoretical gFDR control under orthogonal groups.<sup>[2-3]</sup></li>
               <li>Error variance estimation: <i>Scaled sparse linear regression</i> vs. <i>EigenPrism</i>.</li>
@@ -486,27 +476,17 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
           <section data-background="#71C5E8">
             <h3>Canonical Correlation Analysis</h3>
             <img width=960 src="./img/20180711-Dissertation-Defense/SCCA.png" alt="(Sparse) Canonical Correlation Analysis">
+            <aside class="notes">
+              <p>In the previous model we had an out come variables y and many predictor variables represented by a high-dimensional vector x. But what if we y is high-dimensional too? For example y may represent a subject's fMRI acitvations per brain voxel, while x represents expression values per gene.</p>
+            </aside>
           </section>
 
           <section>
             <h3>Classical CCA [Hotelling, 1936]</h3>
-            <p>Consider two <i>random vectors</i> $\mathbf{x}\in\mathbb{R}^p$ and $\mathbf{y}\in\mathbb{R}^q$.</p>
-            <p>$$
-            \begin{eqnarray}
-            \mathrm{maximize}\subscript{\mathbf{u}\in\mathbb{R}^p, \mathbf{v}\in\mathbb{R}^q} &\mathrm{Cov}(\mathbf{x} \cdot \mathbf{u}, \mathbf{y} \cdot \mathbf{v}),\nonumber \\
-            \mathrm{subject\,to} \quad &\mathrm{Var}(\mathbf{x} \cdot \mathbf{u}) = 1,\nonumber \\
-            &\mathrm{Var}(\mathbf{y} \cdot \mathbf{v}) = 1. \nonumber
-            \end{eqnarray}
-            $$</p>
-            <p>Can't be solved unless the matrices $\mathrm{Cov}(\mathbf{x}, \mathbf{y})$, $\mathrm{Cov}(\mathbf{x})$, and $\mathrm{Cov}(\mathbf{y})$ are known exactly.</p>
-          </section>
-
-          <section>
-            <h3>Classical CCA [Hotelling, 1936]</h3>
-            <p>Consider two <i>matrices</i> (i.e., datasets)<br>$X\in\mathbb{R}^{n\times p}$ and $Y\in\mathbb{R}^{n \times q}$ (with columns centered).</p>
+            <p>Consider two matrices (i.e., datasets)<br>$X\in\mathbb{R}^{n\times p}$ and $Y\in\mathbb{R}^{n \times q}$ (with columns centered).</p>
             <p>$$\mathrm{maximize}\subscript{u\in\mathbb{R}^p, v\in\mathbb{R}^q} \widehat{\mathrm{Cov}}(Xu, Yv) = \frac{1}{n} u^T X^T Y v,$$
             $$\mathrm{subject\,to} \quad \widehat{\mathrm{Var}}(Xu) = 1, \widehat{\mathrm{Var}}(Yv) = 1.$$ </p>
-            <p class="fragment grow">The problem is degenerate if $n \leq \mathrm{max}\left( p, q \right)$.</p>
+            <p class="fragment grow">The problem is degenerate if $n \leq \mathrm{max}\left( p, q \right)$.<br>+ Sparsity assumption on biological data</p>
           </section>
 
           <section>
@@ -547,10 +527,6 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
 
           <section>
             <h3>Defining FDR for sparse CCA</h3>
-            <ul>
-              <li>Let $\mathbf{u}$ and $\mathbf{v}$ be the first pair of population-level canonical vectors.</li>
-              <li>Let $\hat{\mathbf{u}}$ be an estimate of $\mathbf{u}$.</li>
-            </ul>
             <blockquote>
               The coefficient estimate $\hat{u}_i \neq 0$ represents a <b>false discovery</b> of the $i$th feature of $X$, if $u_i$ doesn't affect the value of $\mathrm{Cov}(\mathbf{x} \cdot \mathbf{u}, \mathbf{y} \cdot \mathbf{v})$, or <i>equivalently</i> if
               $$\hat{u}_i \neq 0 \quad \text{and} \quad \mathrm{E}(X^T Y \mathbf{v})_i = 0.$$
@@ -583,6 +559,9 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
         <section>
           <section data-background="#D0DEBB">
             <h1>SlopeCCA and gSlopeCCA</h1>
+            <aside class="notes">
+              <p>Having the FDR and gFDR definition in place, we propose three different sparse CCA methods that keep the FDR or gFDR below a user-specified level.</p>
+            </aside>
           </section>
 
           <section>
@@ -602,8 +581,11 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
 
           <section>
             <h3>SlopeCCA and gslopeCCA - computational methods</h3>
-            <p>Both are biconvex optimization problems.</p>
-            <p>Alternating optimization algorithms are guaranteed to converge.</p>
+            <p>Both are <strong>biconvex optimization problems</strong>.</p>
+            <p><strong>Alternating optimization</strong> algorithms are guaranteed to converge.</p>
+            <aside class="notes">
+              <p>Again, for the methods to be useful in practice, we need to know how to obtain the solution efficiently.</p>
+            </aside>
           </section>
 
           <section>
@@ -694,7 +676,7 @@ The Cancer Genome Atlas (TCGA):
               <li>Asymptotic theory allows us to approximate the distributions of $X^T Y \hat{\fatv}^{(0)}$ and $Y^T X \hat{\fatu}^{(0)}$.</li>
               <li>We can use the Benjamini-Hochberg procedure to control the FDR.</li>
             </ol>
-            <p class="fragment"><i class="em em-arrow_right"></i> Confirmed with extensive simulation studies on synthetic and real data.<sup>[1]</sup>
+            <p class="fragment"><i class="em em-arrow_right"></i> FDR control confirmed with extensive simulation studies on synthetic and real data.<sup>[1]</sup>
             <br>
             <br>
             <small>[1]: Gossmann et. al., IEEE TMI, 2018.</small></p>

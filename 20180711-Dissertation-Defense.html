@@ -89,7 +89,7 @@
             <p class="fragment fade-up">↑ Quality of healthcare</p>
             <p class="fragment fade-down">↓ Treatment time and cost</p>
             <aside class="notes">
-              <p>As discussed in some detail during my prospectus defense the motivation and the ultimate purpose of this research is precision medicine.</p>
+              <p>The motivation and the ultimate purpose of this research is precision medicine.</p>
               <p>⇾ differences in disease susceptibility/progression</p>
               <p>⇾ differences in treatment efficacy</p>
               <p>⇾ "personalized" treatment plans.</p>
@@ -149,10 +149,9 @@
             <aside class="notes">
               <p>These are some MRIs of the human brain.</p>
               <p>They either supply us with anatomical structure, or brain activity over time.</p>
-              <p>MRI 3D volumes are collected as 2D axial slices, as I have visualized in the shown animations for a randomly chosen PNC subject (about 10 years old, female). As discussed in the thesis there</p>
+              <p>MRI 3D volumes are collected as 2D axial slices, as I have visualized in the shown animations for a randomly chosen PNC subject (a 9 years old female).</p>
               <p>You can see a raw structural or T1-weighted MRI on the left, a raw BOLD fMRI in the middle, and an fMRI after preprocessing on the right.</p>
-              <p>I use BOLD fMRI data which gives you brain activity measures in brain voxels, which are 3d pixels, at discrete points in time.</p>
-              <p>In this thesis I mostly use BOLD fMRI data which gives you brain activity measures in brain voxels, which are 3d pixels, at discrete points in time.</p>
+              <p>I mostly use BOLD fMRI data which gives you brain activity measures in brain voxels, which are 3d pixels, at discrete points in time.</p>
             </aside>
           </section>
 
@@ -174,9 +173,10 @@
             <p><small>[1]: Hashimoto et. al., 2015, [2]: Poline et. al., 2015, [3]: Weickert et al., 2004, [4]: Apud et al., 2007, [5]: Goldstein-Piekarski et al., 2016.</small></p>
             <aside class="notes">
               <p>To bring this back to the topic of precision medicine:</p>
-              <p>Mental disorders are known to be heritable, but it has proven to be very difficult to identify the causal genes of these complex diseases.
-              Measures of brain function and structure, as an intermediate phenotype between genomics and clinical traits or behavioral measures, are more powerful in the identification of genomic associations, and in the interpretation of the function of the identified genes
-              (because gene expression directly affects cellular metabolism, which directly influences the neural circuity).</p>
+              <p>Mental disorders are known to be heritable, but it has proven to be very difficult to identify the causal genes of these complex diseases.</p>
+              <p>Measures of brain function and structure, as an intermediate phenotype between genomics and clinical traits or behavioral measures.</p>
+              <p>More powerful in the identification of genomic associations.</p>
+              <p>Helpful in the interpretation of the function of the identified genes, because gene expression directly affects cellular metabolism, which directly influences the neural circuity.</p>
             </aside>
           </section>
         </section>
@@ -188,7 +188,7 @@
               <h1>Models</h1>
             </div>
             <aside class = "notes">
-              <p>Before I present my methods and results, let me give you some brief backgournd on statistical models.</p>
+              <p>Before I present my methods and results, let me give you some brief background on statistical models.</p>
             </aside>
           </section>
 
@@ -204,13 +204,15 @@
             <aside class="notes">
               <p>A statistical model is essentially a randomized function that maps a set of predictor variables to an outcome variables.</p>
               <p>More precisely, you may call the shown model a regression model.</p>
-              <p>However, consider for example your favorite phenotype (like certain disease or trait) and the human DNA. The human DNA consists of 3 billion base pairs, and one can't expect that all bases have an effect on the specific phenotype. In fact, one can expect that only the changes/mutations within a relatively small number of genes will have an effect. This brings us to the topic of sparse models.</p>
-              <p>Cardinality of theta may be referred to as degrees of freedom in some contexts.</p>
+              <p>However, consider for example your favorite phenotype (like certain disease or trait) and the human DNA.</p>
+              <p>The human DNA consists of 3 billion base pairs, and one cannot expect that all bases have an effect on the specific phenotype.</p>
+              <p>Only the changes/mutations within a relatively small number of genes will have an effect.</p>
+              <p>This brings us to the topic of sparse models.</p>
             </aside>
           </section>
 
           <section>
-            <h3>Sparse Models</h2>
+            <h3>Sparse Models</h3>
             <img width = 400 src="./img/20180711-Dissertation-Defense/sparsity.png" alt="The sparsity assumption in statistical modeling">
             <aside class="notes">
               <p>Here is an illustration of what it means to have a sparse regression model, where the distribution of the phenotype or outcome variable y conditional on the predictor variables x5, x8, and x13 is the same as the distribution conditional on all potential predictor variables x1, x2, and so on.</p>
@@ -245,12 +247,13 @@
               </span>
             </p>
             <aside class="notes">
-              <p>So, if there is this type of sparsity in the relationships between the input and output variables, then a statistical modeling actually has to solve two related but fundamentally different problems at the same time.</p>
-              <p>One - obtain the best possible predictions of the outcome variables y based on the given predictor variables x1, x2, and so on; and two - find the subset of predictor variables that are actually associated with the outcome variable y, and dispose of the irrelevant variables.</p>
-              <p>Both problems are essential in biomedical applications. One for example for disease diagnosis or risk prediction, and the other to help understand the cause of disease, that is, for the identification of targets for treatment.</p>
+              <p>If there is sparsity in the relationships between the input and output variables, then statistical modeling has to solve two related but fundamentally different problems at the same time.</p>
+              <p>Obtain the best possible predictions of the outcome variables y based on the given predictor variables x1, x2, and so on;</p>
+              <p>Find the subset of predictor variables that are associated with the outcome variable y, and dispose of the irrelevant variables.</p>
+              <p>Both problems are essential in biomedical applications. The first for example for disease diagnosis or risk prediction, and the second to help understand the cause of disease, e.g., for the identification of targets for treatment.</p>
               <p>Depending on which of the two modeling problems you consider, you are dealing with a conceptionally different type of false findings.</p>
               <p>In prediction you may have FP (or FN), e.g., a misdiagnosis; while in feature selection we have false discoveries, e.g., a gene identified as associated to disease when it is not.</p>
-              <p>Unfortunately, many ML methods, and also many statistical models, which are commonly used in genomics and neuroimaging (and seem to perform well), provide no way to obtain an idea of how many false findings to expect.</p>
+              <p>Unfortunately, many ML methods, and also many statistical models, which are commonly used in genomics and neuroimaging, provide no way to obtain an idea of how many false findings to expect.</p>
             </aside>
           </section>
 
@@ -263,7 +266,8 @@
             </ul>
             <p>...for types of methods commonly used in the analysis of genomic and neuroimaging data.</p>
             <aside class="notes">
-              <p>In my thesis, I proposed methods similar to the ones widely used in genomics and neuroimaging. However, my methods focus on explicitly establishing guarantees...</p>
+              <p>In my thesis, I proposed methods similar to the ones widely used in genomics and neuroimaging.</p>
+              <p>However, my methods focus on explicitly establishing guarantees...</p>
             </aside>
           </section>
         </section>
@@ -294,7 +298,12 @@
             </div>
             <aside class="notes">
               <p>First I will focus on the feature selection problem, and later I will talk about the prediction problem.</p>
-              <p>Feature selection is important for accuracy of prediction (removing redundant or "noisy" features), inexpensive diagnosis (accurate prediction based on a small number of features), and data-generated biological hypotheses.</p>
+              <p>Feature selection is important for genomics and neuroimaging data analysis for a number of reasons:</p>
+              <ul>
+                <li>Accuracy of prediction (removing redundant or "noisy" features),</li>
+                <li>Inexpensive diagnosis (accurate prediction based on a small number of features),</li>
+                <li>Data-generated biological hypotheses.</li>
+              </ul>
             </aside>
           </section>
 
@@ -320,9 +329,13 @@
               <aside class="notes">
                 <p>The classical way to avoid false discoveries is found in the theory on multiple hypotheses testing.</p>
                 <p>There are two imporant measures of error rates in feature selection - FWER and FDR.</p>
-                <p>By design the FDR or FWER will be controlled.  E.g, GWAS.</p>
-                <p>I focus on FDR. It is more advantageous in ver high-dimensional setting, because FWER is too unforgiving and strict (FWER says "not a singly FD", FDR says "FDs are ok as long as their proportion is below a certain percentage" leading to higher detection power).</p>
+                <p>Existing procedures control the FDR or FWER. E.g, widely-used in GWAS.</p>
                 <p>But: Like trying to understand a sentence by analysing each letter separately, one at a time.</p>
+                <p>I focus on FDR:</p>
+                <ul>
+                  <li>FDR is more advantageous in very high-dimensional setting,</li>
+                  <li>FWER is too unforgiving and strict (FWER says "not a singly FD", FDR says "FDs are ok as long as their proportion is below a certain percentage" leading to higher detection power).</li>
+                </ul>
               </aside>
           </section>
 
@@ -343,10 +356,10 @@
             </small></p>
             <aside class="notes">
               <p>All features are analysed jointly (possible to include interaction effects, non-linear effects).</p>
-              <p>It essentially amounts to the estimation of a coefficient vector beta, where each element may for example quantify the effect of a gene or brain region etc.</p>
+              <p>It essentially amounts to the estimation of a coefficient vector beta, where each element may quantify...</p>
               <p>Feature selection and prediction is performed simultaneously.</p>
               <p>A subset of significant features is selected from the whole set of features <i>in one step</i>, rather than "one letter at a time".</p>
-              <p>Cannot control for the error rates mentioned on the last slide.</p>
+              <p><strong>Cannot control for the error rates mentioned on the last slide.</strong></p>
             </aside>
           </section>
         </section>
@@ -403,7 +416,7 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
               [1]: Gossmann et. al., 2015. [2]: Brzyski, Gossmann, et. al., 2018. [3]: Gossmann et. al., 2017.
             </small></p>
             <aside class="notes">
-              <p>Even if our method has some kind of superior statistical properties, it would be useless without a way to obtain the solution efficiently.</p>
+              <p>The method would be useless without a way to obtain the solution efficiently.</p>
               <p>In the thesis I derive two types of optimization routines.</p>
             </aside>
           </section>
@@ -457,14 +470,15 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
 
           <section>
             <h3>Group SLOPE</h3>
-            <p><b>Further topics covered in the thesis but skipped here:</b></p>
+            <p><b>Some further topics:</b></p>
             <ul>
               <li>Performance of SLOPE on DNA seq data.<sup>[1]</sup></li>
               <li>An alternative formulation of Group SLOPE.<sup>[1, 3]</sup></li>
               <li>Theoretical gFDR control under orthogonal groups.<sup>[2-3]</sup></li>
               <li>Error variance estimation: <i>Scaled sparse linear regression</i> vs. <i>EigenPrism</i>.</li>
               <li>Analysis of runtime on large DNA seq datasets.<sup>[3]</sup></li>
-              <li>(Group SLOPE is asymptotically minimax w.r.t. estimation &mdash; in [2] but not in the thesis).</li>
+              <li>Genomic data preprocessing.<sup>[3]</sup></li>
+              <li>Group SLOPE is asymptotically minimax w.r.t. estimation.<sup>[2]</sup></li>
             </ul>
             <br>
             <p><small>
@@ -479,7 +493,9 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             <h3>Canonical Correlation Analysis</h3>
             <img width=960 src="./img/20180711-Dissertation-Defense/SCCA.png" alt="(Sparse) Canonical Correlation Analysis">
             <aside class="notes">
-              <p>In the previous model we had an out come variables y and many predictor variables represented by a high-dimensional vector x. But what if we y is high-dimensional too? For example y may represent a subject's fMRI acitvations per brain voxel, while x represents expression values per gene.</p>
+              <p>In the previous model we had an outcome variables y and many predictor variables represented by a high-dimensional vector x.</p>
+              <p>What if we y is high-dimensional too?</p>
+              <p>For example y may represent a subject's fMRI acitvations per brain voxel, while x represents expression values per gene, as shown in the illustration.</p>
             </aside>
           </section>
 
@@ -532,7 +548,7 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             <blockquote>
               The coefficient estimate $\hat{u}_i \neq 0$ represents a <b>false discovery</b> of the $i$th feature of $X$, if $u_i$ doesn't affect the value of $\mathrm{Cov}(\mathbf{x} \cdot \mathbf{u}, \mathbf{y} \cdot \mathbf{v})$, or <i>equivalently</i> if
               $$\hat{u}_i \neq 0 \quad \text{and} \quad \mathrm{E}(X^T Y \mathbf{v})_i = 0.$$
-            </blockqoute>
+            </blockquote>
           </section>
 
           <section>
@@ -621,12 +637,9 @@ The Cancer Genome Atlas (TCGA):
               Observations are colored according to cancer type, revealing clear differences.
               <br>[Figure 4.2 in the thesis]</small></p>
             <aside class="notes">
-              <p>Apart from looking at the results of feature selection (i.e., which genes got selected),
-              we can also look at the canonical variates.
-              These derived features can reveal new information about disease phenotypes,
-              and can be used for dimensionality reduction, classification, and prediction.
-              Here we see that by looking at a pair of canonical variates (only two features!)
-              one can distinguish different types of cancer cells rather well.</p>
+              <p>Apart from looking at the results of feature selection (i.e., which genes got selected), we can also look at the canonical variates.</p>
+              <p>These derived features can reveal new information about disease phenotypes, and can be used for dimensionality reduction, classification, and prediction.</p>
+              <p>By looking at the first two pairs of canonical variates (only four features!) one can distinguish different types of cancer cells.</p>
             </aside>
           </section>
 
@@ -638,6 +651,16 @@ The Cancer Genome Atlas (TCGA):
 * Using the four canonical variates as the only predictors to classify cancer type yields classification accuracy over 93% on test data.
 * The estimated canonical vectors are not sparse (over 95% of groups selected). Biological interpretation not feasible.
             </script>
+          </section>
+
+          <section>
+            <h3>SlopeCCA and gslopeCCA</h3>
+            <p><b>Some further topics covered in the thesis:</b></p>
+            <ul>
+              <li>Optimization algorithms.</li>
+              <li>Asymptotic normality results.</li>
+              <li>Genomic data pre-processing.</li>
+            </ul>
           </section>
         </section>
 
@@ -666,7 +689,7 @@ The Cancer Genome Atlas (TCGA):
             </ol>
             <br>
             <br>
-            <small>[1]: Gossmann et. al., IEEE TMI, 2018.</small></p>
+            <p><small>[1]: Gossmann et. al., IEEE TMI, 2018.</small></p>
             <aside class="notes">
               I modified my approach.
             </aside>
@@ -722,7 +745,7 @@ The Cancer Genome Atlas (TCGA):
           <section>
             <h3>Application 1: n-back fMRI vs. SNPs</h3>
             <img width="960" src="./img/20180711-Dissertation-Defense/voxels_vs_genes.png" alt="PNC results: n-back task fMRI vs. SNP analysis">
-            <p><small>Selection from $85796$ brain voxels and $60372$ genomic features.</small></p>
+            <p><small>Selection from $85796$ brain voxels and $60372$ genomic features. [Figure 5.5 in the thesis]</small></p>
           </section>
           <section>
             <h4>Results validation - n-back fMRI vs. SNPs</h4>
@@ -795,6 +818,21 @@ The Cancer Genome Atlas (TCGA):
             </small>
             <p><small>(for detail see [Gossmann et. al., TMI, 2018])</small></p>
           </section>
+
+          <section>
+            <h3>FDR-corrected sparse CCA</h3>
+            <p><b>Some further topics:</b></p>
+            <ul>
+              <li>Further simulation studies with other underlying covariance structures.<sup>[1]</sup></li>
+              <li>Further simulation studies on real DNA sequence data.<sup>[1]</sup></li>
+              <li>Preprocessing steps for the genomic and the fMRI data.<sup>[1]</sup></li>
+              <li>Exploratory analysis, and analysis of confounding factors in the data.<sup>[1]</sup></li>
+            </ul>
+            <br>
+            <p><small>
+              [1]: Gossmann et. al., IEEE TMI, 2018.
+            </small></p>
+          </section>
         </section>
 
         <!-- Thresholdout -->
@@ -807,8 +845,12 @@ The Cancer Genome Atlas (TCGA):
             <p>What to do?</p>
             <aside class="notes">
               <p>Now that we know how to identify truly relevant predictive features, we can come back to the problem of prediction.</p>
-              <p>Whenever one does prediction based on data, there is the danger of obtaining a model that is extremely accurate on the data that you are using, but which does not generalize to the population from whic the data were drawn.</p>
-              <p>This is called over-fitting in statistics and machine learning. The trained/fitted model mistakes the particular instantiation of the noise in the given data for the signal.</p>
+              <p>Whenever one does prediction based on data, there is the danger of obtaining a model that is extremely accurate on the data that you are using, but which does not generalize to the population from which the data were drawn.</p>
+              <p>This is called over-fitting in statistics and machine learning.</p>
+              <p>The trained/fitted model mistakes the particular instantiation of the noise in the given data for the signal.</p>
+              <p>A model that is overfit to a specific dataset will yield many FP on new data.</p>
+              <p>Moreover, a large number of FP will be an unexpected behaviour, since all the performance metrics on the data to which the model overfits will be excelent.</p>
+            </aside>
           </section>
 
           <section>
@@ -818,7 +860,8 @@ The Cancer Genome Atlas (TCGA):
             <p class="fragment"><strong>Test data:</strong> Performance evaluation <i>after the trained machine learning algorithm has been "frozen"</i>.</p>
             <p class="fragment fade-right">$\Longrightarrow$ Accurate performance measures of the final model, <strong>if the test data is used only once</strong>.</p>
               <aside class="notes">
-              The performance metric obtained on test data will make it evident whether any overfitting has occurred during model training. Other techniques (multiple testing, cross-validation, bootstrap) can be used to avoid or reduce the overfitting on the training data.
+                <p>The performance metric obtained on test data will make it evident whether any overfitting has occurred during model training.</p>
+                <p>Other techniques (multiple testing, cross-validation, bootstrap) can be used to avoid or reduce the overfitting on the training data.</p>
               </aside>
           </section>
 
@@ -878,7 +921,7 @@ Currently available literature:
 <p>Thresholdout$_{\mathrm{AUC}}$<sup>[2]</sup> combines the Thresholdout technique<sup>[1]</sup> with AUC as the reported performance metric on test data.</p>
 <br>
 <br>
-<small>[1]: Dwork et. al., Science, 2015.<br>[2]: Gossmann et. al., SPIE 2018.</small></p>
+<p><small>[1]: Dwork et. al., Science, 2015.<br>[2]: Gossmann et. al., SPIE 2018.</small></p>
 <aside class="notes">
   <ul>
     <li>Invariance to prevalence.</li>
@@ -925,8 +968,8 @@ Currently available literature:
               2. **Restriction**: Test data access "budget" $B$, which is linear in the size of the test data $n$, and also depends on $\beta$, $\tau$, and the class balance.
 
               <aside class="notes">
-              * $\beta$ and $\tau$ are pre-specified by the analyst.
-              * This result holds even when each analysis step is adaptively chosen based on the reported AUC estimates obtained from previous analyses on the same test data using Thresholdout$_{\mathrm{AUC}}$.
+                <p>$\beta$ and $\tau$ are pre-specified by the analyst.</p>
+                <p>This result holds even when each analysis step is adaptively chosen based on the reported AUC estimates obtained from previous analyses on the same test data using Thresholdout$_{\mathrm{AUC}}$.</p>
               </aside>
             </script>
           </section>
@@ -947,9 +990,10 @@ Currently available literature:
               * __Thresholdout approach__: The gap between the reported and the true AUC is much narrower!
 
               ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape_GLM_only_small.png)
+
               <aside class="notes">
-              <p>We may reuse the test data as often as we like, with the containt that only AUC values can be reported back from the test data.</p>
-              <p>What model to try next is determined by the AUC values obtained on the test data for the previous models.</p>
+                <p>We may reuse the test data as often as we like, with the constraint that only AUC values can be reported back from the test data.</p>
+                <p>What model to try next is determined by the AUC values obtained on the test data for the previous models.</p>
               </aside>
             </script>
           </section>
@@ -957,8 +1001,25 @@ Currently available literature:
           <section data-markdown>
             <script type="text/template">
               ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape.png)
-              Accuracy of reported AUC values is improved, at the cost of slightly higher uncertainty in the reported AUC, and slightly worse predictive performance.
+              <small>Accuracy of reported AUC values is improved, at the cost of slightly higher uncertainty in the reported AUC, and slightly worse predictive performance.<br>[Figure 6.1 (a) in the thesis]</small>
             </script>
+          </section>
+
+          <section>
+            <h3>Thesholdout<sub>AUC</sub></h3>
+            <p><b>Some further topics covered in the thesis:</b></p>
+            <ul>
+              <li>AUC &mdash; discussion and benefits.</li>
+              <li>Complete statement of the Thesholdout<sub>AUC</sub> procedure.</li>
+              <li>Data generation.</li>
+              <li>Simulation procedure detail.</li>
+              <li>Choice of the tuning parameters within Thesholdout<sub>AUC</sub>.</li>
+              <li>Analysis of the AUC estimation error.</li>
+            </ul>
+            <br>
+            <p><small>
+              [1]: Gossmann et. al., SPIE Medical Imaging 2018.
+            </small></p>
           </section>
         </section>
 

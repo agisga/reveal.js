@@ -75,8 +75,7 @@
           <p>July 11, 2018</p>
           <aside class="notes">
             <p>I will present to you my dissertation work on machine learning methodology for neuroimaging genomics.</p>
-            <p>I won't have the time to go much into detail, since I have many projects to discuss.
-            But I will be happy to answer any questions you have after the talk.</p>
+            <p>In the interest of time, I'll skip some of the details, so just let me know if you have questions.</p>
           </aside>
         </section>
 
@@ -90,9 +89,9 @@
             <p class="fragment fade-down">↓ Treatment time and cost</p>
             <aside class="notes">
               <p>The motivation and the ultimate purpose of this research is precision medicine.</p>
-              <p>⇾ differences in disease susceptibility/progression</p>
-              <p>⇾ differences in treatment efficacy</p>
-              <p>⇾ "personalized" treatment plans.</p>
+              <p>Differences in disease susceptibility/progression between subpopulations/individual</p>
+              <p>...lead to differences in treatment efficacy</p>
+              <p>...but also enable "personalized" treatment plans.</p>
               <p>New drugs and devices targeting specific subpopulations (or even individuals).</p>
               <p>No more treatment based on trial-and-error.</p>
             </aside>
@@ -247,7 +246,7 @@
               </span>
             </p>
             <aside class="notes">
-              <p>If there is sparsity in the relationships between the input and output variables, then statistical modeling has to solve two related but fundamentally different problems at the same time.</p>
+              <p>When choosing the best model for a particular dataset, then, this involves solving two related but fundamentally different problems at the same time.</p>
               <p>Obtain the best possible predictions of the outcome variables y based on the given predictor variables x1, x2, and so on;</p>
               <p>Find the subset of predictor variables that are associated with the outcome variable y, and dispose of the irrelevant variables.</p>
               <p>Both problems are essential in biomedical applications. The first for example for disease diagnosis or risk prediction, and the second to help understand the cause of disease, e.g., for the identification of targets for treatment.</p>
@@ -266,7 +265,7 @@
             </ul>
             <p>...for types of methods commonly used in the analysis of genomic and neuroimaging data.</p>
             <aside class="notes">
-              <p>In my thesis, I proposed methods similar to the ones widely used in genomics and neuroimaging.</p>
+              <p>In my thesis, I proposed new methods that build on ones widely used in genomics and neuroimaging.</p>
               <p>However, my methods focus on explicitly establishing guarantees...</p>
             </aside>
           </section>
@@ -329,13 +328,9 @@
               <aside class="notes">
                 <p>The classical way to avoid false discoveries is found in the theory on multiple hypotheses testing.</p>
                 <p>There are two imporant measures of error rates in feature selection - FWER and FDR.</p>
+                <p> I focus on FDR - more advantageous in a very high-dimensional setting. </p>
                 <p>Existing procedures control the FDR or FWER. E.g, widely-used in GWAS.</p>
-                <p>But: Like trying to understand a sentence by analysing each letter separately, one at a time.</p>
-                <p>I focus on FDR:</p>
-                <ul>
-                  <li>FDR is more advantageous in very high-dimensional setting,</li>
-                  <li>FWER is too unforgiving and strict (FWER says "not a singly FD", FDR says "FDs are ok as long as their proportion is below a certain percentage" leading to higher detection power).</li>
-                </ul>
+                <p>But: Doing a hypothesis test on every possible genetic variant separately is like trying to understand a sentence by analysing each letter separately, one at a time.</p>
               </aside>
           </section>
 
@@ -347,8 +342,8 @@
               <li>Yields a sparse solution $\hat{\boldsymbol{\beta}}$.</li>
               <li>Computationally efficient (convex).</li>
               <li>Very useful in practice.</li>
-              <li class="fragment highlight grow"><strong>Problem:</strong> how sparse should $\hat{\boldsymbol{\beta}}$ be?</li>
               <li class="fragment highlight grow"><strong>Problem:</strong> how to do statistical inference on $\hat{\boldsymbol{\beta}}$?</li>
+              <li class="fragment highlight grow"><strong>Problem:</strong> how sparse should $\hat{\boldsymbol{\beta}}$ be?</li>
             </ul>
             <br>
             <p><small>
@@ -372,6 +367,12 @@
             <p>where $\lambda\subscript{1} \geq \lambda\subscript{2} \geq \ldots \geq \lambda\subscript{p} \geq 0$; and $|b|\subscript{(1)} \geq |b|\subscript{(2)} \geq \ldots \geq |b|\subscript{(p)}$ denotes the order statistic of the magnitudes of the vector $\mathbf{b}\in\mathbb{R}^p$.</p>
             <p class="fragment fade-right"><i class="em em-arrow_right"></i> Given $q\in(0,1)$, there is a procedure to choose $\boldsymbol{\lambda}$ s.t. $\mathrm{FDR}(\hat{\boldsymbol{\beta}}\subscript{\mathrm{SLOPE}}) \leq q$ is guaranteed. <i class="fragment">...if the explanatory variables have very small pair-wise correlations.</i> <i class="fragment" style="color: #ff2c2d;"> ← typically not the case in genomics.<sup>[2]</sup></i></p>
             <p><small>[1]: Bogdan et. al., Annals Appl Stat, 2015. [2]: Gossmann et. al., ACM BCB, 2015.</small></p>
+            <aside class="notes">
+              <p> To my knowledge, the first sparse regression method that can control the FDR is SLOPE. </p>
+              <p> It provides an explicit way of setting lambda so that the FDR will be under some q. </p>
+              <p> BUT this requires... </p>
+              <p> Usually this isn't the case with biological data. </p>
+            </aside>
           </section>
 
           <section>
@@ -381,17 +382,26 @@
               <li class="fragment">Then select/drop entire groups rather than individual variables.</li>
               <li class="fragment">Redefine FDR w.r.t. groups: <strong>gFDR</strong>.</li>
             </ul>
+            <aside class="notes">
+              <p> This motivated us to develop the Group SLOPE method, in which we divide the data intro groups according to the correllation between variables. </p>
+              <p> This is often possible for biological data, and in particular DNA sequence data. </p>
+              <p> Then we select or drop entire groups of variables rather than individual variables, ...</p>
+              <p> ...and we redefine the FDR with respect to groups. </p>
+            </aside>
           </section>
 
           <section data-markdown>
             <script type="text/template">
 ### Group-wise false discovery rate
 
-* $\mathrm{Rg} := $ "# groups discovered by Group SLOPE"
+* $\mathrm{Rg} := $ "total # discovered groups"
 * $\mathrm{Vg} := $ "# falsely discovered groups"
 
 We define
 $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \right).$$
+<aside class="notes">
+<p> We define the groupwise FDR as the expected value of the number of falsely discovered groups over the total number of discovered groups. </p>
+</aside>
             </script>
           </section>
 
@@ -404,6 +414,10 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             <p class="fragment fade-down"><i class="em em-arrow_down"></i>
             $$\min\subscript{\mathbf{b}\in\mathbb{R}^p} \frac{1}{2} \left\lVert\mathbf{y} - X\mathbf{b}\right\rVert\subscript{2}^2 + \sum\subscript{i=1}^J \lambda\subscript{i} \sqrt{p\subscript{(i)}}\left\lVert X\subscript{(i)} \mathbf{b}\subscript{(i)}\right\rVert\subscript{2},$$
             where $\sqrt{p\subscript{(1)}}\left\lVert  X\subscript{(1)} \mathbf{b}\subscript{(1)} \right\rVert\subscript{2} \geq \sqrt{p\subscript{(2)}}\left\lVert  X\subscript{(2)} \mathbf{b}\subscript{(2)} \right\rVert\subscript{2} \geq \ldots$</p>
+            <aside class="notes">
+              <p> The Groups SLOPE method is formulated in this way, where the coefficient vector beta is divided into J groups of length p1,p2,...and so on variables. </p>
+              <p> The parametric formulation of the model is very similar to SLOPE, but with the penalty term operating at a group level rather than on individual variables. </p>
+            </aside>
           </section>
 
           <section style="text-align: left;">
@@ -417,7 +431,7 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             </small></p>
             <aside class="notes">
               <p>The method would be useless without a way to obtain the solution efficiently.</p>
-              <p>In the thesis I derive two types of optimization routines.</p>
+              <p>In the thesis I derive two types of optimization routines...</p>
             </aside>
           </section>
 
@@ -431,12 +445,23 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             <p><small>
               [1]: Gossmann et. al., 2015. [2]: Brzyski, Gossmann, et. al., 2018. [3]: Gossmann et. al., 2017.
             </small></p>
+            <aside class="notes">
+              <p> The Group SLOPE method also provides theoretical guarantees on FDR control, which was our main goal. </p>
+              <p> Given a user-specified target FDR threshold q, we give explicit procedures for selecting lambda so that the FDR will be below q. </p>
+              <p> We have three types of approaches to set lambda - a fully theoretically derived lambda sequence for the special case when the groups are orthogonal to each other - a heuristic based on rigorous theory leading to FDR control under general designs for nearly uncorrellated groups - and Monte Carlo based approaches for general designs. </p>
+              <p> We have confirmed with extensive simulations studies that all of these are successful in controlling the gFDR. </p>
+            </aside>
           </section>
 
           <section data-markdown>
             <script type="text/template">
 ![Chromosome 22 SNPs, simulated phenotype](./img/20180711-Dissertation-Defense/gFDR_non-ortho.png)
 <small> $X \in \mathbb{R}^{8915\times 5976}$ contains real DNA sequence data of chromosome 22; 726 groups (lengths from 1 to 1657, mean=$8.23$, median=1); between-group correlation < 0.3; **simulated response** $\mathbf{y} = X\boldsymbol{\beta} + \mathbf{z},$ where $\mathbf{z} \sim \mathcal{N}(0, I)$. [Figure 3.5 in the thesis] </small>
+<aside class="notes">
+<p> We compared the gFDR of the group SLOPE method on real DNA sequence data to the gFDR of the most commonly used method group LASSO. </p>
+<p> Here, the x-axis shows the number of truly relevant groups, and the y-axis the gFDR of each method. Regardless of the number of relevant groups, which isnt known a priori, group SLOPE always keeps the FDR near the target level of 10% while group LASSO does not. </p>
+<p> As you see on the right, even while keeping the gFDR low, group SLOPE keeps the true discovery proportion relatively high. </p>
+</aside>
             </script>
           </section>
 
@@ -452,6 +477,11 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             <p><small>
               [1]: Gossmann et. al., 2017.
             </small></p>
+            <aside class="notes">
+              <p> We applied group SLOPE to the Framingham Heart Study data, which contains SNP data for almost 9000 subjects,...</p>
+              <p> ...and we apply group SLOPE to this data matrix X for subjects with BMD measurements. </p>
+              <p> We selected SNPs associated with differences in BMD. </p>
+            </aside>
           </section>
 
           <section data-markdown>
@@ -484,6 +514,9 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             <p><small>
               [1]: Gossmann et. al., 2015. [2]: Brzyski, Gossmann, et. al., 2018. [3]: Gossmann et. al., 2017.
             </small></p>
+            <aside class="notes">
+              <p> We have many other results on the group SLOPE method, included in these three papers that do not overlap aside from the basic definition of the method, that are in my thesis but I don't have time to go into today, including its performance on DNA sequence data and mathematical results related to gFDR control, error variance estimation, and estimation properties. </p>
+            </aside>
           </section>
         </section>
 
@@ -495,7 +528,10 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             <aside class="notes">
               <p>In the previous model we had an outcome variables y and many predictor variables represented by a high-dimensional vector x.</p>
               <p>What if we y is high-dimensional too?</p>
-              <p>For example y may represent a subject's fMRI acitvations per brain voxel, while x represents expression values per gene, as shown in the illustration.</p>
+              <p>For example y may represent a subject's fMRI acitvations per brain voxel, while x represents expression values per gene, and we would like to know which genes are related to which brain voxels.</p>
+              <p> A popular technique to address this is CCA. </p>
+              <p> CCA finds a linear combination of the fMRI features and a linear combination of the genetic features as two new variables with as large a correlation as possible. This amounts to estimating two coefficient vectors u and v, which are referred to as canonical vectors. Xu and Yv are called canonical variates. </p>
+              <p> In practice, we can apply further constraints on u and v, like sparsity. </p>
             </aside>
           </section>
 
@@ -518,6 +554,11 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             </ul>
             <br><br>
             <p><small>[1]: Witten et. al., 2009, [2]: Parkhomenko et. al., 2009.</small></p>
+            <aside class="notes">
+              <p> Sparse CCA methods have been proposed to provide a way to account for the sparsity assumption, as well as to ensure a unique solution even when the sample size is smaller than the number of variables. </p>
+              <p> The model is similar to the classical CCA, with an L1 penalty put onto u and v. </p>
+              <p> BUT it's unclear how to set the sparsity of the solution, which is controlled by the penalty parameters c1 and c2. </p>
+            </aside>
           </section>
         </section>
 
@@ -541,6 +582,9 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             <br>
             <br>
             <p><small>[1]: Benjamini &amp; Hochberg, JRSSB, 1995.</small></p>
+            <aside class="notes">
+              <p> In order to define the FDR, which is the expected proportion of discoveries that are false, for sparse CCA, we consider the FDR for u and v spearately since they come from two different types of data, and we need to consider what it means to have a false discovery in the context of CCA. </p>
+            </aside>
           </section>
 
           <section>
@@ -549,6 +593,9 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
               The coefficient estimate $\hat{u}_i \neq 0$ represents a <b>false discovery</b> of the $i$th feature of $X$, if $u_i$ doesn't affect the value of $\mathrm{Cov}(\mathbf{x} \cdot \mathbf{u}, \mathbf{y} \cdot \mathbf{v})$, or <i>equivalently</i> if
               $$\hat{u}_i \neq 0 \quad \text{and} \quad \mathrm{E}(X^T Y \mathbf{v})_i = 0.$$
             </blockquote>
+            <aside class="notes">
+              <p> Since CCA aims to maximize the covariance between Xu and Yv, we consider u_i to be a false discovery if it's nonzero and does not affect the valu eof the covariance. You can show that this is equivalent to this expected value being equal to zero. </p>
+            </aside>
           </section>
 
           <section>
@@ -559,6 +606,9 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             </ul>
             <p>Define</p>
             <p>$\mathrm{FDR}(\hat{\mathbf{u}}) := \mathbb{E}\left( \frac{\mathrm{V}\subscript{\hat{\mathbf{u}}}}{\max\left\{ \mathrm{R}\subscript{\hat{\mathbf{u}}}, 1 \right\}} \right).$</p>
+            <aside class="notes">
+              <p> Then we define the FDR similarly to before, as the expected value of the number of false discoveries over the number of non-zero elements in u.</p>
+            </aside>
           </section>
 
           <section>
@@ -570,6 +620,9 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             </ul>
             <p>Define</p>
             <p>$\mathrm{gFDR}(\hat{\mathbf{u}}) := \mathbb{E}\left( \frac{\mathrm{Vg}\subscript{\hat{\mathbf{u}}}}{\max\left\{ \mathrm{Rg}\subscript{\hat{\mathbf{u}}}, 1 \right\}} \right).$</p>
+            <aside class="notes">
+              <p> We can then analogously define the groupwise FDR. </p>
+            </aside>
           </section>
         </section>
 
@@ -579,6 +632,7 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             <h1>SlopeCCA and gSlopeCCA</h1>
             <aside class="notes">
               <p>Having the FDR and gFDR definition in place, we propose three different sparse CCA methods that keep the FDR or gFDR below a user-specified level.</p>
+              <p> The first two work on data with block diagonal covariance structures. The third put no assumptions on the covariance structures and is intended for sparser settings, but has a lower detection power. </p>
             </aside>
           </section>
 
@@ -610,6 +664,9 @@ $$\mathrm{gFDR} := \mathrm{E} \left( \frac{\mathrm{Vg}}{\max(\mathrm{Rg}, 1)} \r
             <h3>SlopeCCA and gSlopeCCA - theoretical guarantees</h3>
             <p>Asymptotic (i.e., as $n\to\infty$) FDR and gFDR guarantees if $Cov(X)$ and $Cov(Y)$ are diagonal or block-diagonal.</p>
             <p>($Cov(X, Y)$ can be of arbitrary shape)</p>
+            <aside class="notes">
+              <p> We provide theoretical guarantees for the FDR as the sample size gets large, as long as Cov(x) and Cov(y) are block-diagonal. </p>
+            </aside>
           </section>
 
           <section>
@@ -637,9 +694,9 @@ The Cancer Genome Atlas (TCGA):
               Observations are colored according to cancer type, revealing clear differences.
               <br>[Figure 4.2 in the thesis]</small></p>
             <aside class="notes">
-              <p>Apart from looking at the results of feature selection (i.e., which genes got selected), we can also look at the canonical variates.</p>
-              <p>These derived features can reveal new information about disease phenotypes, and can be used for dimensionality reduction, classification, and prediction.</p>
-              <p>By looking at the first two pairs of canonical variates (only four features!) one can distinguish different types of cancer cells.</p>
+              <p> We can use gslopeCCA to look at the canonical variates, reducing the number of variables we need to consider from over 40,000 to just 4. </p>
+              <p> Plotting these 4 against each other, and coloring the points based on the cancer type of the corresponding observation, we see that these four derived variables in fact separate the difference cancer types very well. </p>
+              <p> This implies that this method can be used in diagnosis, and to reveal new information about disease phenotypes. </p>
             </aside>
           </section>
 
@@ -649,7 +706,6 @@ The Cancer Genome Atlas (TCGA):
 
 * Canonical variates reveal differences between cancer types.
 * Using the four canonical variates as the only predictors to classify cancer type yields classification accuracy over 93% on test data.
-* The estimated canonical vectors are not sparse (over 95% of groups selected). Biological interpretation not feasible.
             </script>
           </section>
 
@@ -727,6 +783,9 @@ The Cancer Genome Atlas (TCGA):
               <li>What are the driver genes?</li>
               <li>Relationship to neurodevelopmental and psychiatric disorders.</li>
             </ul>
+            <aside class="notes">
+              <p> One application of FDR corrected SCCA is studying the diversity in brain activity and connectivity in children and adolescents in relationship to their genomic information to answer questions like "What are the driver genes behind certain neurodevelopmental and psychiatric disorders?"</p>
+            </aside>
           </section>
           <section>
             <h3>Dataset</h3>
@@ -754,6 +813,9 @@ The Cancer Genome Atlas (TCGA):
               <li>Similar brain regions have been found in other fMRI studies of working memory.</li>
               <li>At least 34 out of the 65 identified genes have been previously associated with various aspects of human cognitive function.</li>
             </ol>
+            <aside class="notes">
+              <p> More than half of the genes we identified have been previously associated with human cognitive function, supporting the biological validity of our results, and indicating that the remaining identified genes may provide valuable biological hypotheses that should be followed up with additional studies.</p>
+            </aside>
           </section>
           <section>
             <h3>Application 2: Functional connectivity (FC) vs. SNPs</h3>
@@ -847,9 +909,7 @@ The Cancer Genome Atlas (TCGA):
               <p>Now that we know how to identify truly relevant predictive features, we can come back to the problem of prediction.</p>
               <p>Whenever one does prediction based on data, there is the danger of obtaining a model that is extremely accurate on the data that you are using, but which does not generalize to the population from which the data were drawn.</p>
               <p>This is called over-fitting in statistics and machine learning.</p>
-              <p>The trained/fitted model mistakes the particular instantiation of the noise in the given data for the signal.</p>
-              <p>A model that is overfit to a specific dataset will yield many FP on new data.</p>
-              <p>Moreover, a large number of FP will be an unexpected behaviour, since all the performance metrics on the data to which the model overfits will be excelent.</p>
+              <p>A model that is overfit to a specific dataset will yield many FP on new data when the reported performance of the model is much better.</p>
             </aside>
           </section>
 
@@ -884,6 +944,12 @@ The Cancer Genome Atlas (TCGA):
             <p class="fragment">Promising simulation results.<sup>[2-3]</sup>
             <br><br><br>
             <small>[1]: Dwork, McSherry, Nissim, Smith, 2006.<br> [2]: Dwork et. al., Science, 2015.<br> [3]: Gossmann et. al., SPIE 2018.</small></p>
+            <aside class="notes">
+              <p> We would like to be able to reuse the test data while avoiding overfitting by somehow obfuscating the test data. </p>
+              <p> The idea of concealing the data is intuitively related to data privacy. </p>
+              <p> One way to do this is through the use of differential privacy...</p>
+              <p> ...which has shown promising simulation results.</p>
+            </aside>
           </section>
 
           <section>
@@ -898,8 +964,9 @@ The Cancer Genome Atlas (TCGA):
               <li><b>Properties:</b> DP is <i>preserved</i> under <i>post-processing</i> and under <i>adaptive composition</i>.</li>
             </ul>
             <aside class="notes">
-              <p>(...) ...and trying to obfuscate or to protect data is closely related to data privacy.</p>
-              <p>Differential privacy is a beautiful mathematically regorous definition of privacy, that has gained increasing attention in about the last 5 years (in fact, Cynthia Dwork and co-authors have received the Goedel price for the invention of DP last year, which is the highest price in theoretical computer science, named after the logician Kurt Goedel, who is known for his incompleteness theorems).</p>
+              <p>Differential privacy is a beautiful mathematically rigorous definition of privacy, that has gained increasing attention in about the last 5 years (in fact, Cynthia Dwork and co-authors have received the Goedel price for the invention of DP last year, which is the highest price in theoretical computer science, named after the logician Kurt Goedel, who is known for his incompleteness theorems).</p>
+              <p> The idea behind DP is ... so that an adversary cannot learn an individual data point. We can apply this idea to test data reuse where a machine learning algorithm will not be able to learn individual records within the test data set and so will not be able to overfit to them.</p>
+              <p> DP is preserved under post-processing and adaptive composition, which means that it can be applied to the type of adaptive data analysis process that we are dealing with.</p>
             </aside>
           </section>
 
@@ -923,6 +990,7 @@ Currently available literature:
 <br>
 <p><small>[1]: Dwork et. al., Science, 2015.<br>[2]: Gossmann et. al., SPIE 2018.</small></p>
 <aside class="notes">
+  <p> In order to report the performance on the test data in a differentially private way, we consider the Thresholdout technique which can return some simple kinds of performance metrics, and modify it in order to obtain the area under the ROC curve, which relates the true positive and false positive rates. The AUC is the recommended performance metric in many fields of medical research.</p>
   <ul>
     <li>Invariance to prevalence.</li>
     <li>Independence of the decision threshold (can be chosen later).</li>
@@ -957,6 +1025,9 @@ Currently available literature:
                 </div>
               </div>
             </div>
+            <aside class="notes">
+              <p> Essentially, our ThresholdoutAUC mechanism will return the AUC on the test data plus some noise if this performance metric on the test data and training data is significantly different, and otherwise will return the AUC on the training data and not provide any information on the test data at all.</p>
+            </aside>
           </section>
 
           <section data-markdown>

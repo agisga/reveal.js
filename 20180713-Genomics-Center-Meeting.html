@@ -1,0 +1,473 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>SPIE Medical Imaging 2018 - 2018/02/11 - A Gossmann, A Pezeshk, B Sahiner</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/beige.css" id="league">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Emoji -->
+    <!-- See: https://afeld.github.io/emoji-css/ -->
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- MathJax macros (inline math delimiters, new commands, etc.), more configuration under Reveal.initialize below -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ["$","$"] ],
+          displayMath: [ ["$$","$$"] ],
+          processEscapes: true
+        },
+        TeX: {
+          equationNumbers: { autoNumber: "AMS" },
+          Macros: {
+            subscript: ['_{#1}', 1],
+            superscript: ['^{#1}', 1]
+          }
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <section>
+          <h3>Test data reuse for evaluation of adaptive machine learning algorithms: over-fitting to a fixed "test" dataset and a potential solution</h3>
+          <h4>Alexej Gossmann, Aria Pezeshk, Yu-Ping Wang, and Berkman Sahiner</h4>
+          <img height=70 data-src="./img/20180211-SPIE-Medical-Imaging/TulaneLogo.png" alt="Tulane logo">
+          <img height=70 data-src="./img/20180211-SPIE-Medical-Imaging/FDALogoBigBlack.png" alt="FDA logo">
+          <h4>July 13, 2018</h4>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            Are machine learning algorithms and statistical models ever trained independently of previous (exploratory) analyses on the same data?
+
+            In medical research?
+
+            Doesn't that inadvertently lead to overfitting or false discoveries?
+            <aside class="notes">
+              Probably only in the rare cases of pre-registered research.
+              Yes: initial analysis suggests certain relationship in the data; follow-up analysis focuses on this relationship in isolation using the same data; inflating the statistical significance of the effect; essentially, multiple testing that's unaccounted for.
+            </aside>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            Can machine learning algorithms be allowed to evolve after deployment?
+
+            What if the data is partially reused to re-train and to re-test the algorithm as it evolves?
+
+            What if the ML algorithm is utilized in clinical practice in medicine?
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Some keywords
+
+            * Adaptive data analysis
+            * Adaptive machine learning
+            * Continuous machine learning
+            * Online machine leaning
+            * Life-long machine learning
+            * "Researcher degrees of freedom"
+            * "A garden of forking paths" (Gelman and Loken, 2014)
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            To avoid overfitting and false findings, **ideally** one would use a **fresh new dataset** each time...
+
+            * ...a machine learning algorithm is trained or re-trained or fine-tuned based on a previously trained algorithm or model
+            * ...a new data analysis step is informed by previous data analysis steps
+            * ...the performance of a trained algorithm or model is evaluated
+
+            $\Longrightarrow$ But that's **impractical** in most cases!
+
+            <aside class="notes">
+            Elementary stats textbook: (1) Select question (2) Collect data (3) Perform inference. So a fresh dataset is basis of stats theory.
+            Modern practice: (1) collect data (2) iterative process involving the data (3) results (4) standard statistical guarantees don't apply.
+            But that makes no sense in modern practice. You may end up with a very small dataset for each analysis step. One large dataset reused across all analysis steps is still better in practice, than a separate small dataset for each step. The only step that *really* needs a fresh dataset is the evaluation of the final model before it is deployed.
+            </aside>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            In Machine Learning practice, generally, usage of two independent datasets &mdash; *"training"* data and *"test"* data.
+
+            * **Training data**: exploratory analysis, model fitting, parameter tuning, comparison of different machine learning algorithms, feature selection, etc.<p>$\Longrightarrow$ Adaptive machine learning, risk of overfitting.</p>
+            * **Test data**: Performance evaluation *after the trained machine learning algorithm has been "frozen"*.<p>$\Longrightarrow$ Accurate performance measures of the final model, **if the test data is used only once**.</p>
+
+            <aside class="notes">
+            The performance metric obtained on test data will make it evident whether any overfitting has occurred during model training. Other techniques (multiple testing, cross-validation, bootstrap) can be used to avoid or reduce the overfitting on the training data.
+            </aside>
+          </script>
+        </section>
+
+        <section data-transition="slide-in fade-out">
+          <img data-src="./img/20180211-SPIE-Medical-Imaging/test_data_reuse_1.png">
+        </section>
+
+        <section data-transition="fade-in fade-out">
+          <img data-src="./img/20180211-SPIE-Medical-Imaging/test_data_reuse_2.png">
+        </section>
+
+        <section data-transition="fade-in slide-out">
+          <img data-src="./img/20180211-SPIE-Medical-Imaging/test_data_reuse_3.png">
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+### Performance assessment in adaptive machine learning with test data reuse
+
+**Reuse of test data** inadvertently leads to **problems**:
+
+* __Overly optimistic__ performance assessments
+* __Loss of generalization__ &mdash; i.e., ML alg. that performs much better on the available test data than on the population from which the data were drawn, a.k.a. __overfitting__ to the test dataset.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+### Performance assessment in adaptive machine learning with test data reuse
+
+Can we **obfuscate** the test data to avoid overfitting?
+
+$\Longrightarrow$ Recent techniques based on *differential privacy* or *bounded description length* are taking that approach.
+
+(Dwork, Feldman, Hardt, Pitassi, Reingold, Roth, *NIPS* 2015, *STOC* 2015, *Science* 2015;
+Bassily, Nissim, Smith, Steinke, Stemmer, Ullman, *STOC* 2016;
+Blum, Hardt, *ICML* 2015; + several follow-up papers since then)
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+### Differential privacy (Dwork, McSherry, Nissim, Smith, 2006)
+
+* A mathematically rigorous definition of data privacy.
+* __Intuition:__ An individual data point has little impact on the value reported by a differentially private data-releasing mechanism.
+* __Intuition:__ An adversary cannot learn an individual data point from querying a differentially private data-releasing mechanism.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+### Differential privacy (Dwork, McSherry, Nissim, Smith, 2006)
+
+Let $\mathcal{M}$ be a (randomized) data access mechanism.
+$\mathcal{M}$ is $(\varepsilon, \delta)$-**differentially private** if
+for any two datasets $D$ and $D^\prime$ *differing in one observation*, and for all sets $S \in \mathrm{Range}(\mathcal{M})$, it holds that
+
+$$P[\mathcal{M}(D) \in S] \leq e^\varepsilon P[\mathcal{M}(D^\prime) \in S] + \delta.$$
+
+(Probability is taken with respect to randomness in $\mathcal{M}$.)
+          </script>
+        </section>
+
+        <section>
+          <h3>Differential privacy (Dwork, McSherry, Nissim, Smith, 2006)</h3>
+
+          <ul>
+            <font color="#7e7e7e" size=6><li>A mathematically rigorous definition of data privacy.</li></font>
+            <font color="#7e7e7e" size=6><li><b>Intuition:</b> An individual data point has little impact on the value reported by a DP mechanism.</li></font>
+            <font color="#7e7e7e" size=6><li><b>Intuition:</b> An adversary cannot learn an individual data point from querying a DP mechanism.</li></font>
+            <li><b>Properties:</b> DP is <i>preserved</i> under <i>post-processing</i> and under <i>adaptive composition</i>.</li>
+          </ul>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+### Differentially private access to test data
+
+__A possible solution to the test data reuse problem?__
+
+* __Idea:__ Access test data only through a DP mechanism
+
+    $\Longrightarrow$ ML alg. is prevented from extracting information about individual test data records
+
+    $\Longrightarrow$ only characteristics of the underlying distribution are learned
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+### Differentially private access to test data
+
+* Currently available literature focuses on theory.
+* Available theoretical requirements too restrictive for most of applied data analysis and machine learning.
+* Computational experiments available in the literature consider only simple instances of adaptivity, simple performance metrics, and simple machine learning algorithms &mdash; not capturing the reality of current data analysis practices adequately.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+## In this work:
+
+1. Combining the **Thresholdout** procedure (DFHPRR, Science, 2015) with **AUC** (area under the ROC curve) as the reported performance metric.<p>$\leadsto$ Thresholdout$_{\mathrm{AUC}}$.</p>
+2. Empirical investigation of Thresholdout$_{\mathrm{AUC}}$ by simulation of realistic adaptive data analysis practices.
+
+<aside class="notes">
+Our contribution is two-fold: (1) we combine Thresholtout with AUC and investigate whether the theoretical guarantees of the original Thresholdout are still valid for ThresholdoutAUC. (2) Simulation of realistic adaptive machine learning and data analysis practices on small datasets, in order to investigate the practical performance of the method.
+</aside>
+          </script>
+        </section>
+
+        <section style="text-align: left;">
+<img src="./img/20180211-SPIE-Medical-Imaging/ROC.png" align="right" alt="Figure of an ROC curve">
+<li>Invariance to prevalence.</li>
+<li>Independence of the decision threshold (can be chosen later).</li>
+<li>Probabilistic meaning.</li>
+<li>Extensively used in the medical field, including medical imaging.</li>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Thresholdout + AUC = <i class="em em-heart"></i>
+
+            __Thresholdout$_{\mathrm{AUC}}$__ combines the original __Thresholdout (DFHPRR, Science, 2015)__ with __AUC__ as the reported performance metric on test data.
+          </script>
+        </section>
+
+        <section>
+          <h3>Thresholdout$_{\mathrm{AUC}}$ &mdash; rough summary</h3>
+
+          <div align="center">
+            <div style='width: 600px;'>
+              <p style='border:4px black solid; font-size:42px;'>
+                Trained classifier $\phi(x) \in [0,1]$
+              </p>
+            </div>
+          </div>
+
+          <p><i class="em em-arrow_down"></i></p>
+
+          <div align="center">
+            <div style='width: 800px;'>
+              <div align="left">
+                <p style='border:4px black solid; font-size:42px;'>
+                <b>If</b> $\lvert \mathrm{AUC}_{\mathrm{training}}(\phi) - \mathrm{AUC}_{\mathrm{test}}(\phi) \rvert > \tilde{T}$:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;output $\mathrm{AUC}_{\mathrm{test}}(\phi) +$ "a little noise"<br>
+                <b>Else</b>:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;output $\mathrm{AUC}_{\mathrm{training}}(\phi)$
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ![ThresholdoutAUC: the proposed test data reuse procedure](./img/20180211-SPIE-Medical-Imaging/Thresholdout_AUC.png)
+            Thresholdout$_{\mathrm{AUC}}$ combines the original Thresholdout (DFHPRR, Science, 2015) with AUC as the reported performance metric on test data.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Theorem &mdash; rough summary
+
+            1. **If** a test dataset, which is used for performance evaluation repeatedly, is only accessed via Thresholdout$_{\mathrm{AUC}}$.
+            $\Longrightarrow$ **Then** with a high probability $(1 − \beta)$ the reported AUC estimates will be correct up to a small tolerance $\tau$.
+            2. **Restriction**: Test data access "budget" $B$, which is linear in the size of the test data $n$, and also depends on $\beta$, $\tau$, and the class balance.
+
+            <aside class="notes">
+            * $\beta$ and $\tau$ are pre-specified by the analyst.
+            * This result holds even when each analysis step is adaptively chosen based on the reported AUC estimates obtained from previous analyses on the same test data using Thresholdout$_{\mathrm{AUC}}$.
+            </aside>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Theorem
+            ![ThresholdoutAUC: Theorem regarding the generalization guarantees](./img/20180211-SPIE-Medical-Imaging/Theorem.png)
+            Thresholdout$_{\mathrm{AUC}}$ generalization guarantees.
+          </script>
+        </section>
+
+        <section>
+          <h3>Theorem &mdash; drawbacks</h3>
+
+          <ul>
+            <li>Required test data size, $n$, too large for most applications.</li>
+            <li>Thresholdout is designed for the worst case of an adversarial analyst.</li>
+          </ul>
+
+        </section>
+
+        <section>
+          <h3>Theorem &mdash; drawbacks</h3>
+
+          <ul>
+            <font color="#7e7e7e" size=6><li>Required test data size, $n$, too large for most applications.</li></font>
+            <font color="#7e7e7e" size=6><li>Thresholdout is designed for the worst case of an adversarial analyst.</li></font>
+          </ul>
+
+            Will the Thresholdout$_{\mathrm{AUC}}$ procedure still work, if the test data is small, but the analyst is not adversarial, and is in fact interested in the avoidance of overfitting?
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Simulation studies on small samples
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Simulation studies on small samples
+
+            __Goal__: Compare Thresholdout$_{\mathrm{AUC}}$ to a "naive" test data reuse approach under under plausible adaptive data analysis practices.
+
+            ("naive" means: use exact test AUC values)
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+### Simulated data
+
+![The data generation procedure](./img/20180211-SPIE-Medical-Imaging/data_generation.png)
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Binary classification problem
+
+            * Initially $n\_{\mathrm{test}} = n\_{\mathrm{train}}=100$.
+            * In each round of adaptive learning: $n\_{\mathrm{train}} \leftarrow n\_{\mathrm{train}} + 10$.
+            * Classification algorithms: logistic regression (GLM), regularized GLM (elastic net), linear SVM, random forest, and AdaBoost.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            * __30 rounds of adaptive learning.__
+            * _Only AUC estimates can be reported from test data._
+            * __For__ round $r = 1, 2, \dots, 30$ __do__:
+              1. $n\_{\mathrm{train}} \leftarrow n\_{\mathrm{train}} + 10$.
+              2. Identify new candidate variables on training data.
+              3. New classifiers trained with each subset of candidate variables added to the classifier from round $(r-1)$; 5-fold CV for parameter tuning.
+              4. Estimate AUC on test data for each classifier from step 3.
+              5. Pick the best classifier based on step 4.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ![Average number of Thresholdout$\_{\mathrm{AUC}}$ queries by round](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_avg_cum_number_of_holdout_queries_Combined.png)
+
+            Average number of Thresholdout$\_{\mathrm{AUC}}$ queries by round.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Logistic Regression
+
+            ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape_GLM_only.png)
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Logistic Regression
+
+            * __Naive approach__: Classifier learns the effect of local noise in the test data (overfitting).
+            * __Thresholdout approach__: The gap between the reported and the true AUC is much narrower!
+
+            ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape_GLM_only_small.png)
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ![Simulation results](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_landscape.png)
+            Accuracy of reported AUC values is improved, at the cost of slightly higher uncertainty in the reported AUC, and slightly worse predictive performance.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ![Average true AUC by round](./img/20180211-SPIE-Medical-Imaging/naive_holdout_reuse_vs_thresholdout_AUC_true_performance_Combined.png)
+
+            Average true performance of the trained classifier by round with either test data reuse approach.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Conclusion
+
+* Machine learning algorithms may continue to evolve after deployment as new data becomes available for training but not for testing. $\leadsto$ Test data reuse.
+* __Theory & simulation__: Thresholdout and similar procedures reduce...
+  - ...the upward bias in the reported performance measures.
+  - ...overfitting to the test data.
+* __Simulation studies__: promising results even on small samples.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Remaining issues
+
+- Unclear how to choose parameters in practice, outside of the worst case, when the analyst is not actively trying to overfit to the test data.
+- Average behavior vs. behavior in a specific execution (deviation from the average).
+- Many possible improvements to the simulation protocol to achieve more realistic conditions, and greater range of conditions.
+          </script>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        history: true,
+        slideNumber: true,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // MathJax integration
+        math: {
+            mathjax: 'https://cdn.mathjax.org/mathjax/latest/MathJax.js',
+            config: 'TeX-AMS_HTML-full'
+        },
+
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/math/math.js', async: true },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+
+      Reveal.configure({ pdfMaxPagesPerSlide: 1 });
+    </script>
+  </body>
+</html>
